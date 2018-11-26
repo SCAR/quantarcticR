@@ -32,7 +32,12 @@ qa_get <- function(dataset, cache_directory, refresh_cache = FALSE, verbose = FA
     assert_that(is.flag(refresh_cache), !is.na(refresh_cache))
     assert_that(is.flag(verbose), !is.na(verbose))
     mysrc <- build_src(dataset)
+    cache_directory <- deal_with_cache_dir(cache_directory)
+    bb_get(mysrc, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
+}
 
+## internal function to
+deal_with_cache_dir <- function(cache_directory, verbose = FALSE) {
     if (missing(cache_directory)) cache_directory <- "session"
     if (is.null(cache_directory)) {
         ## save to per-request temp dir
@@ -53,11 +58,8 @@ qa_get <- function(dataset, cache_directory, refresh_cache = FALSE, verbose = FA
         if (!ok) stop("could not create cache directory: ", cache_directory)
     }
     cache_directory <- sub("[/\\]+$", "", cache_directory) ## remove trailing file sep
-
-    bb_get(mysrc, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
+    cache_directory
 }
-
-
 
 #' Find the shapefiles amongst a set of files
 #'
