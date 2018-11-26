@@ -3,7 +3,7 @@ build_src <- function(name, cache_directory) {
     q_mirror <- file.path(sub("/$", "", qa_mirror()), "Quantarctica3")
 
     ## find name in datasets index
-    lx <- dataset_index(cache_directory, refresh_cache = FALSE, verbose = FALSE)
+    lx <- dataset_index(cache_directory, refresh_cache = FALSE, verbose = FALSE, expand_source = FALSE)
     idx <- lx$name == name
     if (sum(idx) < 1) {
         ## try case-insensitive

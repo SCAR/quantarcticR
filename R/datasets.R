@@ -13,9 +13,8 @@
 #'
 #' @export
 qa_datasets <- function(cache_directory, refresh_cache = FALSE, verbose = FALSE) {
-    lxs <- dataset_index(cache_directory, refresh_cache = refresh_cache, verbose = verbose)
+    lxs <- dataset_index(cache_directory, refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
     if (!is.null(lxs)) {
-        lxs$source <- file.path(cache_directory, lxs$source)
         lxs$cached <- vapply(lxs$source, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
         lxs
     } else {
@@ -25,7 +24,7 @@ qa_datasets <- function(cache_directory, refresh_cache = FALSE, verbose = FALSE)
 }
 
 ## internal function to get dataset index
-dataset_index <- function(cache_directory, refresh_cache = FALSE, verbose = FALSE) {
+dataset_index <- function(cache_directory, refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
     cache_directory <- deal_with_cache_dir(cache_directory, verbose = verbose)
     mirror_dir <- sub("/+$", "", sub("^(http|https|ftp)://", "", qa_mirror())) ## remove protocol prefix and trailing sep
     index_file <- file.path(cache_directory, mirror_dir, "Quantarctica3/Quantarctica3.qgs")
@@ -34,7 +33,9 @@ dataset_index <- function(cache_directory, refresh_cache = FALSE, verbose = FALS
         res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3/Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
     }
     if (file.exists(index_file)) {
-        dataset_qgs_to_tibble(index_file)
+        lxs <- dataset_qgs_to_tibble(index_file)
+        if (expand_source) lxs$source <- file.path(cache_directory, lxs$source)
+        lxs
     } else {
         NULL
     }
