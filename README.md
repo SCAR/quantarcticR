@@ -27,16 +27,51 @@ library(quantarcticR)
 #> If you use it, please cite it:
 #> Matsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute.
 #> https://doi.org/10.21334/npolar.2018.8516e961
+```
 
+List all available datasets:
+
+``` r
+ds <- qa_datasets()
+head(ds)
+#> # A tibble: 6 x 3
+#>   name                               
+#>   <chr>                              
+#> 1 Overview place names               
+#> 2 COMNAP listed facilities           
+#> 3 Subantarctic stations              
+#> 4 SCAR Composite gazetteer           
+#> 5 IBO-IOC GEBCO Features (point)     
+#> 6 IBO-IOC GEBCO Features (multipoint)
+#>   source                                                                   
+#>   <chr>                                                                    
+#> 1 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#> 2 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#> 3 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#> 4 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#> 5 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#> 6 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpSaIqR1/quantarcticR-cache~
+#>   cached
+#>   <lgl> 
+#> 1 FALSE 
+#> 2 FALSE 
+#> 3 FALSE 
+#> 4 FALSE 
+#> 5 FALSE 
+#> 6 FALSE
+```
+
+Fetch one and plot it:
+
+``` r
 res <- qa_get("Miscellaneous/SimpleBasemap", verbose = TRUE)
-#> creating data cache directory: C:\Users\ben_ray\AppData\Local\Temp\Rtmp65ZWFW/quatarcticR-cache
 #> 
-#> Mon Nov 26 12:37:02 2018
+#> Mon Nov 26 15:07:51 2018
 #> Synchronizing dataset: SimpleBasemap
 #> Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/
 #> --------------------------------------------------------------------------------------------
 #> 
-#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\Rtmp65ZWFW\quatarcticR-cache/quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap
+#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\RtmpSaIqR1\quantarcticR-cache/quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap
 #>  building file list ... done.
 #>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ...
 #> No encoding supplied: defaulting to UTF-8.
@@ -51,7 +86,7 @@ res <- qa_get("Miscellaneous/SimpleBasemap", verbose = TRUE)
 #>  downloading file 8 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap_Subantarctic.txt ...  done.
 #>  downloading file 9 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_General.txt ...  done.
 #> 
-#> Mon Nov 26 12:37:04 2018 dataset synchronization complete: SimpleBasemap
+#> Mon Nov 26 15:07:52 2018 dataset synchronization complete: SimpleBasemap
 
 library(raster)
 #> Loading required package: sp
@@ -59,4 +94,4 @@ x <- shapefile(qa_find_shapefile(res))
 plot(x)
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example3-1.png" width="100%" />

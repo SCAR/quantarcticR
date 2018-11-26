@@ -33,7 +33,19 @@ This is very much a work in progress!
 
 ```{r example}
 library(quantarcticR)
+```
 
+
+List all available datasets:
+
+```{r example2}
+ds <- qa_datasets()
+head(ds)
+```
+
+Fetch one and plot it:
+
+```{r example3}
 res <- qa_get("Miscellaneous/SimpleBasemap", verbose = TRUE)
 
 library(raster)

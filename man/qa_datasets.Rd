@@ -12,7 +12,7 @@ qa_datasets(cache_directory, refresh_cache = FALSE, verbose = FALSE)
 \item{refresh_cache}{logical: as for \code{qa_get}}
 }
 \value{
-A tibble with columns \code{id}, \code{name}, \code{source}, and \code{downloaded}
+A tibble with columns \code{id}, \code{name}, \code{source}, and \code{cached}
 }
 \description{
 Available Quantarctica data sets
