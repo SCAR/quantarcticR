@@ -4,13 +4,17 @@ build_src <- function(name, cache_directory) {
 
     ## find name in datasets index
     lx <- dataset_index(cache_directory, refresh_cache = FALSE, verbose = FALSE)
-    lx <- lx[lx$name == name, ]
-    if (nrow(lx) < 1) {
+    idx <- lx$name == name
+    if (sum(idx) < 1) {
+        ## try case-insensitive
+        idx <- tolower(lx$name) == tolower(name)
+    }
+    if (sum(idx) < 1) {
         stop("no matching data set found")
-    } else if (nrow(lx) > 1) {
+    } else if (sum(idx) > 1) {
         stop("multiple matching data sets found")
     } else {
-        path <- dirname(lx$source[1])
+        path <- dirname(lx$source[idx])
     }
     bb_source(
         name = name,
