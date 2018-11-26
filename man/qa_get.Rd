@@ -8,7 +8,7 @@ qa_get(dataset, cache_directory, refresh_cache = FALSE,
   verbose = FALSE)
 }
 \arguments{
-\item{dataset}{string: the name of the data set}
+\item{dataset}{string or tibble: the name of the data set or a tibble as returned by \code{qa_dataset}}
 
 \item{cache_directory}{string: (optional) cache the data locally in this directory, so that they can be used offline later. Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. Use \code{NULL} for no caching. An attempt will be made to create the cache directory if it does not exist. Use \code{refresh_cache = TRUE} to refresh the cached data if necessary}
 

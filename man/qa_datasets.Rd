@@ -10,6 +10,8 @@ qa_datasets(cache_directory, refresh_cache = FALSE, verbose = FALSE)
 \item{cache_directory}{string: as for \code{qa_get}}
 
 \item{refresh_cache}{logical: as for \code{qa_get}}
+
+\item{verbose}{logical: show progress messages?}
 }
 \value{
 A tibble with columns \code{id}, \code{name}, \code{source}, and \code{cached}
