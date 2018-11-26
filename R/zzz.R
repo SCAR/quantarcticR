@@ -7,13 +7,11 @@
     ## populate the options slot
     temp <- qa_mirrors()
     ## pick one at random
-    ##idx <- sample.int(nrow(temp), size = 1)
-    ## for now, just use Aus http
-    idx <- which(temp$country == "Australia" & temp$protocol == "http")
+    idx <- sample.int(nrow(temp), size = 1)
     this_options <- list(
         mirror = temp$url[idx],
         issue_text = "If the problem persists, please lodge an issue at https://github.com/SCAR-sandpit/quantarcticR/issues",
-        session_cache_dir = file.path(tempdir(), "quatarcticR-cache"), ## cache directory to use for cache_directory = "session"
+        session_cache_dir = file.path(tempdir(), "quantarcticR-cache"), ## cache directory to use for cache_directory = "session"
         persistent_cache_dir = rappdirs::user_cache_dir("quantarcticR", "SCAR") ## and for cache_directory = "persistent"
     )
     options(list(quantarcticR = this_options))
