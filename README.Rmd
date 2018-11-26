@@ -46,7 +46,7 @@ head(ds)
 Fetch one and plot it:
 
 ```{r example3}
-res <- qa_get("Miscellaneous/SimpleBasemap", verbose = TRUE)
+res <- qa_get("ADD Simple basemap", verbose = TRUE)
 
 library(raster)
 x <- shapefile(qa_find_shapefile(res))
