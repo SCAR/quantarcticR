@@ -25,7 +25,8 @@ Example
 library(quantarcticR)
 #> Quantarctica is made available under a CC-BY license.
 #> If you use it, please cite it:
-#> Matsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961
+#> Matsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute.
+#> https://doi.org/10.21334/npolar.2018.8516e961
 
 res <- qa_get("Miscellaneous/SimpleBasemap", verbose = TRUE)
 #> creating data cache directory: C:\Users\ben_ray\AppData\Local\Temp\Rtmp65ZWFW/quatarcticR-cache
