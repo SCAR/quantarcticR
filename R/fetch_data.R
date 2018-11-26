@@ -1,16 +1,27 @@
 ## internal helper function
-build_src <- function(path, name = basename(path)) {
+build_src <- function(name, cache_directory) {
     q_mirror <- file.path(sub("/$", "", qa_mirror()), "Quantarctica3")
+
+    ## find name in datasets index
+    lx <- dataset_index(cache_directory, refresh_cache = FALSE, verbose = FALSE)
+    lx <- lx[lx$name == name, ]
+    if (nrow(lx) < 1) {
+        stop("no matching data set found")
+    } else if (nrow(lx) > 1) {
+        stop("multiple matching data sets found")
+    } else {
+        path <- dirname(lx$source[1])
+    }
     bb_source(
         name = name,
-        id = paste0("Quantarctica:", basename(dirname(path)), "/", basename(path)),
+        id = paste0("Quantarctica: ", name),
         description = "Quantarctica data",
         doc_url = "http://quantarctica.npolar.no/",
         citation = "Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica [Data set]. Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961",
         source_url = sub("//$", "/", paste0(file.path(q_mirror, path), "/")),
         license = "CC-BY 4.0 International",
         method = list("bb_handler_rget", level = 2, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
-        postprocess = list("bb_unzip")##,
+        postprocess = NULL##list("bb_unzip")##,
         ##collection_size = 0.6,
         ##data_group = "Topography")
     )
@@ -31,8 +42,8 @@ build_src <- function(path, name = basename(path)) {
 qa_get <- function(dataset, cache_directory, refresh_cache = FALSE, verbose = FALSE) {
     assert_that(is.flag(refresh_cache), !is.na(refresh_cache))
     assert_that(is.flag(verbose), !is.na(verbose))
-    mysrc <- build_src(dataset)
     cache_directory <- deal_with_cache_dir(cache_directory)
+    mysrc <- build_src(dataset, cache_directory)
     bb_get(mysrc, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
 }
 
