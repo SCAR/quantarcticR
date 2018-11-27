@@ -8,7 +8,6 @@
 #'
 #' @export
 qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
-    q_mirror <- file.path(sub("/+$", "", qa_mirror()), "Quantarctica3")
     ## find name in datasets index
     lx <- dataset_index(refresh_cache = FALSE, verbose = FALSE, expand_source = FALSE)
     idx <- lx$name == name
@@ -29,9 +28,9 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
         description = "Quantarctica data",
         doc_url = "http://quantarctica.npolar.no/",
         citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
-        source_url = sub("[/\\]+$", "/", paste0(file.path(q_mirror, path), "/")),
+        source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
         license = "CC-BY 4.0 International",
-        method = list("bb_handler_rget", level = 2, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
+        method = list("bb_handler_rget", level = 2, no_host = TRUE, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
         postprocess = NULL##list("bb_unzip")##,
         ##collection_size = 0.6,
         ##data_group = "Topography")
@@ -67,7 +66,6 @@ qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
 ## internal function to get dataset index
 dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
     cache_directory <- qa_cache_dir()
-    mirror_dir <- sub("[/\\]+$", "", sub("^(http|https|ftp)://", "", qa_mirror())) ## remove protocol prefix and trailing sep
     index_file <- fetch_dataset_index(refresh_cache = refresh_cache, verbose = verbose)
     lxs <- dataset_qgs_to_tibble(index_file)
     if (expand_source) lxs$source <- file.path(cache_directory, lxs$source)
@@ -76,11 +74,10 @@ dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source 
 
 fetch_dataset_index <- function(refresh_cache = FALSE, verbose = FALSE) {
     cache_directory <- qa_cache_dir()
-    mirror_dir <- sub("[/\\]+$", "", sub("^(http|https|ftp)://", "", qa_mirror())) ## remove protocol prefix and trailing sep
-    index_file <- file.path(cache_directory, mirror_dir, "Quantarctica3/Quantarctica3.qgs")
+    index_file <- file.path(cache_directory, "Quantarctica3.qgs")
     if (file.exists(index_file) && !refresh_cache) return(index_file) ## don't re-fetch if not needed
     if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache_directory: ", dirname(index_file)))
-    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3/Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
+    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
     if (file.exists(index_file)) {
         index_file
     } else {

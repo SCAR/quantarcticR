@@ -13,15 +13,16 @@
 #' @export
 qa_mirrors <- function() {
     ## note: these have been hand-coded from http://quantarctica.npolar.no/downloads/
+    ## note 2: these need to point to the unzipped dir, where Quantarctica3.qgs resides
     m <- tribble(~country, ~protocol, ~url,
-                 "Norway", "ftp", "ftp://ftp.quantarctica.npolar.no/",
-                 "Australia", "ftp", "ftp://quantarctica.tpac.org.au/",
-                 "Australia", "http", "http://quantarctica.tpac.org.au/",
-                 "India", "ftp", "ftp://ftp.ncaor.gov.in/",
-                 "India", "http", "http://ftp.ncaor.gov.in/quantarctica/",
-                 "Japan", "http", "https://ads.nipr.ac.jp/gis/quantarctica/",
-                 "USA", "ftp", "ftp://ftp.data.pgc.umn.edu/gis/packages/quantarctica/",
-                 "USA", "http", "http://data.pgc.umn.edu/gis/packages/quantarctica/")
+                 "Norway", "ftp", "ftp://ftp.quantarctica.npolar.no/Quantarctica3/",
+                 "Australia", "ftp", "ftp://quantarctica.tpac.org.au/Quantarctica3/",
+                 "Australia", "http", "http://quantarctica.tpac.org.au/Quantarctica3/",
+                 "India", "ftp", "ftp://ftp.ncaor.gov.in/Quantarctica3/",
+                 "India", "http", "http://ftp.ncaor.gov.in/quantarctica/Quantarctica3/",
+                 "Japan", "http", "https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/",
+                 "USA", "ftp", "ftp://ftp.data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/",
+                 "USA", "http", "http://data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/")
     ## ensure all have trailing /
     m$url <- sub("/+$", "/", paste0(m$url, "/"))
     ## TEMPORARY while developing, just use Aus http

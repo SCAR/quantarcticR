@@ -6,7 +6,7 @@ Description: Quantarctica is a collection of Antarctic geographical datasets whi
 Depends: R (>= 3.3.0)
 Imports:
   assertthat,
-  bowerbird,
+  bowerbird (>= 0.8.1),
   rappdirs,
   tibble,
   xml2
