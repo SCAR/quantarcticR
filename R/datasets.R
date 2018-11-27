@@ -68,17 +68,23 @@ qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
 dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
     cache_directory <- qa_cache_dir()
     mirror_dir <- sub("[/\\]+$", "", sub("^(http|https|ftp)://", "", qa_mirror())) ## remove protocol prefix and trailing sep
+    index_file <- fetch_dataset_index(refresh_cache = refresh_cache, verbose = verbose)
+    lxs <- dataset_qgs_to_tibble(index_file)
+    if (expand_source) lxs$source <- file.path(cache_directory, lxs$source)
+    lxs
+}
+
+fetch_dataset_index <- function(refresh_cache = FALSE, verbose = FALSE) {
+    cache_directory <- qa_cache_dir()
+    mirror_dir <- sub("[/\\]+$", "", sub("^(http|https|ftp)://", "", qa_mirror())) ## remove protocol prefix and trailing sep
     index_file <- file.path(cache_directory, mirror_dir, "Quantarctica3/Quantarctica3.qgs")
-    if (!file.exists(index_file) || refresh_cache) {
-        if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache_directory: ", dirname(index_file)))
-        res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3/Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
-    }
+    if (file.exists(index_file) && !refresh_cache) return(index_file) ## don't re-fetch if not needed
+    if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache_directory: ", dirname(index_file)))
+    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3/Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
     if (file.exists(index_file)) {
-        lxs <- dataset_qgs_to_tibble(index_file)
-        if (expand_source) lxs$source <- file.path(cache_directory, lxs$source)
-        lxs
+        index_file
     } else {
-        NULL
+        stop("could not retrieve dataset index file")
     }
 }
 

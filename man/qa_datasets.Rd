@@ -4,11 +4,9 @@
 \alias{qa_datasets}
 \title{Available Quantarctica data sets}
 \usage{
-qa_datasets(cache_directory, refresh_cache = FALSE, verbose = FALSE)
+qa_datasets(refresh_cache = FALSE, verbose = FALSE)
 }
 \arguments{
-\item{cache_directory}{string: as for \code{qa_get}}
-
 \item{refresh_cache}{logical: as for \code{qa_get}}
 
 \item{verbose}{logical: show progress messages?}
