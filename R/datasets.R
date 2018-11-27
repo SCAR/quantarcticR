@@ -22,19 +22,21 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
     } else {
         path <- dirname(lx$source[idx])
     }
-    bb_source(
-        name = name,
-        id = paste0("Quantarctica: ", name),
-        description = "Quantarctica data",
-        doc_url = "http://quantarctica.npolar.no/",
-        citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
-        source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
-        license = "CC-BY 4.0 International",
-        method = list("bb_handler_rget", level = 2, no_host = TRUE, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
-        postprocess = NULL##list("bb_unzip")##,
-        ##collection_size = 0.6,
-        ##data_group = "Topography")
-    )
+    out <- bb_source(name = name,
+                     id = paste0("Quantarctica: ", name),
+                     description = "Quantarctica data",
+                     doc_url = "http://quantarctica.npolar.no/",
+                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
+                     source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
+                     license = "CC-BY 4.0 International",
+                     method = list("bb_handler_rget", level = 2, no_host = TRUE, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
+                     postprocess = NULL##list("bb_unzip")##,
+                     ##collection_size = 0.6,
+                     ##data_group = "Topography")
+                     )
+    ## add the path to the main file of this data set
+    out$main_file <- file.path("Quantarctica3", lx$source[idx]) ## relative to cache dir root
+    out
 }
 
 

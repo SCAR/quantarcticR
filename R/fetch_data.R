@@ -12,20 +12,12 @@ qa_get <- function(dataset, refresh_cache = FALSE, verbose = FALSE) {
     assert_that(is.flag(verbose), !is.na(verbose))
     cache_directory <- qa_cache_dir()
     if (is.string(dataset)) dataset <- qa_dataset(name = dataset, refresh_cache = refresh_cache, verbose = verbose)
-    bb_get(dataset, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
+    out <- bb_get(dataset, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
+    ## add absolute path to main file
+    out$main_file <- file.path(cache_directory, dataset$main_file)
+    out
 }
 
-#' Find the shapefiles amongst a set of files
-#'
-#' @param result : as returned by \code{qa_get}
-#'
-#' @return A character vector of paths to shapefiles
-#'
-#' @export
-qa_find_shapefile <- function(result) {
-    f <- result$files[[1]]
-    f[grep("shp$", f$file), ]$file
-}
 
 
 

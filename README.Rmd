@@ -49,7 +49,7 @@ Fetch one and plot it:
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
 
 library(raster)
-x <- shapefile(qa_find_shapefile(res))
+x <- shapefile(res$main_file)
 plot(x)
 ```
 
