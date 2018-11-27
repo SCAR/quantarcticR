@@ -45,12 +45,12 @@ head(ds)
 #> 6 IBO-IOC GEBCO Features (multipoint)
 #>   source                                                                   
 #>   <chr>                                                                    
-#> 1 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
-#> 2 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
-#> 3 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
-#> 4 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
-#> 5 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
-#> 6 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpuAPx70/quantarcticR-cache~
+#> 1 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
+#> 2 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
+#> 3 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
+#> 4 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
+#> 5 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
+#> 6 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
 #>   cached
 #>   <lgl> 
 #> 1 FALSE 
@@ -66,12 +66,12 @@ Fetch one and plot it:
 ``` r
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #> 
-#> Tue Nov 27 04:49:49 2018
+#> Tue Nov 27 05:54:53 2018
 #> Synchronizing dataset: ADD Simple basemap
 #> Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/
 #> --------------------------------------------------------------------------------------------
 #> 
-#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\RtmpuAPx70\quantarcticR-cache/Quantarctica3/Miscellaneous/SimpleBasemap
+#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\RtmpqSvj9A\quantarcticR-cache/Miscellaneous//SimpleBasemap
 #>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ...
 #> No encoding supplied: defaulting to UTF-8.
 #>  9 download links, 0 links to visit done.
@@ -85,7 +85,7 @@ res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #>  downloading file 8 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap_Subantarctic.txt ...  done.
 #>  downloading file 9 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_General.txt ...  done.
 #> 
-#> Tue Nov 27 04:49:52 2018 dataset synchronization complete: ADD Simple basemap
+#> Tue Nov 27 05:54:54 2018 dataset synchronization complete: ADD Simple basemap
 
 library(raster)
 #> Loading required package: sp

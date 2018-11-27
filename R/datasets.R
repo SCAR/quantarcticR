@@ -29,13 +29,14 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
                      citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                      source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                      license = "CC-BY 4.0 International",
-                     method = list("bb_handler_rget", level = 2, no_host = TRUE, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
+                     method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
+                     ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
                      postprocess = NULL##list("bb_unzip")##,
                      ##collection_size = 0.6,
                      ##data_group = "Topography")
                      )
     ## add the path to the main file of this data set
-    out$main_file <- file.path("Quantarctica3", lx$source[idx]) ## relative to cache dir root
+    out$main_file <- lx$source[idx] ## relative to cache dir root
     out
 }
 
