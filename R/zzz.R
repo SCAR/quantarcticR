@@ -11,6 +11,7 @@
     this_options <- list(
         mirror = temp$url[idx],
         issue_text = "If the problem persists, please lodge an issue at https://github.com/SCAR-sandpit/quantarcticR/issues",
+        cache_dir = NA_character_, ## unspecified, will be overridden the first time qa_cache_dir() is called
         session_cache_dir = file.path(tempdir(), "quantarcticR-cache"), ## cache directory to use for cache_directory = "session"
         persistent_cache_dir = rappdirs::user_cache_dir("quantarcticR", "SCAR") ## and for cache_directory = "persistent"
     )

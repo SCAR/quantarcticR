@@ -1,44 +1,18 @@
 #' Fetch a Quantarctica data set
 #'
 #' @param dataset string or tibble: the name of the data set or a tibble as returned by \code{qa_dataset}
-#' @param cache_directory string: (optional) cache the data locally in this directory, so that they can be used offline later. Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. Use \code{NULL} for no caching. An attempt will be made to create the cache directory if it does not exist. Use \code{refresh_cache = TRUE} to refresh the cached data if necessary
 #' @param refresh_cache logical: if TRUE, and data already exist in the cache_directory, they will be refreshed. If FALSE, the cached data will be used
 #' @param verbose logical: show progress messages?
 #'
 #' @return TBD
 #'
 #' @export
-qa_get <- function(dataset, cache_directory, refresh_cache = FALSE, verbose = FALSE) {
+qa_get <- function(dataset, refresh_cache = FALSE, verbose = FALSE) {
     assert_that(is.flag(refresh_cache), !is.na(refresh_cache))
     assert_that(is.flag(verbose), !is.na(verbose))
-    cache_directory <- deal_with_cache_dir(cache_directory)
-    if (is.string(dataset)) dataset <- qa_dataset(dataset, cache_directory = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
+    cache_directory <- qa_cache_dir()
+    if (is.string(dataset)) dataset <- qa_dataset(name = dataset, refresh_cache = refresh_cache, verbose = verbose)
     bb_get(dataset, local_file_root = cache_directory, clobber = as.integer(refresh_cache), verbose = verbose)
-}
-
-## internal function to
-deal_with_cache_dir <- function(cache_directory, verbose = FALSE) {
-    if (missing(cache_directory)) cache_directory <- "session"
-    if (is.null(cache_directory)) {
-        ## save to per-request temp dir
-        cache_directory <- tempfile(pattern = "quantarcticR_")
-        refresh_cache <- 0L
-    }
-    assert_that(is.string(cache_directory))
-    create_recursively <- FALSE ## default to this for safety
-    if (tolower(cache_directory) == "session") {
-        cache_directory <- qa_opt("session_cache_dir")
-    } else if (tolower(cache_directory) == "persistent") {
-        cache_directory <- qa_opt("persistent_cache_dir")
-        create_recursively <- TRUE ## necessary here
-    }
-    if (!dir.exists(cache_directory)) {
-        if (verbose) message("creating data cache directory: ", cache_directory, "\n")
-        ok <- dir.create(cache_directory, recursive = create_recursively)
-        if (!ok) stop("could not create cache directory: ", cache_directory)
-    }
-    cache_directory <- sub("[/\\]+$", "", cache_directory) ## remove trailing file sep
-    cache_directory
 }
 
 #' Find the shapefiles amongst a set of files
