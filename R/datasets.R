@@ -94,5 +94,8 @@ dataset_qgs_to_tibble <- function(index_file) {
         get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
         lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
         lxs$source <- sub("^.*Quantarctica3/", "", lxs$source)
+        ## TODO: add in extra information from elsewhere in the qgs file
+        ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
+        ## then see layername and abstract components of each maplayer, possibly even the colour map (which I think is buried in the "pipe" component)
         lxs
 }
