@@ -96,6 +96,8 @@ dataset_qgs_to_tibble <- function(index_file) {
         lxs$source <- sub("^.*Quantarctica3/", "", lxs$source)
         ## TODO: add in extra information from elsewhere in the qgs file
         ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
-        ## then see layername and abstract components of each maplayer, possibly even the colour map (which I think is buried in the "pipe" component)
+        ## then see layername and abstract components of each maplayer
+        ## and possibly even the colour map (which I think is buried in the "pipe" component):
+        ## xml2::xml_find_all(lx, ".//maplayer")[[150]] %>% xml_child("pipe") %>% xml_child("rasterrenderer") %>% xml_child("rastershader") %>% xml_child("colorrampshader")
         lxs
 }
