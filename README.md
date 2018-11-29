@@ -5,7 +5,9 @@
 quantarcticR
 ============
 
-Quantarctica is a collection of Antarctic geographical datasets which works with the free, cross-platform, open-source software QGIS. It includes community-contributed, peer-reviewed data from ten different scientific themes and a professionally-designed basemap. This package provides access to Quantarctica data sets for R users, who can use these data sets with e.g. the `raster`, `sp`, or `sf` packages.
+Quantarctica is a collection of Antarctic geographical datasets which works with the free, cross-platform, open-source software QGIS. It includes community-contributed, peer-reviewed data from ten different scientific themes and a professionally-designed basemap.
+
+The `quantarcticR` package provides access to Quantarctica data sets for R users, **without** needing QGIS to be installed. R users can use these data sets with e.g. the `raster`, `sp`, or `sf` packages.
 
 Installation
 ------------
@@ -94,3 +96,8 @@ plot(x)
 ```
 
 <img src="man/figures/README-example3-1.png" width="100%" />
+
+See also
+--------
+
+[RQGIS](https://cran.r-project.org/package=RQGIS) provides an R-QGIS interface, via Python middleware.
