@@ -11,5 +11,10 @@ Quantarctica is a collection of Antarctic geographical datasets which works with
 \author{
 \strong{Maintainer}: Ben Raymond \email{ben.raymond@aad.gov.au}
 
+Authors:
+\itemize{
+  \item Charlène Guillaumot
+}
+
 }
 \keyword{internal}
