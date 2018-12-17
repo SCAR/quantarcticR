@@ -94,6 +94,13 @@ dataset_qgs_to_tibble <- function(index_file) {
         get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
         lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
         lxs$source <- sub("^.*Quantarctica3/", "", lxs$source)
+
+        ## clean bad sources
+        for (i in seq_along(lxs$source)) {
+            if (!grepl("\\.[a-z0-9]$", lxs$source[i])) {
+                lxs$source[i] <- strsplit(lxs$source[i], "\\|")[[1]][1]
+            }
+        }
         ## TODO: add in extra information from elsewhere in the qgs file
         ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
         ## then see layername and abstract components of each maplayer
