@@ -1,15 +1,15 @@
 #' Retrieve details of a Quantarctica data set
 #'
 #' @param name string: the name of the data set
-#' @param refresh_cache logical: as for \code{qa_get}
+#' @param refresh_cache numeric 0=do not overwrite existing files, 1=overwrite if the remote file is newer than the local copy, 2=always overwrite existing files
 #' @param verbose logical: show progress messages?
 #'
 #' @return A tibble
 #'
 #' @export
-qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
+qa_dataset <- function(name, refresh_cache = 0, verbose = FALSE) {
     ## find name in datasets index
-    lx <- dataset_index(refresh_cache = FALSE, verbose = FALSE, expand_source = FALSE)
+    lx <- dataset_index(refresh_cache = 0, verbose = FALSE, expand_source = FALSE)
     idx <- lx$name == name
     if (sum(idx) < 1) {
         ## try case-insensitive
@@ -43,7 +43,7 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
 
 #' Available Quantarctica data sets
 #'
-#' @param refresh_cache logical: as for \code{qa_get}
+#' @param refresh_cache numeric: as for \code{qa_get}
 #' @param verbose logical: show progress messages?
 #'
 #' @return A tibble with columns \code{id}, \code{name}, \code{source}, and \code{cached}
@@ -55,7 +55,7 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
 #' qa_datasets()
 #'
 #' @export
-qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
+qa_datasets <- function(refresh_cache = 0, verbose = FALSE) {
     lxs <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
     if (!is.null(lxs)) {
         lxs$cached <- vapply(lxs$source, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
@@ -67,7 +67,7 @@ qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
 }
 
 ## internal function to get dataset index
-dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
+dataset_index <- function(refresh_cache = 0, verbose = FALSE, expand_source = TRUE) {
     cache_directory <- qa_cache_dir()
     index_file <- fetch_dataset_index(refresh_cache = refresh_cache, verbose = verbose)
     lxs <- dataset_qgs_to_tibble(index_file)
@@ -75,12 +75,12 @@ dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source 
     lxs
 }
 
-fetch_dataset_index <- function(refresh_cache = FALSE, verbose = FALSE) {
+fetch_dataset_index <- function(refresh_cache = 0, verbose = FALSE) {
     cache_directory <- qa_cache_dir()
     index_file <- file.path(cache_directory, "Quantarctica3.qgs")
-    if (file.exists(index_file) && !refresh_cache) return(index_file) ## don't re-fetch if not needed
+    if (file.exists(index_file) && refresh_cache==0) return(index_file) ## don't re-fetch if not needed. We can most likely remove this line and rely on bb_rget
     if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache_directory: ", dirname(index_file)))
-    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
+    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose, clobber = refresh_cache)
     if (file.exists(index_file)) {
         index_file
     } else {
@@ -94,13 +94,6 @@ dataset_qgs_to_tibble <- function(index_file) {
         get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
         lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
         lxs$source <- sub("^.*Quantarctica3/", "", lxs$source)
-
-        ## clean bad sources
-        for (i in seq_along(lxs$source)) {
-            if (!grepl("\\.[a-z0-9]$", lxs$source[i])) {
-                lxs$source[i] <- strsplit(lxs$source[i], "\\|")[[1]][1]
-            }
-        }
         ## TODO: add in extra information from elsewhere in the qgs file
         ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
         ## then see layername and abstract components of each maplayer
