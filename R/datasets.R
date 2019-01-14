@@ -9,7 +9,7 @@
 #' @export
 qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
     ## find name in datasets index
-    lx <- dataset_index(refresh_cache = FALSE, verbose = FALSE, expand_source = FALSE)
+    lx <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = FALSE)
     idx <- lx$layername == name
     if (sum(idx) < 1) {
         ## try case-insensitive
@@ -22,11 +22,11 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
     } else {
         path <- dirname(lx$datasource[idx])
     }
-    out <- bb_source(name = name,
-                     id = paste0("Quantarctica: ", name),
+    out <- bb_source(name = lx$layername[idx],
+                     id = paste0("Quantarctica: ", lx$layername[idx]),
                      description = "Quantarctica data",
                      doc_url = "http://quantarctica.npolar.no/",
-                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
+                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername[idx], ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                      source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                      license = "CC-BY 4.0 International",
                      method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
