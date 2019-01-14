@@ -99,7 +99,7 @@ clean_layer <- function(layer) {
     ld$srs_attributes <- list(l[c("srs.spatialrefsys.proj4", "srs.spatialrefsys.srsid",
                                   "srs.spatialrefsys.authid", "srs.spatialrefsys.description")])
     ld$provider <- if ("provider" %in% names(l)) l$provider else NA_character_
-    ld$abstract <- ifelse(!is.null(layer$abstract), layer$abstract, NA)
+    ld$abstract <- if ("abstract" %in% names(l)) l$abstract else NA_character_
     ld$extent <- list(unlist(layer)[1:4])
     ld
 }
