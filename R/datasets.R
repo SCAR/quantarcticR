@@ -100,7 +100,13 @@ clean_layer <- function(layer) {
                                   "srs.spatialrefsys.authid", "srs.spatialrefsys.description")])
     ld$provider <- if ("provider" %in% names(l)) l$provider else NA_character_
     ld$abstract <- if ("abstract" %in% names(l)) l$abstract else NA_character_
-    ld$extent <- list(unlist(layer)[1:4])
+    if ("extent" %in% names(layer)) {
+        ext <- unlist(layer$extent)
+        class(ext) <- "numeric" ## from char to numeric
+    } else {
+        ext <- NULL
+    }
+    ld$extent <- list(ext)
     ld
 }
 
