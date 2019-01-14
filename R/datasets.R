@@ -111,22 +111,29 @@ clean_layer <- function(layer) {
 }
 
 ## internal function to turn Quantarctica3.qgs file into tibble
-dataset_qgs_to_tibble <- function(index_file) {
-        lx <- xml2::read_xml(index_file)
-        lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
-        lxs <- do.call(rbind, lapply(lx, clean_layer))
-        rownames(lxs) <- NULL
-
-        ## clean bad sources
-        for (i in seq_along(lxs$datasource)) {
-            if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
-                lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
-            }
+## parsing the xml file using as_list is slow, so we might want to re-write this using something faster
+## but in the meantime, let's just cache the results using memoise, so the xml only needs to be parsed once per session
+##
+## this is the actual conversion code
+## the lx input here should be an xml_document object
+do_convert_qgs_xml <- function(lx) {
+    lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
+    lxs <- do.call(rbind, lapply(lx, clean_layer))
+    rownames(lxs) <- NULL
+    ## clean bad sources
+    for (i in seq_along(lxs$datasource)) {
+        if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
+            lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
         }
-        ## TODO: add in extra information from elsewhere in the qgs file
-        ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
-        ## then see layername and abstract components of each maplayer
-        ## and possibly even the colour map (which I think is buried in the "pipe" component):
-        ## xml2::xml_find_all(lx, ".//maplayer")[[150]] %>% xml_child("pipe") %>% xml_child("rasterrenderer") %>% xml_child("rastershader") %>% xml_child("colorrampshader")
-        lxs
+    }
+    lxs
+}
+
+## this is a memoised version of that conversion function
+m_do_convert_qgs_xml <- memoise::memoise(do_convert_qgs_xml)
+
+## and this is the function that gets called, which in turn calls the memoised conversion function
+dataset_qgs_to_tibble <- function(index_file) {
+    lx <- xml2::read_xml(index_file)
+    m_do_convert_qgs_xml(lx)
 }
