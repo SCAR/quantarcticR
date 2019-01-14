@@ -98,7 +98,7 @@ clean_layer <- function(layer) {
     )
     ld$srs_attributes <- list(l[c("srs.spatialrefsys.proj4", "srs.spatialrefsys.srsid",
                                   "srs.spatialrefsys.authid", "srs.spatialrefsys.description")])
-    ld$provider <- ifelse(!is.null(layer$provider), layer$provider, NA)
+    ld$provider <- if ("provider" %in% names(l)) l$provider else NA_character_
     ld$abstract <- ifelse(!is.null(layer$abstract), layer$abstract, NA)
     ld$extent <- list(unlist(layer)[1:4])
     ld
@@ -108,7 +108,7 @@ clean_layer <- function(layer) {
 dataset_qgs_to_tibble <- function(index_file) {
         lx <- xml2::read_xml(index_file)
         lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
-        lxs <- do.call("rbind", lapply(lx, clean_layer))
+        lxs <- do.call(rbind, lapply(lx, clean_layer))
         rownames(lxs) <- NULL
 
         ## clean bad sources
