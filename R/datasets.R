@@ -9,24 +9,24 @@
 #' @export
 qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
     ## find name in datasets index
-    lx <- dataset_index(refresh_cache = FALSE, verbose = FALSE, expand_source = FALSE)
-    idx <- lx$name == name
+    lx <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = FALSE)
+    idx <- lx$layername == name
     if (sum(idx) < 1) {
         ## try case-insensitive
-        idx <- tolower(lx$name) == tolower(name)
+        idx <- tolower(lx$layername) == tolower(name)
     }
     if (sum(idx) < 1) {
         stop("no matching data set found")
     } else if (sum(idx) > 1) {
         stop("multiple matching data sets found")
     } else {
-        path <- dirname(lx$source[idx])
+        path <- dirname(lx$datasource[idx])
     }
-    out <- bb_source(name = name,
-                     id = paste0("Quantarctica: ", name),
+    out <- bb_source(name = lx$layername[idx],
+                     id = paste0("Quantarctica: ", lx$layername[idx]),
                      description = "Quantarctica data",
                      doc_url = "http://quantarctica.npolar.no/",
-                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", name, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
+                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername[idx], ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                      source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                      license = "CC-BY 4.0 International",
                      method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
@@ -36,7 +36,7 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
                      ##data_group = "Topography")
                      )
     ## add the path to the main file of this data set
-    out$main_file <- lx$source[idx] ## relative to cache dir root
+    out$main_file <- lx$datasource[idx] ## relative to cache dir root
     out
 }
 
@@ -58,7 +58,7 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
 qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
     lxs <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
     if (!is.null(lxs)) {
-        lxs$cached <- vapply(lxs$source, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
+        lxs$cached <- vapply(lxs$datasource, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
         lxs
     } else {
         warning("something went wrong")
@@ -71,7 +71,7 @@ dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source 
     cache_directory <- qa_cache_dir()
     index_file <- fetch_dataset_index(refresh_cache = refresh_cache, verbose = verbose)
     lxs <- dataset_qgs_to_tibble(index_file)
-    if (expand_source) lxs$source <- file.path(cache_directory, lxs$source)
+    if (expand_source) lxs$datasource <- file.path(cache_directory, lxs$datasource)
     lxs
 }
 
@@ -88,23 +88,52 @@ fetch_dataset_index <- function(refresh_cache = FALSE, verbose = FALSE) {
     }
 }
 
-## internal function to turn Quantarctica3.qgs file into tibble
-dataset_qgs_to_tibble <- function(index_file) {
-        lx <- xml2::read_xml(index_file)
-        get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
-        lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
-        lxs$source <- sub("^.*Quantarctica3/", "", lxs$source)
+## internal function to clean layer data
+clean_layer <- function(layer) {
+    l <- as_tibble(t(unlist(layer)))
+    ld <- l[,c("id", "datasource", "layername")]
+    ld$layer_attributes <- ifelse(any(grepl("pipe", names(layer))),
+                                  list(unlist(c(lapply(layer$pipe, attributes), attributes(layer)[-1]))),
+                                  list(attributes(layer)[-1])
+    )
+    ld$srs_attributes <- list(l[c("srs.spatialrefsys.proj4", "srs.spatialrefsys.srsid",
+                                  "srs.spatialrefsys.authid", "srs.spatialrefsys.description")])
+    ld$provider <- if ("provider" %in% names(l)) l$provider else NA_character_
+    ld$abstract <- if ("abstract" %in% names(l)) l$abstract else NA_character_
+    if ("extent" %in% names(layer)) {
+        ext <- unlist(layer$extent)
+        class(ext) <- "numeric" ## from char to numeric
+    } else {
+        ext <- NULL
+    }
+    ld$extent <- list(ext)
+    ld
+}
 
-        ## clean bad sources
-        for (i in seq_along(lxs$source)) {
-            if (!grepl("\\.[a-z0-9]$", lxs$source[i])) {
-                lxs$source[i] <- strsplit(lxs$source[i], "\\|")[[1]][1]
-            }
+## internal function to turn Quantarctica3.qgs file into tibble
+## parsing the xml file using as_list is slow, so we might want to re-write this using something faster
+## but in the meantime, let's just cache the results using memoise, so the xml only needs to be parsed once per session
+##
+## this is the actual conversion code
+## the lx input here should be an xml_document object
+do_convert_qgs_xml <- function(lx) {
+    lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
+    lxs <- do.call(rbind, lapply(lx, clean_layer))
+    rownames(lxs) <- NULL
+    ## clean bad sources
+    for (i in seq_along(lxs$datasource)) {
+        if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
+            lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
         }
-        ## TODO: add in extra information from elsewhere in the qgs file
-        ## e.g. mlx <- xml2::xml_find_all(lx, ".//maplayer")
-        ## then see layername and abstract components of each maplayer
-        ## and possibly even the colour map (which I think is buried in the "pipe" component):
-        ## xml2::xml_find_all(lx, ".//maplayer")[[150]] %>% xml_child("pipe") %>% xml_child("rasterrenderer") %>% xml_child("rastershader") %>% xml_child("colorrampshader")
-        lxs
+    }
+    lxs
+}
+
+## this is a memoised version of that conversion function
+m_do_convert_qgs_xml <- memoise::memoise(do_convert_qgs_xml)
+
+## and this is the function that gets called, which in turn calls the memoised conversion function
+dataset_qgs_to_tibble <- function(index_file) {
+    lx <- xml2::read_xml(index_file)
+    m_do_convert_qgs_xml(lx)
 }

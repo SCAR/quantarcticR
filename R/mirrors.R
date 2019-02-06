@@ -48,7 +48,7 @@ qa_mirrors <- function() {
 #' qa_mirrors()
 #'
 #' ## set to first mirror in that list
-#' qa_mirror(qa_mirrors[1, ]$url)
+#' qa_mirror(qa_mirrors()[1, ]$url)
 #'
 #' @export
 qa_mirror <- function(mirror) {

@@ -16,5 +16,17 @@
         persistent_cache_dir = rappdirs::user_cache_dir("quantarcticR", "SCAR") ## and for cache_directory = "persistent"
     )
     options(list(quantarcticR = this_options))
+    if (interactive()) {
+        cat("Do you want layers downloaded from quantarcticR to be stored temporarily during this session?", "\n")
+        invisible(
+            switch(
+                menu(c("Yes. Use a temp cache directory", "No. Use the persistent cache directory")) + 1,
+                cat("Nothing done\n"),
+                qa_cache_dir("session"),
+                qa_cache_dir("persistent")
+            )
+        )
+    }
     invisible()
 }
+
