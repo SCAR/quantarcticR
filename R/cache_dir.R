@@ -2,7 +2,7 @@
 #'
 #' The cache directory is used to store data locally, so that they can be used offline later. If called with no arguments (i.e. \code{qa_cache_dir()}), this function returns the current cache directory. By default, this is a per-session temporary directory. Calling with a \code{path} argument will set the cache directory to that path.
 #'
-#' @param path string: (optional) Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. Use \code{NULL} for no caching. An attempt will be made to create the cache directory if it does not exist
+#' @param path string: (optional) Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. An attempt will be made to create the cache directory if it does not exist
 #' @param verbose logical: show progress messages?
 #'
 #' @return The path to the cache directory
@@ -34,12 +34,6 @@ qa_cache_dir <- function(path, verbose = FALSE) {
             return(cd)
         }
     }
-    if (is.null(path)) {
-        qa_set_opt(cache_dir = NULL)
-        return(NULL)
-#        ## save to per-request temp dir
-#        path <- tempfile(pattern = "quantarcticR_")
-    }
     assert_that(is.string(path))
     create_recursively <- FALSE ## default to this for safety
     if (tolower(path) == "session") {
@@ -49,7 +43,9 @@ qa_cache_dir <- function(path, verbose = FALSE) {
         create_recursively <- TRUE ## necessary here
     } else {
         ## path was specified
-        ## TODO: warn if the datasets index file does not exist here?
+        ## TODO: warn if the datasets index file exists in e.g. the parent or child of this directory, because
+        ##  in that case the user has mis-specified the cache directory and will re-download data unnecessarily
+        ##  see https://github.com/SCAR-sandpit/quantarcticR/issues/6
     }
     if (!dir.exists(path)) {
         if (verbose) message("creating data cache directory: ", path, "\n")

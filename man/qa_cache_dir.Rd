@@ -7,7 +7,7 @@
 qa_cache_dir(path, verbose = FALSE)
 }
 \arguments{
-\item{path}{string: (optional) Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. Use \code{NULL} for no caching. An attempt will be made to create the cache directory if it does not exist}
+\item{path}{string: (optional) Values can be "session" (a per-session temporary directory will be used, default), "persistent" (the directory returned by \code{rappdirs::user_cache_dir} will be used), or a string giving the path to the directory to use. An attempt will be made to create the cache directory if it does not exist}
 
 \item{verbose}{logical: show progress messages?}
 }
