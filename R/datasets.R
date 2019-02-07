@@ -52,7 +52,9 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
 #'
 #' @examples
 #'
+#' \dontrun{
 #' qa_datasets()
+#' }
 #'
 #' @export
 qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {

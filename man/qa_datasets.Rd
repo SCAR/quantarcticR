@@ -19,7 +19,9 @@ Available Quantarctica data sets
 }
 \examples{
 
+\dontrun{
 qa_datasets()
+}
 
 }
 \seealso{
