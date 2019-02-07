@@ -4,10 +4,13 @@
 \alias{qa_dataset}
 \title{Retrieve details of a Quantarctica data set}
 \usage{
-qa_dataset(name, refresh_cache = FALSE, verbose = FALSE)
+qa_dataset(name, cache_directory = qa_cache_dir(),
+  refresh_cache = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{name}{string: the name of the data set}
+
+\item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}
 
 \item{refresh_cache}{logical: as for \code{qa_get}}
 

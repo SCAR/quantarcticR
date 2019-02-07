@@ -2,14 +2,16 @@
 #'
 #' @param name string: the name of the data set
 #' @param refresh_cache logical: as for \code{qa_get}
+#' @param cache_directory string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function
 #' @param verbose logical: show progress messages?
 #'
 #' @return A tibble
 #'
 #' @export
-qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
+qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = FALSE, verbose = FALSE) {
+    cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     ## find name in datasets index
-    lx <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = FALSE)
+    lx <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose, expand_source = FALSE)
     idx <- lx$layername == name
     if (sum(idx) < 1) {
         ## try case-insensitive
@@ -22,6 +24,7 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
     } else {
         path <- dirname(lx$datasource[idx])
     }
+cat("path: ", path, "\n")
     out <- bb_source(name = lx$layername[idx],
                      id = paste0("Quantarctica: ", lx$layername[idx]),
                      description = "Quantarctica data",
@@ -35,14 +38,15 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
                      ##collection_size = 0.6,
                      ##data_group = "Topography")
                      )
-    ## add the path to the main file of this data set
-    out$main_file <- lx$datasource[idx] ## relative to cache dir root
+    ## add the relative path to the main file of this data set
+    out$main_file <- lx$datasource[idx]
     out
 }
 
 
 #' Available Quantarctica data sets
 #'
+#' @param cache_directory string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function
 #' @param refresh_cache logical: as for \code{qa_get}
 #' @param verbose logical: show progress messages?
 #'
@@ -57,8 +61,9 @@ qa_dataset <- function(name, refresh_cache = FALSE, verbose = FALSE) {
 #' }
 #'
 #' @export
-qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
-    lxs <- dataset_index(refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
+qa_datasets <- function(cache_directory = qa_cache_dir(), refresh_cache = FALSE, verbose = FALSE) {
+    cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
+    lxs <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
     if (!is.null(lxs)) {
         lxs$cached <- vapply(lxs$datasource, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
         lxs
@@ -69,19 +74,19 @@ qa_datasets <- function(refresh_cache = FALSE, verbose = FALSE) {
 }
 
 ## internal function to get dataset index
-dataset_index <- function(refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
-    cache_directory <- qa_cache_dir()
-    index_file <- fetch_dataset_index(refresh_cache = refresh_cache, verbose = verbose)
+## cache_path must be an actual path, not "session" or "persistent"
+dataset_index <- function(cache_path, refresh_cache = FALSE, verbose = FALSE, expand_source = TRUE) {
+    index_file <- fetch_dataset_index(cache_path = cache_path, refresh_cache = refresh_cache, verbose = verbose)
     lxs <- dataset_qgs_to_tibble(index_file)
-    if (expand_source) lxs$datasource <- file.path(cache_directory, lxs$datasource)
+    if (expand_source) lxs$datasource <- file.path(cache_path, lxs$datasource)
     lxs
 }
 
-fetch_dataset_index <- function(refresh_cache = FALSE, verbose = FALSE) {
-    cache_directory <- qa_cache_dir()
-    index_file <- file.path(cache_directory, "Quantarctica3.qgs")
+## cache_path must be an actual path, not "session" or "persistent"
+fetch_dataset_index <- function(cache_path, refresh_cache = FALSE, verbose = FALSE) {
+    index_file <- file.path(cache_path, "Quantarctica3.qgs")
     if (file.exists(index_file) && !refresh_cache) return(index_file) ## don't re-fetch if not needed
-    if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache_directory: ", dirname(index_file)))
+    if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache directory: ", dirname(index_file)))
     res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose)
     if (file.exists(index_file)) {
         index_file
@@ -128,6 +133,7 @@ do_convert_qgs_xml <- function(lx) {
             lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
         }
     }
+    lxs$datasource <- sub("^\\./", "", lxs$datasource) ## strip leading ./ on path
     lxs
 }
 

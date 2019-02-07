@@ -4,10 +4,13 @@
 \alias{qa_get}
 \title{Fetch a Quantarctica data set}
 \usage{
-qa_get(dataset, refresh_cache = FALSE, verbose = FALSE)
+qa_get(dataset, cache_directory = qa_cache_dir(),
+  refresh_cache = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{dataset}{string or tibble: the name of the data set or a tibble as returned by \code{qa_dataset}}
+
+\item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}
 
 \item{refresh_cache}{logical: if TRUE, and data already exist in the cache_directory, they will be refreshed. If FALSE, the cached data will be used}
 
