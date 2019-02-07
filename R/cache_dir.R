@@ -35,24 +35,29 @@ qa_cache_dir <- function(path, verbose = FALSE) {
         }
     }
     assert_that(is.string(path))
-    create_recursively <- FALSE ## default to this for safety
-    if (tolower(path) == "session") {
-        path <- qa_opt("session_cache_dir")
-    } else if (tolower(path) == "persistent") {
-        path <- qa_opt("persistent_cache_dir")
-        create_recursively <- TRUE ## necessary here
-    } else {
-        ## path was specified
-        ## TODO: warn if the datasets index file exists in e.g. the parent or child of this directory, because
-        ##  in that case the user has mis-specified the cache directory and will re-download data unnecessarily
-        ##  see https://github.com/SCAR-sandpit/quantarcticR/issues/6
-    }
+    create_recursively <- tolower(path) == "persistent" ## FALSE if path is "session" or ann actual path (safer not to be recursive), but recursive is necessary for "persistent"
+    path <- resolve_cache_dir(path)
     if (!dir.exists(path)) {
         if (verbose) message("creating data cache directory: ", path, "\n")
         ok <- dir.create(path, recursive = create_recursively)
         if (!ok) stop("could not create cache directory: ", path)
     }
-    path <- sub("[/\\]+$", "", path) ## remove trailing file sep
     qa_set_opt(cache_dir = path)
     path
+}
+
+## internal function that will take the cache path input and resolve it to an actual directory path on the system
+## path can take special values of "session" or "persistent", which are resolved to the values held in the options; otherwise path is assumed to be a path and returned (with trailing file separator removed)
+resolve_cache_dir <- function(path) {
+    assert_that(is.string(path), !is.na(path))
+##    cat("input path: ", path, " --- ")
+    if (tolower(path) == "session") {
+        path <- qa_opt("session_cache_dir")
+    } else if (tolower(path) == "persistent") {
+        path <- qa_opt("persistent_cache_dir")
+    } else {
+        ## path was specified
+    }
+##    cat("resolved to: ", path, "\n")
+    sub("[/\\]+$", "", path) ## remove trailing file sep
 }
