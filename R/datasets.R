@@ -132,7 +132,7 @@ do_convert_qgs_xml <- function(lx) {
 }
 
 ## this is a memoised version of that conversion function
-m_do_convert_qgs_xml <- memoise::memoise(do_convert_qgs_xml)
+m_do_convert_qgs_xml <- memoise(do_convert_qgs_xml)
 
 ## and this is the function that gets called, which in turn calls the memoised conversion function
 dataset_qgs_to_tibble <- function(index_file) {
