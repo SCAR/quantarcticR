@@ -24,7 +24,6 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     } else {
         path <- dirname(lx$datasource[idx])
     }
-cat("path: ", path, "\n")
     out <- bb_source(name = lx$layername[idx],
                      id = paste0("Quantarctica: ", lx$layername[idx]),
                      description = "Quantarctica data",
