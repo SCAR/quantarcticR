@@ -13,23 +13,23 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     ## find name in datasets index
     lx <- dataset_detail(name, cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
     path <- dirname(lx$datasource)
-    out <- bb_source(name = lx$layername,
-                     id = paste0("Quantarctica: ", lx$layername),
-                     description = "Quantarctica data",
-                     doc_url = "http://quantarctica.npolar.no/",
-                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
-                     source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
-                     license = "CC-BY 4.0 International",
-                     method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
-                     ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
-                     postprocess = NULL##list("bb_unzip")##,
-                     ##collection_size = 0.6,
-                     ##data_group = "Topography")
-                     )
+    bb <- bb_source(name = lx$layername,
+                    id = paste0("Quantarctica: ", lx$layername),
+                    description = "Quantarctica data",
+                    doc_url = "http://quantarctica.npolar.no/",
+                    citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
+                    source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
+                    license = "CC-BY 4.0 International",
+                    method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
+                    ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
+                    ##collection_size = 0.6,
+                    ##data_group = "Topography")
+                    )
     ## add the full path to the main file of this data set
-    out$main_file <- file.path(cache_directory, lx$datasource)
-    out$lx <- lx
-    out
+    lx$main_file <- file.path(cache_directory, lx$datasource)
+    lx$bb_source <- bb
+    class(lx) <- c("qa_dataset", class(lx))
+    lx
 }
 
 
