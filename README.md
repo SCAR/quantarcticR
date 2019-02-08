@@ -36,47 +36,54 @@ List all available datasets:
 ``` r
 ds <- qa_datasets()
 head(ds)
-#> # A tibble: 6 x 3
-#>   name                               
-#>   <chr>                              
-#> 1 Overview place names               
-#> 2 COMNAP listed facilities           
-#> 3 Subantarctic stations              
-#> 4 SCAR Composite gazetteer           
-#> 5 IBO-IOC GEBCO Features (point)     
-#> 6 IBO-IOC GEBCO Features (multipoint)
-#>   source                                                                   
+#> # A tibble: 6 x 9
+#>   id                                      
+#>   <chr>                                   
+#> 1 10dg_latitude20172018020212465768317624 
+#> 2 10dg_longitude20171201802021246578399394
+#> 3 15dg_latitude201712018020212465766730063
+#> 4 15dg_longitude20171201802021246578236362
+#> 5 15min_latitude20171201802021246577618599
+#> 6 1dg_latitude20171201802021246577307763  
+#>   datasource                                                               
 #>   <chr>                                                                    
-#> 1 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#> 2 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#> 3 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#> 4 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#> 5 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#> 6 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpqSvj9A/quantarcticR-cache~
-#>   cached
-#>   <lgl> 
-#> 1 FALSE 
-#> 2 FALSE 
-#> 3 FALSE 
-#> 4 FALSE 
-#> 5 FALSE 
-#> 6 FALSE
+#> 1 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#> 2 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#> 3 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#> 4 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#> 5 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#> 6 "C:\\Users\\ben_ray\\AppData\\Local\\Temp\\RtmpsbbR2t/quantarcticR-cache~
+#>   layername       layer_attributes srs_attributes   provider abstract
+#>   <chr>           <list>           <list>           <chr>    <chr>   
+#> 1 10-dg latitude  <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#> 2 10-dg longitude <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#> 3 15-dg latitude  <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#> 4 15-dg longitude <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#> 5 15-min latitude <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#> 6 1-dg latitude   <list [14]>      <tibble [1 x 4]> ogr      <NA>    
+#>   extent    cached
+#>   <list>    <lgl> 
+#> 1 <dbl [4]> FALSE 
+#> 2 <dbl [4]> FALSE 
+#> 3 <dbl [4]> FALSE 
+#> 4 <dbl [4]> FALSE 
+#> 5 <dbl [4]> FALSE 
+#> 6 <dbl [4]> FALSE
 ```
 
 Fetch one and plot it:
 
 ``` r
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
+#> path:  Miscellaneous/SimpleBasemap 
 #> 
-#> Tue Nov 27 05:54:53 2018
+#> Fri Feb 08 00:23:30 2019
 #> Synchronizing dataset: ADD Simple basemap
 #> Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/
 #> --------------------------------------------------------------------------------------------
 #> 
-#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\RtmpqSvj9A\quantarcticR-cache/Miscellaneous//SimpleBasemap
-#>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ...
-#> No encoding supplied: defaulting to UTF-8.
-#>  9 download links, 0 links to visit done.
+#>  this dataset path is: C:\Users\ben_ray\AppData\Local\Temp\RtmpsbbR2t\quantarcticR-cache/Miscellaneous//SimpleBasemap
+#>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ... 9 download links, 0 links to visit done.
 #>  downloading file 1 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  done.
 #>  downloading file 2 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  done.
 #>  downloading file 3 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  done.
@@ -87,10 +94,12 @@ res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #>  downloading file 8 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap_Subantarctic.txt ...  done.
 #>  downloading file 9 of 9: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_General.txt ...  done.
 #> 
-#> Tue Nov 27 05:54:54 2018 dataset synchronization complete: ADD Simple basemap
+#> Fri Feb 08 00:23:31 2019 dataset synchronization complete: ADD Simple basemap
 
 library(raster)
+#> Warning: package 'raster' was built under R version 3.4.2
 #> Loading required package: sp
+#> Warning: package 'sp' was built under R version 3.4.4
 x <- shapefile(res$main_file)
 plot(x)
 ```
