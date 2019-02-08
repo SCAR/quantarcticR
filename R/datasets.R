@@ -133,6 +133,8 @@ do_convert_qgs_xml <- function(lx) {
         }
     }
     lxs$datasource <- sub("^\\./", "", lxs$datasource) ## strip leading ./ on path
+    ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
+    lxs <- lxs[!duplicated(lxs$layername), ]
     lxs
 }
 
