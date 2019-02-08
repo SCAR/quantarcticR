@@ -11,24 +11,14 @@
 qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE) {
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     ## find name in datasets index
-    lx <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose, expand_source = FALSE)
-    idx <- lx$layername == name
-    if (sum(idx) < 1) {
-        ## try case-insensitive
-        idx <- tolower(lx$layername) == tolower(name)
-    }
-    if (sum(idx) < 1) {
-        stop("no matching data set found")
-    } else if (sum(idx) > 1) {
-        stop("multiple matching data sets found")
-    } else {
-        path <- dirname(lx$datasource[idx])
-    }
-    out <- bb_source(name = lx$layername[idx],
-                     id = paste0("Quantarctica: ", lx$layername[idx]),
+    lx <- dataset_detail(name, cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
+    lx$datasource <- sub("^\\./", "", lx$datasource) ## strip leading ./ on path
+    path <- dirname(lx$datasource)
+    out <- bb_source(name = lx$layername,
+                     id = paste0("Quantarctica: ", lx$layername),
                      description = "Quantarctica data",
                      doc_url = "http://quantarctica.npolar.no/",
-                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername[idx], ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
+                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                      source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                      license = "CC-BY 4.0 International",
                      method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(cpg|dbf|prj|qix|shp|shx)$"),
@@ -38,7 +28,8 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
                      ##data_group = "Topography")
                      )
     ## add the full path to the main file of this data set
-    out$main_file <- file.path(cache_directory, lx$datasource[idx])
+    out$main_file <- file.path(cache_directory, lx$datasource)
+    out$lx <- lx
     out
 }
 
@@ -49,23 +40,22 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
 #' @param refresh_cache numeric: as for \code{qa_get}
 #' @param verbose logical: show progress messages?
 #'
-#' @return A tibble with columns \code{layername}, \code{datasource}, \code{cached} plus others
+#' @return A tibble with columns \code{layername}, \code{type}, and \code{cached}
 #'
 #' @seealso \code{\link{qa_get}}
 #'
 #' @examples
-#'
 #' \dontrun{
-#' qa_datasets()
+#'   qa_datasets()
 #' }
 #'
 #' @export
 qa_datasets <- function(cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE) {
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
-    lxs <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose, expand_source = TRUE)
+    lxs <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
     if (!is.null(lxs)) {
         lxs$cached <- vapply(lxs$datasource, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
-        lxs
+        lxs[, c("layername", "type", "cached")] ## drop the datasource column
     } else {
         warning("something went wrong")
         NULL
@@ -74,11 +64,42 @@ qa_datasets <- function(cache_directory = qa_cache_dir(), refresh_cache = 0, ver
 
 ## internal function to get dataset index
 ## cache_path must be an actual path, not "session" or "persistent"
-dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE, expand_source = TRUE) {
+
+dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
     index_file <- fetch_dataset_index(cache_path = cache_path, refresh_cache = refresh_cache, verbose = verbose)
-    lxs <- dataset_qgs_to_tibble(index_file)
-    if (expand_source) lxs$datasource <- file.path(cache_path, lxs$datasource)
+    lx <- xml2::read_xml(index_file)
+    lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
+    lxs <- setNames(lxs, c("layername", "datasource"))
+    lxs$datasource <- sub("^.*Quantarctica3/", "", lxs$datasource)
+    lxs_type <- rep("unknown", nrow(lxs))
+    lxs_type[grepl("shp$", lxs$datasource, ignore.case = TRUE)] <- "shapefile"
+    lxs_type[grepl("(tif|jp2|vrt)$", lxs$datasource, ignore.case = TRUE)] <- "raster"
+    lxs$type <- lxs_type
+    lxs$datasource <- sub("^\\./", "", lxs$datasource) ## strip leading ./ on path
+    lxs$datasource <- file.path(cache_path, lxs$datasource)
+    ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
+    lxs[!duplicated(lxs$layername), ]
     lxs
+}
+get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
+
+dataset_detail <- function(name, cache_path, refresh_cache = 0, verbose = FALSE) {
+    index_file <- fetch_dataset_index(cache_path = cache_path, refresh_cache = refresh_cache, verbose = verbose)
+    lx <- xml2::read_xml(index_file)
+    ##lx <- xml2::xml_find_all(lx, "//projectlayers/maplayer")
+    ##idx <- xml_find_all(lx, "[[layername
+    dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[layername = '", name, "']"))
+    if (length(dx) < 1) {
+        ## try case-insensitive match on name
+        dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[lower-case(@layername) = '", tolower(name), "']"))
+    }
+    if (length(dx) < 1) {
+        stop("no matching data set found")
+    } else if (length(dx) > 1) {
+        stop("multiple matching data sets found")
+    } else {
+        clean_layer(as_list(dx))
+    }
 }
 
 ## cache_path must be an actual path, not "session" or "persistent"
@@ -116,16 +137,41 @@ clean_layer <- function(layer) {
     ld
 }
 
-## internal function to turn Quantarctica3.qgs file into tibble
-## parsing the xml file using as_list is slow, so we might want to re-write this using something faster
-## but in the meantime, let's just cache the results using memoise, so the xml only needs to be parsed once per session
-##
-## this is the actual conversion code
-## the lx input here should be an xml_document object
+
+## old to be cleaned up
+
+clean_layer_xml <- function(n) {
+    ## given the xml node n of a maplayer (from the qgs index file), extract the bits we want as a list
+    ld <- list(layername = xml_text(xml_child(n, "layername")),
+               datasource = xml_text(xml_child(n, "datasource")))
+    attrs <- as.list(xml_attrs(n))
+    pipe_attrs <- as.list(xml_attrs(xml_child(n, "pipe")))
+    pipe_attrs <- Filter(Negate(is.na), pipe_attrs)
+    ld$layer_attributes <- list(c(pipe_attrs, attrs))
+    srs <- as_list(xml_find_first(n, "//srs//spatialrefsys"))
+    ld$srs_attributes <- list(srs[c("proj4", "srsid", "authid", "description")])
+    ld$provider <- xml_text(xml_child(n, "provider"))
+    ##if ("provider" %in% names(l)) l$provider else NA_character_
+    ld$abstract <- xml_text(xml_child(n, "abstract"))
+    ##ld$abstract <- if ("abstract" %in% names(l)) l$abstract else NA_character_
+    ext <- unlist(as_list(xml_child(n,"extent")))
+    if (!is.null(ext)) {
+        class(ext) <- "numeric" ## from char to numeric
+    }
+    ld$extent <- list(ext)
+    ##as_tibble(ld)
+    ld
+}
+
 do_convert_qgs_xml <- function(lx) {
-    lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
-    lxs <- do.call(rbind, lapply(lx, clean_layer))
-    rownames(lxs) <- NULL
+    if (FALSE) {
+        lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
+        lxs <- do.call(rbind, lapply(lx, clean_layer))
+        rownames(lxs) <- NULL
+    } else {
+        lx <- xml2::xml_find_all(lx, "//projectlayers/maplayer")
+        lxs <- do.call(rbind, lapply(lx, clean_layer_xml))
+    }
     ## clean bad sources
     for (i in seq_along(lxs$datasource)) {
         if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
@@ -136,13 +182,4 @@ do_convert_qgs_xml <- function(lx) {
     ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
     lxs <- lxs[!duplicated(lxs$layername), ]
     lxs
-}
-
-## this is a memoised version of that conversion function
-m_do_convert_qgs_xml <- memoise(do_convert_qgs_xml)
-
-## and this is the function that gets called, which in turn calls the memoised conversion function
-dataset_qgs_to_tibble <- function(index_file) {
-    lx <- xml2::read_xml(index_file)
-    m_do_convert_qgs_xml(lx)
 }

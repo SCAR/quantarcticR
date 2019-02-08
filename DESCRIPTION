@@ -9,7 +9,6 @@ Imports:
   assertthat,
   bowerbird (>= 0.8.1),
   memoise,
-  rappdirs,
   tibble,
   xml2
 License: MIT + file LICENSE

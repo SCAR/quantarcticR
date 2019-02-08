@@ -15,15 +15,14 @@ qa_datasets(cache_directory = qa_cache_dir(), refresh_cache = 0,
 \item{verbose}{logical: show progress messages?}
 }
 \value{
-A tibble with columns \code{layername}, \code{datasource}, \code{cached} plus others
+A tibble with columns \code{layername}, \code{type}, and \code{cached}
 }
 \description{
 Available Quantarctica data sets
 }
 \examples{
-
 \dontrun{
-qa_datasets()
+  qa_datasets()
 }
 
 }
