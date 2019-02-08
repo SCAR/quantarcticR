@@ -12,7 +12,6 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     ## find name in datasets index
     lx <- dataset_detail(name, cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
-    lx$datasource <- sub("^\\./", "", lx$datasource) ## strip leading ./ on path
     path <- dirname(lx$datasource)
     out <- bb_source(name = lx$layername,
                      id = paste0("Quantarctica: ", lx$layername),
@@ -70,6 +69,12 @@ dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
     lx <- xml2::read_xml(index_file)
     lxs <- as_tibble(do.call(rbind, lapply(xml2::xml_find_all(lx, ".//layer-tree-layer"), get_layer_details)))
     lxs <- setNames(lxs, c("layername", "datasource"))
+    ## clean bad sources
+    for (i in seq_along(lxs$datasource)) {
+        if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
+            lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
+        }
+    }
     lxs$datasource <- sub("^.*Quantarctica3/", "", lxs$datasource)
     lxs_type <- rep("unknown", nrow(lxs))
     lxs_type[grepl("shp$", lxs$datasource, ignore.case = TRUE)] <- "shapefile"
@@ -98,7 +103,7 @@ dataset_detail <- function(name, cache_path, refresh_cache = 0, verbose = FALSE)
     } else if (length(dx) > 1) {
         stop("multiple matching data sets found")
     } else {
-        clean_layer(as_list(dx))
+        clean_layer(xml2::as_list(dx))
     }
 }
 
@@ -119,6 +124,10 @@ fetch_dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) 
 clean_layer <- function(layer) {
     l <- as_tibble(t(unlist(layer)))
     ld <- l[,c("layername", "datasource")]
+    if (!grepl("\\.[a-z0-9]$", ld$datasource)) {
+        ld$datasource <- strsplit(ld$datasource, "\\|")[[1]][1]
+    }
+    ld$datasource <- sub("^\\./", "", ld$datasource) ## strip leading ./ on path
     ld$layer_attributes <- ifelse(any(grepl("pipe", names(layer))),
                                   list(unlist(c(lapply(layer$pipe, attributes), attributes(layer)[-1]))),
                                   list(attributes(layer)[-1])
@@ -135,51 +144,4 @@ clean_layer <- function(layer) {
     }
     ld$extent <- list(ext)
     ld
-}
-
-
-## old to be cleaned up
-
-clean_layer_xml <- function(n) {
-    ## given the xml node n of a maplayer (from the qgs index file), extract the bits we want as a list
-    ld <- list(layername = xml_text(xml_child(n, "layername")),
-               datasource = xml_text(xml_child(n, "datasource")))
-    attrs <- as.list(xml_attrs(n))
-    pipe_attrs <- as.list(xml_attrs(xml_child(n, "pipe")))
-    pipe_attrs <- Filter(Negate(is.na), pipe_attrs)
-    ld$layer_attributes <- list(c(pipe_attrs, attrs))
-    srs <- as_list(xml_find_first(n, "//srs//spatialrefsys"))
-    ld$srs_attributes <- list(srs[c("proj4", "srsid", "authid", "description")])
-    ld$provider <- xml_text(xml_child(n, "provider"))
-    ##if ("provider" %in% names(l)) l$provider else NA_character_
-    ld$abstract <- xml_text(xml_child(n, "abstract"))
-    ##ld$abstract <- if ("abstract" %in% names(l)) l$abstract else NA_character_
-    ext <- unlist(as_list(xml_child(n,"extent")))
-    if (!is.null(ext)) {
-        class(ext) <- "numeric" ## from char to numeric
-    }
-    ld$extent <- list(ext)
-    ##as_tibble(ld)
-    ld
-}
-
-do_convert_qgs_xml <- function(lx) {
-    if (FALSE) {
-        lx <- xml2::as_list(lx)[["qgis"]][["projectlayers"]]
-        lxs <- do.call(rbind, lapply(lx, clean_layer))
-        rownames(lxs) <- NULL
-    } else {
-        lx <- xml2::xml_find_all(lx, "//projectlayers/maplayer")
-        lxs <- do.call(rbind, lapply(lx, clean_layer_xml))
-    }
-    ## clean bad sources
-    for (i in seq_along(lxs$datasource)) {
-        if (!grepl("\\.[a-z0-9]$", lxs$datasource[i])) {
-            lxs$datasource[i] <- strsplit(lxs$datasource[i], "\\|")[[1]][1]
-        }
-    }
-    lxs$datasource <- sub("^\\./", "", lxs$datasource) ## strip leading ./ on path
-    ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
-    lxs <- lxs[!duplicated(lxs$layername), ]
-    lxs
 }
