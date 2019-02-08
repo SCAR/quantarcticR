@@ -49,7 +49,7 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
 #' @param refresh_cache numeric: as for \code{qa_get}
 #' @param verbose logical: show progress messages?
 #'
-#' @return A tibble with columns \code{id}, \code{name}, \code{source}, and \code{cached}
+#' @return A tibble with columns \code{layername}, \code{datasource}, \code{cached} plus others
 #'
 #' @seealso \code{\link{qa_get}}
 #'
@@ -97,7 +97,7 @@ fetch_dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) 
 ## internal function to clean layer data
 clean_layer <- function(layer) {
     l <- as_tibble(t(unlist(layer)))
-    ld <- l[,c("id", "datasource", "layername")]
+    ld <- l[,c("layername", "datasource")]
     ld$layer_attributes <- ifelse(any(grepl("pipe", names(layer))),
                                   list(unlist(c(lapply(layer$pipe, attributes), attributes(layer)[-1]))),
                                   list(attributes(layer)[-1])
