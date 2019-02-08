@@ -37,8 +37,8 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
                      ##collection_size = 0.6,
                      ##data_group = "Topography")
                      )
-    ## add the relative path to the main file of this data set
-    out$main_file <- lx$datasource[idx]
+    ## add the full path to the main file of this data set
+    out$main_file <- file.path(cache_directory, lx$datasource[idx])
     out
 }
 

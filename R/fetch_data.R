@@ -14,7 +14,6 @@ qa_get <- function(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     if (is.string(dataset)) dataset <- qa_dataset(name = dataset, cache_directory = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
     out <- bb_get(dataset, local_file_root = cache_directory, clobber = refresh_cache, verbose = verbose)
-    ## make path to main file an absolute one
-    out$main_file <- file.path(cache_directory, dataset$main_file)
+    out$main_file <- dataset$main_file
     out
 }
