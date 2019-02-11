@@ -84,7 +84,6 @@ dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
     lxs$datasource <- file.path(cache_path, lxs$datasource)
     ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
     lxs[!duplicated(lxs$layername), ]
-    lxs
 }
 get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("name", "source")], stringsAsFactors = FALSE)
 
