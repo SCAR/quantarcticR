@@ -4,22 +4,27 @@
 \alias{qa_datasets}
 \title{Available Quantarctica data sets}
 \usage{
-qa_datasets(refresh_cache = FALSE, verbose = FALSE)
+qa_datasets(cache_directory = qa_cache_dir(), refresh_cache = 0,
+  verbose = FALSE)
 }
 \arguments{
-\item{refresh_cache}{logical: as for \code{qa_get}}
+\item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}
+
+\item{refresh_cache}{numeric: as for \code{qa_get}}
 
 \item{verbose}{logical: show progress messages?}
 }
 \value{
-A tibble with columns \code{id}, \code{name}, \code{source}, and \code{cached}
+A tibble with columns \code{layername}, \code{datasource}, \code{cached} plus others
 }
 \description{
 Available Quantarctica data sets
 }
 \examples{
 
+\dontrun{
 qa_datasets()
+}
 
 }
 \seealso{

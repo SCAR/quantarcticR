@@ -4,12 +4,15 @@
 \alias{qa_dataset}
 \title{Retrieve details of a Quantarctica data set}
 \usage{
-qa_dataset(name, refresh_cache = FALSE, verbose = FALSE)
+qa_dataset(name, cache_directory = qa_cache_dir(), refresh_cache = 0,
+  verbose = FALSE)
 }
 \arguments{
 \item{name}{string: the name of the data set}
 
-\item{refresh_cache}{logical: as for \code{qa_get}}
+\item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}
+
+\item{refresh_cache}{numeric: 0 = do not overwrite existing files, 1 = overwrite if the remote file is newer than the local copy, 2 = always overwrite existing files}
 
 \item{verbose}{logical: show progress messages?}
 }
