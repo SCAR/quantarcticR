@@ -90,13 +90,22 @@ get_layer_details <- function(z) as.data.frame(as.list(xml2::xml_attrs(z))[c("na
 dataset_detail <- function(name, cache_path, refresh_cache = 0, verbose = FALSE) {
     index_file <- fetch_dataset_index(cache_path = cache_path, refresh_cache = refresh_cache, verbose = verbose)
     lx <- xml2::read_xml(index_file)
-    ##lx <- xml2::xml_find_all(lx, "//projectlayers/maplayer")
-    ##idx <- xml_find_all(lx, "[[layername
-    dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[layername = '", name, "']"))
-    if (length(dx) < 1) {
+    ## if we did not need to pare out duplicate layer names, we could just do:
+    ##dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[layername = '", name, "']"))
+    ##if (length(dx) < 1) {
+    ##    ## try case-insensitive match on name
+    ##    dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[lower-case(@layername) = '", tolower(name), "']"))
+    ##}
+    ## but for now, need to get rid of duplicates (until these are removed from the index file by the Quantarctica maintainers)
+    lx <- xml2::xml_find_all(lx, "//projectlayers/maplayer")
+    lyrs <- sapply(lx, function(z) xml2::xml_text(xml2::xml_child(z, search = "layername")))
+    idx <- !is.na(lyrs) & !duplicated(lyrs) & lyrs == name
+    if (sum(idx) < 1) {
         ## try case-insensitive match on name
-        dx <- xml2::xml_find_all(lx, paste0("//projectlayers/maplayer[lower-case(@layername) = '", tolower(name), "']"))
+        idx <- !is.na(lyrs) & !duplicated(lyrs) & tolower(lyrs) == tolower(name)
     }
+    dx <- lx[idx]
+
     if (length(dx) < 1) {
         stop("no matching data set found")
     } else if (length(dx) > 1) {
