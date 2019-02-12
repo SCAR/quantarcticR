@@ -21,7 +21,7 @@ qa_get(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
 \item{raster_reader}{function: function to use to read raster files (TIFF, JP2, VRT). By default this is \code{raster::raster}}
 }
 \value{
-TBD
+By default, an object of class SpatialPolygonsDataFrame (for shapefile layers) or RasterLayer (for raster layers). Objects of other classes may be returned if non-default \code{shapefile_reader} or \code{raster_reader} functions are used
 }
 \description{
 Fetch a Quantarctica data set

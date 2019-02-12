@@ -7,7 +7,7 @@
 #' @param shapefile_reader function: function to use to read shapefiles. By default this is \code{raster::shapefile}
 #' @param raster_reader function: function to use to read raster files (TIFF, JP2, VRT). By default this is \code{raster::raster}
 #'
-#' @return TBD
+#' @return By default, an object of class SpatialPolygonsDataFrame (for shapefile layers) or RasterLayer (for raster layers). Objects of other classes may be returned if non-default \code{shapefile_reader} or \code{raster_reader} functions are used
 #'
 #' @export
 qa_get <- function(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE, shapefile_reader, raster_reader) {
