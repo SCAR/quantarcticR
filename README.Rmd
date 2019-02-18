@@ -51,8 +51,7 @@ Fetch one and plot it:
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
 
 library(raster)
-x <- shapefile(res$main_file)
-plot(x)
+plot(res)
 ```
 
 ## See also

@@ -8,8 +8,8 @@ Depends: R (>= 3.3.0)
 Imports:
   assertthat,
   bowerbird (>= 0.8.1),
-  memoise,
   rappdirs,
+  raster,
   tibble,
   xml2
 License: MIT + file LICENSE
@@ -18,6 +18,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests:
-  raster,
+  sf,
   testthat
 Remotes: ropensci/bowerbird

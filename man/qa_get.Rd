@@ -5,7 +5,7 @@
 \title{Fetch a Quantarctica data set}
 \usage{
 qa_get(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
-  verbose = FALSE)
+  verbose = FALSE, shapefile_reader, raster_reader)
 }
 \arguments{
 \item{dataset}{string or tibble: the name of the data set or a tibble as returned by \code{qa_dataset}}
@@ -15,9 +15,13 @@ qa_get(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
 \item{refresh_cache}{numeric: 0 = do not overwrite existing files, 1 = overwrite if the remote file is newer than the local copy, 2 = always overwrite existing files}
 
 \item{verbose}{logical: show progress messages?}
+
+\item{shapefile_reader}{function: function to use to read shapefiles. By default this is \code{raster::shapefile}}
+
+\item{raster_reader}{function: function to use to read raster files (TIFF, JP2, VRT). By default this is \code{raster::raster}}
 }
 \value{
-TBD
+By default, an object of class SpatialPolygonsDataFrame (for shapefile layers) or RasterLayer (for raster layers). Objects of other classes may be returned if non-default \code{shapefile_reader} or \code{raster_reader} functions are used
 }
 \description{
 Fetch a Quantarctica data set
