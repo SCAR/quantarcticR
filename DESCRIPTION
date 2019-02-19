@@ -21,6 +21,7 @@ RoxygenNote: 6.1.1
 Suggests:
   sf,
   testthat,
-   knitr, rmarkdown
+  knitr,
+  rmarkdown
 Remotes: ropensci/bowerbird
 VignetteBuilder: knitr

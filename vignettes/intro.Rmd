@@ -123,7 +123,7 @@ raster::plot(gravity_anomaly)
 # Using datasets with sf
 
 ```{r}
-surface_sf <- qa_get("AntGG Free-air gravity anomaly (10km)", shapefile_reader = sf::st_read)
+surface_sf <- qa_get("ADD Simple basemap", shapefile_reader = sf::st_read)
 surface_sf
 class(surface_sf)
 ##surface_sf %>% 
