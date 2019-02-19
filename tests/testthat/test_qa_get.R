@@ -4,7 +4,7 @@ test_that("The dataset from qa_get returns a shapefile or raster, as appropriate
     res <- qa_get("ADD Simple basemap")
     expect_is(res, class = "SpatialPolygonsDataFrame")
 
-    res <- qa_get("ETOPO1/IBCSO/RAMP2 Hillshade (50x v. exag.)")
+    res <- qa_get("AntGG Free-air gravity anomaly (10km)")
     expect_is(res, class = "RasterLayer")
 
     ## TODO also test other raster types:
