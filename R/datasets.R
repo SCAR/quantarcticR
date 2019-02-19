@@ -39,7 +39,7 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
 #' @param refresh_cache numeric: as for \code{qa_get}
 #' @param verbose logical: show progress messages?
 #'
-#' @return A tibble with columns \code{layername}, \code{type}, and \code{cached}
+#' @return A tibble with columns \code{layername}, \code{main_file}, \code{type}, \code{cached}, and \code{download_size}
 #'
 #' @seealso \code{\link{qa_get}}
 #'
@@ -81,10 +81,7 @@ dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
         }
     }
     lxs$datasource <- sub("^.*Quantarctica3/", "", lxs$datasource)
-    lxs_type <- rep("unknown", nrow(lxs))
-    lxs_type[grepl("shp$", lxs$datasource, ignore.case = TRUE)] <- "shapefile"
-    lxs_type[grepl("(tif|jp2|vrt)$", lxs$datasource, ignore.case = TRUE)] <- "raster"
-    lxs$type <- lxs_type
+    lxs$type <- type_from_filename(lxs$datasource)
     lxs$datasource <- sub("^\\./", "", lxs$datasource) ## strip leading ./ on path
     lxs$datasource <- file.path(cache_path, lxs$datasource)
     ## remove duplicate entries: there are three. See https://github.com/SCAR-sandpit/quantarcticR/issues/14
@@ -116,9 +113,25 @@ dataset_detail <- function(name, cache_path, refresh_cache = 0, verbose = FALSE)
     } else if (length(dx) > 1) {
         stop("multiple matching data sets found")
     } else {
-        clean_layer(xml2::as_list(dx))
+        dx <- clean_layer(xml2::as_list(dx))
     }
+    dx$type <- type_from_filename(dx$datasource)
+    ## add download_size information, which has been pre-cached in the layer_sizes internal data object
+    szidx <- which(layer_sizes$layername == dx$layername)
+    this_size <- if (length(szidx) == 1) layer_sizes$download_size[szidx] else NA
+    dx$download_size <- fs::as_fs_bytes(this_size)
+    dx
 }
+
+## internal function to infer type (shapefile or raster or unknown) from the file extension
+type_from_filename <- function(fname) {
+    lxs_type <- rep("unknown", length(fname))
+    lxs_type[grepl("shp$", fname, ignore.case = TRUE)] <- "shapefile"
+    lxs_type[grepl("(tif|jp2|vrt)$", fname, ignore.case = TRUE)] <- "raster"
+    lxs_type
+}
+
+
 
 ## cache_path must be an actual path, not "session" or "persistent"
 fetch_dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
