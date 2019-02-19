@@ -27,3 +27,8 @@ test_that("qa_get can be passed a custom reader", {
     res <- qa_get("ADD Simple basemap", shapefile_reader = sf::st_read)
     expect_is(res, class = "sf")
 })
+
+test_that("qa_get will warn if passed the wrong type of reader function", {
+    expect_warning(qa_get("ADD Simple basemap", raster_reader = raster::raster))
+    expect_warning(qa_get("AntGG Free-air gravity anomaly (10km)", shapefile_reader = raster::shapefile))
+})

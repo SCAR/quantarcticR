@@ -13,22 +13,30 @@
 qa_get <- function(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE, shapefile_reader, raster_reader) {
     assert_that(refresh_cache %in% c(0, 1, 2), is.scalar(refresh_cache))
     assert_that(is.flag(verbose), !is.na(verbose))
-    if (missing(shapefile_reader)) {
+    if (is.string(dataset)) dataset <- qa_dataset(name = dataset, cache_directory = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
+    shapefile_reader_specified <- !missing(shapefile_reader)
+    raster_reader_specified <- !missing(raster_reader)
+    if (!shapefile_reader_specified) {
         shapefile_reader <- raster::shapefile
+    } else {
+        ## if the user specified ONLY a shapefile reader, and the requested layer isn't a shapefile, let them know
+        if (!raster_reader_specified && dataset$type != "shapefile") warning("You have specified a shapefile_reader but the requested dataset is not a shapefile. Did you mean to specify a raster_reader?")
     }
     assert_that(is.function(shapefile_reader))
-    if (missing(raster_reader)) {
+    if (!raster_reader_specified) {
         raster_reader <- raster::raster
+    } else {
+        ## if the user specified ONLY a raster reader, and the requested layer isn't a raster, let them know
+        if (!shapefile_reader_specified && dataset$type != "raster") warning("You have specified a raster_reader but the requested dataset is not a raster. Did you mean to specify a shapefile_reader?")
     }
     assert_that(is.function(raster_reader))
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
-    if (is.string(dataset)) dataset <- qa_dataset(name = dataset, cache_directory = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
     out <- bb_get(dataset$bb_source, local_file_root = cache_directory, clobber = refresh_cache, verbose = verbose)
     ## TODO check success here
     out$main_file <- dataset$main_file
-    if (grepl("shp$", dataset$main_file, ignore.case = TRUE)) {
+    if (dataset$type == "shapefile") {
         shapefile_reader(dataset$main_file)
-    } else if (grepl("(tif|jp2|vrt)$", dataset$main_file, ignore.case = TRUE)) {
+    } else if (dataset$type == "raster") {
         raster_reader(dataset$main_file)
     } else {
         out
