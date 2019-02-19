@@ -54,7 +54,12 @@ qa_datasets <- function(cache_directory = qa_cache_dir(), refresh_cache = 0, ver
     lxs <- dataset_index(cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
     if (!is.null(lxs)) {
         lxs$cached <- vapply(lxs$datasource, file.exists, FUN.VALUE = TRUE, USE.NAMES = FALSE)
-        lxs[, c("layername", "type", "cached")] ## drop the datasource column
+        ## rename datasource to main_file for consistency with qa_dataset
+        names(lxs)[names(lxs) == "datasource"] <- "main_file"
+        ## add download_size information, which has been pre-cached in the layer_sizes internal data object
+        lxs <- merge(lxs, layer_sizes, all.x = TRUE, sort = FALSE)
+        lxs$download_size <- fs::as_fs_bytes(lxs$download_size)
+        lxs
     } else {
         warning("something went wrong")
         NULL

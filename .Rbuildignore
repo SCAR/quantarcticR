@@ -2,3 +2,4 @@
 ^LICENSE\.md$
 ^quantarcticR\.Rproj$
 ^\.Rproj\.user$
+^data-raw$

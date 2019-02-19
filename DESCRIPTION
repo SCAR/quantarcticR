@@ -8,6 +8,7 @@ Depends: R (>= 3.3.0)
 Imports:
   assertthat,
   bowerbird (>= 0.8.1),
+  fs,
   rappdirs,
   raster,
   tibble,
