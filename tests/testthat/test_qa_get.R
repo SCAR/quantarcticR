@@ -4,7 +4,7 @@ test_that("The dataset from qa_get returns a shapefile or raster, as appropriate
     res <- qa_get("ADD Simple basemap")
     expect_is(res, class = "SpatialPolygonsDataFrame")
 
-    res <- qa_get("ETOPO1/IBCSO/RAMP2 Hillshade (50x v. exag.)")
+    res <- qa_get("AntGG Free-air gravity anomaly (10km)")
     expect_is(res, class = "RasterLayer")
 
     ## TODO also test other raster types:
@@ -26,4 +26,9 @@ test_that("qa_get can be passed a custom reader", {
     skip_if_not_installed("sf")
     res <- qa_get("ADD Simple basemap", shapefile_reader = sf::st_read)
     expect_is(res, class = "sf")
+})
+
+test_that("qa_get will warn if passed the wrong type of reader function", {
+    expect_warning(qa_get("ADD Simple basemap", raster_reader = raster::raster))
+    expect_warning(qa_get("AntGG Free-air gravity anomaly (10km)", shapefile_reader = raster::shapefile))
 })

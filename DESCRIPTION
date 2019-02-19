@@ -8,6 +8,7 @@ Depends: R (>= 3.3.0)
 Imports:
   assertthat,
   bowerbird (>= 0.8.1),
+  fs,
   rappdirs,
   raster,
   tibble,
@@ -20,6 +21,7 @@ RoxygenNote: 6.1.1
 Suggests:
   sf,
   testthat,
-   knitr, rmarkdown
+  knitr,
+  rmarkdown
 Remotes: ropensci/bowerbird
 VignetteBuilder: knitr

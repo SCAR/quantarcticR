@@ -15,7 +15,7 @@ qa_datasets(cache_directory = qa_cache_dir(), refresh_cache = 0,
 \item{verbose}{logical: show progress messages?}
 }
 \value{
-A tibble with columns \code{layername}, \code{type}, and \code{cached}
+A tibble with columns \code{layername}, \code{main_file}, \code{type}, \code{cached}, and \code{download_size}
 }
 \description{
 Available Quantarctica data sets
