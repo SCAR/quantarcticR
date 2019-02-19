@@ -1,0 +1,133 @@
+---
+title: "1. Intro quantarticR"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{1. Intro quantarticR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+The `quantarcticR` package provides access to Quantarctica data sets for R users, **without** needing QGIS to be installed. 
+
+This vignette:
+
+* explains what Quantarctica data is
+* shows how the datasets can be used in R 
+* provides examples of how you can work with them
+
+
+# What is Quantarctica?
+
+[Quantarctica](http://quantarctica.npolar.no/about.html) is a collection of Antarctic geographical datasets which works with the free, cross-platform, open-source software QGIS. It includes community-contributed, peer-reviewed data from ten different scientific themes and a professionally-designed basemap.
+
+Quantarctica is is published and made available under [under a Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+If you use a `dataset`, please cite it:  
+
+Matsuoka K, Skoglund A, Roth G (2018) Quantarctica `dataset`. Norwegian Polar Institute.
+https://doi.org/10.21334/npolar.2018.8516e961
+
+# Caching datasets
+
+The [quantarcticR](https://github.com/SCAR-sandpit/quantarcticR) R package provides you with flexibility to either temporarily or persistently store the data.
+
+On loading the package, you will be provided with two options:  
+
+1: Yes. Use a temporary cache directory for this session only  
+2: No. Use the persistent cache directory
+
+.... Can you change to the other option after you have loaded the package?....
+
+... May need some add when to use which option ...
+
+# Quantarctica Data Sets
+
+```{r}
+library(quantarcticR)
+```
+
+In order to return a list of the datasets available, use the `qa_datasets` function.
+
+```{r}
+datasets <- qa_datasets()
+class(datasets)
+```
+
+The list is of class `r class(datasets)` which can also be used with tidyverse functions.
+
+```{r}
+head(datasets)
+```
+
+In the `datasets` object we can see the following:  
+
+- `layername` which is the name of the dataset  
+- `type` which is the object type shapefile or raster
+- `cache` whether cached or not
+
+# Dataset details
+
+In order to view the details of a dataset use the `qa_dataset` function for the simple basemap called "ADD Simple basemap".
+
+```{r}
+dataset <- qa_dataset("ADD Simple basemap")
+class(dataset)
+```
+
+.... is there a print or summary function for the qa_dataset object?....
+
+# Fetch a dataset
+
+To fetch a dataset use the `qa_get` function with the dataset `layername`.
+
+First fetch the simple basemap called "ADD Simple basemap".
+
+```{r}
+#basemap <- qa_get("ADD Simple basemap", verbose = TRUE)
+#class(basemap)
+```
+
+
+```{r}
+icethickness <- qa_get("BEDMAP2 Ice thickness uncertainty", verbose = TRUE)
+class(icethickness)
+```
+
+This returns a object of class `r class(icethickness)`.
+
+# Raster Plot 
+
+Use the Raster package to plot these two objects.
+
+```{r, error=FALSE, message=FALSE}
+library(raster)
+#raster::plot(basemap)
+```
+
+```{r}
+raster::plot(icethickness)
+```
+
+# Using datasets with sf
+
+```{r}
+surface_sf <- qa_get("BEDMAP2 Surface elevation (1km)", shapefile_reader = sf::st_read)
+surface_sf
+class(surface_sf)
+##surface_sf %>% 
+##  ggplot2::ggplot() +
+##  geom_sf()
+```
+

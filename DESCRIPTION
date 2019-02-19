@@ -19,5 +19,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests:
   sf,
-  testthat
+  testthat,
+   knitr, rmarkdown
 Remotes: ropensci/bowerbird
+VignetteBuilder: knitr
