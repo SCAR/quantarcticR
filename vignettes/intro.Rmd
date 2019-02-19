@@ -101,11 +101,11 @@ First fetch the simple basemap called "ADD Simple basemap".
 
 
 ```{r}
-icethickness <- qa_get("BEDMAP2 Ice thickness uncertainty", verbose = TRUE)
-class(icethickness)
+gravity_anomaly <- qa_get("AntGG Free-air gravity anomaly (10km)", verbose = TRUE)
+class(gravity_anomaly)
 ```
 
-This returns a object of class `r class(icethickness)`.
+This returns a object of class `r class(gravity_anomaly)`.
 
 # Raster Plot 
 
@@ -117,13 +117,13 @@ library(raster)
 ```
 
 ```{r}
-raster::plot(icethickness)
+raster::plot(gravity_anomaly)
 ```
 
 # Using datasets with sf
 
 ```{r}
-surface_sf <- qa_get("BEDMAP2 Surface elevation (1km)", shapefile_reader = sf::st_read)
+surface_sf <- qa_get("AntGG Free-air gravity anomaly (10km)", shapefile_reader = sf::st_read)
 surface_sf
 class(surface_sf)
 ##surface_sf %>% 
