@@ -59,7 +59,7 @@ qa_datasets <- function(cache_directory = qa_cache_dir(), refresh_cache = 0, ver
         ## add download_size information, which has been pre-cached in the layer_sizes internal data object
         lxs <- merge(lxs, layer_sizes, all.x = TRUE, sort = FALSE)
         lxs$download_size <- fs::as_fs_bytes(lxs$download_size)
-        lxs
+        as_tibble(lxs)
     } else {
         warning("something went wrong")
         NULL
