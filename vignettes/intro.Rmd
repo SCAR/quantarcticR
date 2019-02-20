@@ -122,12 +122,18 @@ raster::plot(gravity_anomaly)
 
 # Using datasets with sf
 
+Read in the data as an sf object and use the ggplot2 and sf packages to create a plot.
+
 ```{r}
+library(sf)
+library(ggplot2)
+
 surface_sf <- qa_get("ADD Simple basemap", shapefile_reader = sf::st_read)
+
 surface_sf
 class(surface_sf)
-##surface_sf %>% 
-##  ggplot2::ggplot() +
-##  geom_sf()
+surface_sf %>% 
+  ggplot() +
+  geom_sf()
 ```
 
