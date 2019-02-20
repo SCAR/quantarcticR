@@ -75,7 +75,8 @@ In the `datasets` object we can see the following:
 
 - `layername` which is the name of the dataset  
 - `type` which is the object type shapefile or raster
-- `cache` whether cached or not
+- `cache` whether cached or not  
+- `download_size` which is the size of the `layername` dataset
 
 # Dataset details
 
