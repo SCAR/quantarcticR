@@ -18,6 +18,13 @@ You can install the development version of quantarcticR from GitHub with:
 remotes::install_github("SCAR-sandpit/quantarcticR")
 ```
 
+quantarcticR uses the Bowerbird package, so you may also need to install this package if you don't have it already.
+
+
+``` r
+remotes::install_github("ropensci/bowerbird", build_vignettes = TRUE)
+```
+
 This is very much a work in progress!
 
 Example

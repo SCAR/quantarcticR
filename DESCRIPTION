@@ -22,6 +22,7 @@ Suggests:
   sf,
   testthat,
   knitr,
-  rmarkdown
+  rmarkdown,
+  ggplot2
 Remotes: ropensci/bowerbird
 VignetteBuilder: knitr
