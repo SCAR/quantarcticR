@@ -93,37 +93,26 @@ class(dataset)
 
 To fetch a dataset use the `qa_get` function with the dataset `layername`.
 
-First fetch the simple basemap called "ADD Simple basemap".
-
-```{r}
-#basemap <- qa_get("ADD Simple basemap", verbose = TRUE)
-#class(basemap)
-```
-
+Here fetch a dataset called "AntGG Free-air gravity anomaly (10km)"using the default options.
 
 ```{r}
 gravity_anomaly <- qa_get("AntGG Free-air gravity anomaly (10km)", verbose = TRUE)
 class(gravity_anomaly)
 ```
 
-This returns a object of class `r class(gravity_anomaly)`.
-
 # Raster Plot 
 
-Use the Raster package to plot these two objects.
+Use the Raster package to plot `gravity_anomaly`.
 
-```{r, error=FALSE, message=FALSE}
-library(raster)
-#raster::plot(basemap)
-```
 
 ```{r}
+library(raster)
 raster::plot(gravity_anomaly)
 ```
 
 # Using datasets with sf
 
-Read in the data as an sf object and use the ggplot2 and sf packages to create a plot.
+Read in the simple basemap "ADD Simple basemap" data as an sf object and use the ggplot2 and sf packages to create a plot.
 
 ```{r}
 library(sf)
