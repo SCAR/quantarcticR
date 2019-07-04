@@ -135,10 +135,10 @@ type_from_filename <- function(fname) {
 
 ## cache_path must be an actual path, not "session" or "persistent"
 fetch_dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) {
-    index_file <- file.path(cache_path, "Quantarctica3.qgs")
+    index_file <- file.path(cache_path, qa_index_filename())
     if (file.exists(index_file) && refresh_cache < 1) return(index_file) ## don't re-fetch if not needed
     if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache directory: ", dirname(index_file)))
-    res <- bb_rget(url = paste0(qa_mirror(), "Quantarctica3.qgs"), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose, clobber = refresh_cache)
+    res <- bb_rget(url = paste0(qa_mirror(), qa_index_filename()), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose, clobber = refresh_cache)
     if (file.exists(index_file)) {
         index_file
     } else {
@@ -171,3 +171,7 @@ clean_layer <- function(layer) {
     ld$extent <- list(ext)
     ld
 }
+
+## internal function that defines the index file name, just so that if in the future it changes we don't have to
+## change a lot of hard-coded references to it
+qa_index_filename <- function() "Quantarctica3.qgs"

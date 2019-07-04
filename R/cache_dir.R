@@ -23,7 +23,8 @@
 #'
 #' @export
 qa_cache_dir <- function(path, verbose = FALSE) {
-    if (missing(path)) {
+    path_was_supplied <- !missing(path)
+    if (!path_was_supplied) {
         ## return the current cache_directory
         cd <- qa_opt("cache_dir")
         if (is.na(cd)) {
@@ -37,6 +38,15 @@ qa_cache_dir <- function(path, verbose = FALSE) {
     assert_that(is.string(path))
     create_recursively <- tolower(path) == "persistent" ## FALSE if path is "session" or ann actual path (safer not to be recursive), but recursive is necessary for "persistent"
     path <- resolve_cache_dir(path)
+
+    if (path_was_supplied) {
+        ## check that the user hasn't provided the parent or child dir
+        maybe_parent <- tryCatch(any(vapply(fs::dir_ls(path = path, type = "directory"), function(z) file.exists(file.path(z, qa_index_filename())), FUN.VALUE = TRUE)), error = function(e) FALSE)
+        if (maybe_parent) warning("The Quantarctica index file exists in a child directory of the cache path you have supplied. Check that you have supplied the correct path")
+        maybe_child <- tryCatch(file.exists(file.path(path, "..", qa_index_filename())), error = function(e) FALSE)
+        if (maybe_child) warning("The Quantarctica index file exists in the parent directory of the cache path you have supplied. Check that you have supplied the correct path")
+    }
+
     if (!dir.exists(path)) {
         if (verbose) message("creating data cache directory: ", path, "\n")
         ok <- dir.create(path, recursive = create_recursively)
