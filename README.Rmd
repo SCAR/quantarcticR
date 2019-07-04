@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![Travis build status](https://travis-ci.org/SCAR-sandpit/quantarcticR.svg?branch=master)](https://travis-ci.org/SCAR-sandpit/quantarcticR)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 # quantarcticR
