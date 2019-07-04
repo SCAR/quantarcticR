@@ -21,11 +21,12 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Suggests:
-  sf,
-  testthat,
-  knitr,
-  rmarkdown,
-  ggplot2,
-  rgdal
+    sf,
+    testthat,
+    knitr,
+    rmarkdown,
+    ggplot2,
+    rgdal,
+    covr
 Remotes: ropensci/bowerbird
 VignetteBuilder: knitr
