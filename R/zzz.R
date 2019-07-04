@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("Quantarctica is made available under a CC-BY license.\nIf you use it, please cite it:\nMatsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute.\nhttps://doi.org/10.21334/npolar.2018.8516e961")
+    packageStartupMessage("Quantarctica is made available under a CC-BY license.\nIf you use it, please cite it:\nMatsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961\nIn addition, published works produced using Quantarctica are required to cite each dataset that was used in the work. Please consult the abstract of each data set for the relevant citation.")
 }
 
 
