@@ -13,7 +13,9 @@ Quantarctica is a collection of Antarctic geographical datasets which works with
 
 Authors:
 \itemize{
+  \item Kim Fitter \email{kim@validly.co}
   \item Charlène Guillaumot
+  \item David Ranzolin \email{daranzolin@gmail.com}
 }
 
 }
