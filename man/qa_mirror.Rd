@@ -24,7 +24,7 @@ qa_mirror()
 qa_mirrors()
 
 ## set to first mirror in that list
-qa_mirror(qa_mirrors()[1, ]$url)
+qa_mirror(qa_mirrors()$url[1])
 
 }
 \seealso{
