@@ -11,6 +11,9 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+library(quantarcticR)
+## for vignette purposes, and if this is Ben's computer, use a persistent cache_dir
+if (grepl("ben_ray", qa_cache_dir())) qa_cache_dir("c:/data/Quantarctica3")
 ```
 
 [![Travis build status](https://travis-ci.org/SCAR-sandpit/quantarcticR.svg?branch=master)](https://travis-ci.org/SCAR-sandpit/quantarcticR)
@@ -35,7 +38,6 @@ remotes::install_github("SCAR-sandpit/quantarcticR")
 This is very much a work in progress!
 
 ## Example
-
 ```{r example}
 library(quantarcticR)
 ```
