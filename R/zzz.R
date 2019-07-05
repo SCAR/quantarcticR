@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("Quantarctica is made available under a CC-BY license. If you use it, please cite it:\nMatsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961\nIn addition, published works produced using Quantarctica are required to cite each dataset that was used in the work. Please consult the abstract of each data set for the relevant citation.")
+    packageStartupMessage("Quantarctica is made available under a CC-BY license. If you use it, please cite it:\nMatsuoka K, Skoglund A, Roth G (2018) Quantarctica [Data set]. Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961\nIn addition, published works produced using Quantarctica are asked to cite each dataset that was used in the work. Please consult the abstract of each data set for the relevant citation.")
 }
 
 
@@ -23,19 +23,6 @@
         }
     }
     options(list(quantarcticR = default_options))
-    if (interactive() && is.na(qa_opt("cache_dir"))) {
-        ## only run this in an interactive session, and also only if the cache directory has NOT already been set
-        ## otherwise if a user re-loads the package they get asked and it will override whatever they already set
-        cat("Do you want layers downloaded from Quantarctica to be stored temporarily during this session?", "\n")
-        invisible(
-            switch(
-                menu(c("Yes. Use a temporary cache directory for this session only", "No. Use the persistent cache directory")) + 1,
-                cat("Nothing done\n"),
-                qa_cache_dir("session"),
-                qa_cache_dir("persistent")
-            )
-        )
-    }
     invisible()
 }
 
