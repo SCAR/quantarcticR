@@ -32,6 +32,15 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     lx
 }
 
+#' @method print qa_dataset
+#' @export
+print.qa_dataset <- function(x, ...) {
+    ## as a placeholder, we'll just print the dataset object as a data.frame, but hide the bb_source component
+    temp <- x
+    temp$bb_source <- NULL
+    class(temp) <- setdiff(class(temp), "qa_dataset")
+    print(temp)
+}
 
 #' Available Quantarctica data sets
 #'

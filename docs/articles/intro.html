@@ -111,27 +111,15 @@
 <p>In order to return a list of the datasets available, use the <code>qa_datasets</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datasets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qa_datasets.html">qa_datasets</a></span>()
 <span class="kw">head</span>(datasets)</code></pre></div>
-<pre><code>##                             layername
-## 1                Overview place names
-## 2            COMNAP listed facilities
-## 3               Subantarctic stations
-## 4            SCAR Composite gazetteer
-## 5      IBO-IOC GEBCO Features (point)
-## 6 IBO-IOC GEBCO Features (multipoint)
-##                                                                                     main_file
-## 1               c:/data/Quantarctica3/Miscellaneous/OverviewPlaceNames/OverviewPlaceNames.shp
-## 2                c:/data/Quantarctica3/Miscellaneous/Stations/COMNAP_Antarctic_Facilities.shp
-## 3                     c:/data/Quantarctica3/Miscellaneous/Stations/Sub-antarctic_Stations.shp
-## 4     c:/data/Quantarctica3/Miscellaneous/SCAR_CompositeGazetteer/SCAR_CompositeGazetteer.shp
-## 5      c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_point.shp
-## 6 c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_multipoint.shp
-##        type cached download_size
-## 1 shapefile   TRUE        19.74K
-## 2 shapefile   TRUE       691.92K
-## 3 shapefile   TRUE       691.92K
-## 4 shapefile   TRUE       329.05M
-## 5 shapefile   TRUE         1.25M
-## 6 shapefile   TRUE         1.25M</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   layername         main_file                   type   cached download_size
+##   &lt;chr&gt;             &lt;chr&gt;                       &lt;chr&gt;  &lt;lgl&gt;    &lt;fs::bytes&gt;
+## 1 Overview place n~ c:/data/Quantarctica3/Misc~ shape~ TRUE          19.74K
+## 2 COMNAP listed fa~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K
+## 3 Subantarctic sta~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K
+## 4 SCAR Composite g~ c:/data/Quantarctica3/Misc~ shape~ TRUE         329.05M
+## 5 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M
+## 6 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M</code></pre>
 <p>In the <code>datasets</code> object we can see the following:</p>
 <ul>
 <li>
@@ -152,17 +140,17 @@
 <p>In order to view the details of a dataset use the <code>qa_dataset</code> function. This function gives more information about the dataset (but does not download or return the actual data). For example, with the simple basemap called “ADD Simple basemap”:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"ADD Simple basemap"</span>)
 dataset</code></pre></div>
-<pre><code>## # A tibble: 1 x 9
+<pre><code>## # A tibble: 1 x 11
 ##   layername datasource layer_attributes srs_attributes provider abstract
 ##   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;           &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;   
 ## 1 ADD Simp~ Miscellan~ &lt;NULL&gt;           &lt;tibble [1 x ~ ogr      Quantar~
-## # ... with 18 more variables: extent &lt;list&gt;, main_file &lt;chr&gt;,
-## #   bb_source$id &lt;chr&gt;, $name &lt;chr&gt;, $description &lt;chr&gt;, $doc_url &lt;chr&gt;,
-## #   $source_url &lt;list&gt;, $citation &lt;chr&gt;, $license &lt;chr&gt;, $comment &lt;chr&gt;,
-## #   $method &lt;list&gt;, $postprocess &lt;list&gt;, $authentication_note &lt;chr&gt;,
-## #   $user &lt;chr&gt;, $password &lt;chr&gt;, $access_function &lt;chr&gt;,
-## #   $data_group &lt;chr&gt;, $collection_size &lt;lgl&gt;</code></pre>
-<p>…. TODO: a print method for the qa_dataset object ….</p>
+## # ... with 20 more variables: extent &lt;list&gt;, type &lt;chr&gt;,
+## #   download_size &lt;fs::bytes&gt;, main_file &lt;chr&gt;, bb_source$id &lt;chr&gt;,
+## #   $name &lt;chr&gt;, $description &lt;chr&gt;, $doc_url &lt;chr&gt;, $source_url &lt;list&gt;,
+## #   $citation &lt;chr&gt;, $license &lt;chr&gt;, $comment &lt;chr&gt;, $method &lt;list&gt;,
+## #   $postprocess &lt;list&gt;, $authentication_note &lt;chr&gt;, $user &lt;chr&gt;,
+## #   $password &lt;chr&gt;, $access_function &lt;chr&gt;, $data_group &lt;chr&gt;,
+## #   $collection_size &lt;lgl&gt;</code></pre>
 </div>
 <div id="fetch-a-dataset" class="section level1">
 <h1 class="hasAnchor">
@@ -171,7 +159,7 @@ dataset</code></pre></div>
 <p>Here we’ll fetch a dataset called “AntGG Free-air gravity anomaly (10km)”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gravity_anomaly &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="st">"AntGG Free-air gravity anomaly (10km)"</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## 
-## Fri Jul 05 02:55:55 2019
+## Fri Jul 05 03:26:54 2019
 ## Synchronizing dataset: AntGG Free-air gravity anomaly (10km)
 ## Source URL http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/
 ## --------------------------------------------------------------------------------------------
@@ -179,7 +167,7 @@ dataset</code></pre></div>
 ##  this dataset path is: c:\data\Quantarctica3/Geophysics//ANTGG
 ##  visiting http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ ... 7 download links, 0 links to visit done.
 ##  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ... 
-## Fri Jul 05 02:55:55 2019 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
+## Fri Jul 05 03:26:54 2019 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(gravity_anomaly)</code></pre></div>
 <pre><code>## [1] "RasterLayer"
 ## attr(,"package")

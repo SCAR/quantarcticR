@@ -93,31 +93,19 @@
 <p>List all available datasets:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ds &lt;-<span class="st"> </span><span class="kw"><a href="reference/qa_datasets.html">qa_datasets</a></span>()
 <span class="kw">head</span>(ds)
-<span class="co">#&gt;                             layername</span>
-<span class="co">#&gt; 1                Overview place names</span>
-<span class="co">#&gt; 2            COMNAP listed facilities</span>
-<span class="co">#&gt; 3               Subantarctic stations</span>
-<span class="co">#&gt; 4            SCAR Composite gazetteer</span>
-<span class="co">#&gt; 5      IBO-IOC GEBCO Features (point)</span>
-<span class="co">#&gt; 6 IBO-IOC GEBCO Features (multipoint)</span>
-<span class="co">#&gt;                                                                                     main_file</span>
-<span class="co">#&gt; 1               c:/data/Quantarctica3/Miscellaneous/OverviewPlaceNames/OverviewPlaceNames.shp</span>
-<span class="co">#&gt; 2                c:/data/Quantarctica3/Miscellaneous/Stations/COMNAP_Antarctic_Facilities.shp</span>
-<span class="co">#&gt; 3                     c:/data/Quantarctica3/Miscellaneous/Stations/Sub-antarctic_Stations.shp</span>
-<span class="co">#&gt; 4     c:/data/Quantarctica3/Miscellaneous/SCAR_CompositeGazetteer/SCAR_CompositeGazetteer.shp</span>
-<span class="co">#&gt; 5      c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_point.shp</span>
-<span class="co">#&gt; 6 c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_multipoint.shp</span>
-<span class="co">#&gt;        type cached download_size</span>
-<span class="co">#&gt; 1 shapefile   TRUE        19.74K</span>
-<span class="co">#&gt; 2 shapefile   TRUE       691.92K</span>
-<span class="co">#&gt; 3 shapefile   TRUE       691.92K</span>
-<span class="co">#&gt; 4 shapefile   TRUE       329.05M</span>
-<span class="co">#&gt; 5 shapefile   TRUE         1.25M</span>
-<span class="co">#&gt; 6 shapefile   TRUE         1.25M</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 6 x 5</span>
+<span class="co">#&gt;   layername         main_file                   type   cached download_size</span>
+<span class="co">#&gt;   &lt;chr&gt;             &lt;chr&gt;                       &lt;chr&gt;  &lt;lgl&gt;    &lt;fs::bytes&gt;</span>
+<span class="co">#&gt; 1 Overview place n~ c:/data/Quantarctica3/Misc~ shape~ TRUE          19.74K</span>
+<span class="co">#&gt; 2 COMNAP listed fa~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K</span>
+<span class="co">#&gt; 3 Subantarctic sta~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K</span>
+<span class="co">#&gt; 4 SCAR Composite g~ c:/data/Quantarctica3/Misc~ shape~ TRUE         329.05M</span>
+<span class="co">#&gt; 5 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M</span>
+<span class="co">#&gt; 6 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M</span></code></pre></div>
 <p>Fetch one and plot it:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw"><a href="reference/qa_get.html">qa_get</a></span>(<span class="st">"ADD Simple basemap"</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fri Jul 05 02:55:44 2019</span>
+<span class="co">#&gt; Fri Jul 05 03:26:41 2019</span>
 <span class="co">#&gt; Synchronizing dataset: ADD Simple basemap</span>
 <span class="co">#&gt; Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/</span>
 <span class="co">#&gt; --------------------------------------------------------------------------------------------</span>
@@ -125,12 +113,9 @@
 <span class="co">#&gt;  this dataset path is: c:\data\Quantarctica3/Miscellaneous//SimpleBasemap</span>
 <span class="co">#&gt;  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ... 9 download links, 0 links to visit done.</span>
 <span class="co">#&gt;  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap_Subantarctic.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_General.txt ... </span>
-<span class="co">#&gt; Fri Jul 05 02:55:44 2019 dataset synchronization complete: ADD Simple basemap</span>
+<span class="co">#&gt; Fri Jul 05 03:26:42 2019 dataset synchronization complete: ADD Simple basemap</span>
 
 <span class="kw">library</span>(raster)
-<span class="co">#&gt; Warning: package 'raster' was built under R version 3.4.4</span>
-<span class="co">#&gt; Loading required package: sp</span>
-<span class="co">#&gt; Warning: package 'sp' was built under R version 3.4.4</span>
 <span class="kw">plot</span>(res)</code></pre></div>
 <p><img src="reference/figures/README-example3-1.png" width="100%"></p>
 </div>

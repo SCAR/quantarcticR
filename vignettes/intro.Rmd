@@ -89,8 +89,6 @@ dataset <- qa_dataset("ADD Simple basemap")
 dataset
 ```
 
-.... TODO: a print method for the qa_dataset object ....
-
 # Fetch a dataset
 
 To actually fetch the data, use the `qa_get` function. You can provide it with either the name of the dataset (i.e. `layername` as returned by `qa_datasets()`) or the dataset object (as returned by `qa_dataset()`).

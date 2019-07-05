@@ -32,27 +32,15 @@ List all available datasets:
 ``` r
 ds <- qa_datasets()
 head(ds)
-#>                             layername
-#> 1                Overview place names
-#> 2            COMNAP listed facilities
-#> 3               Subantarctic stations
-#> 4            SCAR Composite gazetteer
-#> 5      IBO-IOC GEBCO Features (point)
-#> 6 IBO-IOC GEBCO Features (multipoint)
-#>                                                                                     main_file
-#> 1               c:/data/Quantarctica3/Miscellaneous/OverviewPlaceNames/OverviewPlaceNames.shp
-#> 2                c:/data/Quantarctica3/Miscellaneous/Stations/COMNAP_Antarctic_Facilities.shp
-#> 3                     c:/data/Quantarctica3/Miscellaneous/Stations/Sub-antarctic_Stations.shp
-#> 4     c:/data/Quantarctica3/Miscellaneous/SCAR_CompositeGazetteer/SCAR_CompositeGazetteer.shp
-#> 5      c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_point.shp
-#> 6 c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_multipoint.shp
-#>        type cached download_size
-#> 1 shapefile   TRUE        19.74K
-#> 2 shapefile   TRUE       691.92K
-#> 3 shapefile   TRUE       691.92K
-#> 4 shapefile   TRUE       329.05M
-#> 5 shapefile   TRUE         1.25M
-#> 6 shapefile   TRUE         1.25M
+#> # A tibble: 6 x 5
+#>   layername         main_file                   type   cached download_size
+#>   <chr>             <chr>                       <chr>  <lgl>    <fs::bytes>
+#> 1 Overview place n~ c:/data/Quantarctica3/Misc~ shape~ TRUE          19.74K
+#> 2 COMNAP listed fa~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K
+#> 3 Subantarctic sta~ c:/data/Quantarctica3/Misc~ shape~ TRUE         691.92K
+#> 4 SCAR Composite g~ c:/data/Quantarctica3/Misc~ shape~ TRUE         329.05M
+#> 5 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M
+#> 6 IBO-IOC GEBCO Fe~ c:/data/Quantarctica3/Misc~ shape~ TRUE           1.25M
 ```
 
 Fetch one and plot it:
@@ -60,7 +48,7 @@ Fetch one and plot it:
 ``` r
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #> 
-#> Fri Jul 05 02:55:36 2019
+#> Fri Jul 05 03:26:34 2019
 #> Synchronizing dataset: ADD Simple basemap
 #> Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/
 #> --------------------------------------------------------------------------------------------
@@ -68,12 +56,9 @@ res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #>  this dataset path is: c:\data\Quantarctica3/Miscellaneous//SimpleBasemap
 #>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ... 9 download links, 0 links to visit done.
 #>  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap_Subantarctic.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_General.txt ... 
-#> Fri Jul 05 02:55:37 2019 dataset synchronization complete: ADD Simple basemap
+#> Fri Jul 05 03:26:34 2019 dataset synchronization complete: ADD Simple basemap
 
 library(raster)
-#> Warning: package 'raster' was built under R version 3.4.4
-#> Loading required package: sp
-#> Warning: package 'sp' was built under R version 3.4.4
 plot(res)
 ```
 
