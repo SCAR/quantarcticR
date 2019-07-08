@@ -6,6 +6,9 @@
 #' @param verbose logical: show progress messages?
 #'
 #' @return A tibble
+#' @examples
+#' \dontrun{
+#'   dsx <- qa_dataset("ALBMAP Bed/bathymetry elevation (5km)")
 #'
 #' @export
 qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE) {
@@ -20,9 +23,9 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                     source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                     license = "CC-BY 4.0 International",
-                    method = list("bb_handler_rget", level = 2, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(jp2|vrt|ovr|jpg|jgw|cpg|dbf|prj|qix|shp|shx|xml)$"),
+                    method = list("bb_handler_rget", level = 1, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(jp2|vrt|ovr|jpg|jgw|cpg|dbf|prj|qix|shp|shx|xml)$")
                     ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
-                    ##collection_size = 0.6,
+                    ##collection_size = tryCatch(as.numeric(lx$download_size)/1024^3, error = function(e) NA_real_)
                     ##data_group = "Topography")
                     )
     ## add the full path to the main file of this data set
@@ -122,14 +125,16 @@ dataset_detail <- function(name, cache_path, refresh_cache = 0, verbose = FALSE)
     } else if (length(dx) > 1) {
         stop("multiple matching data sets found")
     } else {
-        dx <- clean_layer(xml2::as_list(dx))
+        xmll <- xml2::as_list(dx)
+        dx <- clean_layer(xmll)
+        dx$palette <- list(get_layer_palette(xmll))
+        dx$type <- type_from_filename(dx$datasource)
+        ## add download_size information, which has been pre-cached in the layer_sizes internal data object
+        szidx <- which(layer_sizes$layername == dx$layername)
+        this_size <- if (length(szidx) == 1) layer_sizes$download_size[szidx] else NA
+        dx$download_size <- fs::as_fs_bytes(this_size)
+        dx
     }
-    dx$type <- type_from_filename(dx$datasource)
-    ## add download_size information, which has been pre-cached in the layer_sizes internal data object
-    szidx <- which(layer_sizes$layername == dx$layername)
-    this_size <- if (length(szidx) == 1) layer_sizes$download_size[szidx] else NA
-    dx$download_size <- fs::as_fs_bytes(this_size)
-    dx
 }
 
 ## internal function to infer type (shapefile or raster or unknown) from the file extension
@@ -140,6 +145,19 @@ type_from_filename <- function(fname) {
     lxs_type
 }
 
+## internal function to extract the colour paletter from the rasterrenderrer XML element
+## xmll is the layer XML converted to a list with xml2::as_list(layer_xml)
+get_layer_palette <- function(xmll) {
+    if (length(xmll) == 1) xmll <- xmll[[1]]
+    if (is.null(xmll$pipe$rasterrenderer$rastershader$colorrampshader)) {
+        NULL
+    } else {
+        temp <- do.call(rbind, lapply(xmll$pipe$rasterrenderer$rastershader$colorrampshader, function(z) as.data.frame(attributes(z), stringsAsFactors = FALSE)))
+        temp$value <- as.numeric(temp$value)
+        temp
+        ##plot(dsx, breaks = temp$value, col = temp$color)
+    }
+}
 
 
 ## cache_path must be an actual path, not "session" or "persistent"
