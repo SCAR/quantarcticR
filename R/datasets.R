@@ -15,7 +15,8 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     ## find name in datasets index
     lx <- dataset_detail(name, cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
-    path <- dirname(lx$datasource)
+    path <- dirname(lx$datasource) ## we'll grab everything in this directory
+    ## path could be refined: if it's a tif file, then we only need that one file (?). For shapefiles, only download files matching the same name (ignoring file extension) as the .shp file
     bb <- bb_source(name = lx$layername,
                     id = paste0("Quantarctica: ", lx$layername),
                     description = "Quantarctica data",
