@@ -71,3 +71,31 @@ resolve_cache_dir <- function(path) {
 ##    cat("resolved to: ", path, "\n")
     sub("[/\\]+$", "", path) ## remove trailing file sep
 }
+
+#' Has a dataset been downloaded to the local cache?
+#'
+#' @param dataset string or qa_dataset: the dataset object, or name of the dataset
+#' @param cache_directory string: the cache directory to check. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function
+#' @param verbose logical: show progress messages?
+#'
+#' @return Logical
+#'
+#' @seealso \code{\link{qa_dataset}}, \code{\link{qa_cache_dir}}
+#'
+#' @examples
+#' \dontrun{
+#'   ds <- qa_dataset("ADD Simple basemap")
+#'   qa_is_cached(ds) ## FALSE
+#'   x <- qa_get(ds)
+#'   qa_is_cached(ds) ## TRUE
+#' }
+#' 
+#' @export
+qa_is_cached <- function(dataset, cache_directory = qa_cache_dir(), verbose = FALSE) {
+    assert_that(is.flag(verbose), !is.na(verbose))
+    cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
+    if (is.string(dataset)) dataset <- qa_dataset(name = dataset, cache_directory = cache_directory, refresh_cache = FALSE, verbose = verbose)
+    assert_that(inherits(dataset, "qa_dataset"))
+    file.exists(dataset$main_file)
+}
+
