@@ -8,7 +8,7 @@ qa_get(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
   verbose = FALSE, shapefile_reader, raster_reader)
 }
 \arguments{
-\item{dataset}{string or tibble: the name of the data set or a tibble as returned by \code{qa_dataset}}
+\item{dataset}{string or qa_dataset: the name of the data set or a data set object as returned by \code{qa_dataset}}
 
 \item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}
 
