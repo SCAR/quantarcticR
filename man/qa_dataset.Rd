@@ -4,8 +4,12 @@
 \alias{qa_dataset}
 \title{Retrieve details of a Quantarctica data set}
 \usage{
-qa_dataset(name, cache_directory = qa_cache_dir(), refresh_cache = 0,
-  verbose = FALSE)
+qa_dataset(
+  name,
+  cache_directory = qa_cache_dir(),
+  refresh_cache = 0,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{name}{string: the name of the data set}
@@ -21,4 +25,9 @@ A tibble
 }
 \description{
 Retrieve details of a Quantarctica data set
+}
+\examples{
+\dontrun{
+  dsx <- qa_dataset("ALBMAP Bed/bathymetry elevation (5km)")
+}
 }

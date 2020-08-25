@@ -4,8 +4,11 @@
 \alias{qa_datasets}
 \title{Available Quantarctica data sets}
 \usage{
-qa_datasets(cache_directory = qa_cache_dir(), refresh_cache = 0,
-  verbose = FALSE)
+qa_datasets(
+  cache_directory = qa_cache_dir(),
+  refresh_cache = 0,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{cache_directory}{string: the cache directory to use. As for the \code{path} parameter to the \code{\link{qa_cache_dir}} function}

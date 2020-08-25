@@ -4,8 +4,14 @@
 \alias{qa_get}
 \title{Fetch a Quantarctica data set}
 \usage{
-qa_get(dataset, cache_directory = qa_cache_dir(), refresh_cache = 0,
-  verbose = FALSE, shapefile_reader, raster_reader)
+qa_get(
+  dataset,
+  cache_directory = qa_cache_dir(),
+  refresh_cache = 0,
+  verbose = FALSE,
+  shapefile_reader,
+  raster_reader
+)
 }
 \arguments{
 \item{dataset}{string or qa_dataset: the name of the data set or a data set object as returned by \code{qa_dataset}}

@@ -4,8 +4,7 @@
 \alias{qa_is_cached}
 \title{Has a dataset been downloaded to the local cache?}
 \usage{
-qa_is_cached(dataset, cache_directory = qa_cache_dir(),
-  verbose = FALSE)
+qa_is_cached(dataset, cache_directory = qa_cache_dir(), verbose = FALSE)
 }
 \arguments{
 \item{dataset}{string or qa_dataset: the dataset object, or name of the dataset}

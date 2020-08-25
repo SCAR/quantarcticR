@@ -9,14 +9,30 @@
 #' @examples
 #' \dontrun{
 #'   dsx <- qa_dataset("ALBMAP Bed/bathymetry elevation (5km)")
-#'
+#' }
 #' @export
 qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0, verbose = FALSE) {
     cache_directory <- resolve_cache_dir(cache_directory) ## convert "session" or "persistent" to actual paths, if needed
     ## find name in datasets index
     lx <- dataset_detail(name, cache_path = cache_directory, refresh_cache = refresh_cache, verbose = verbose)
-    path <- dirname(lx$datasource) ## we'll grab everything in this directory
-    ## path could be refined: if it's a tif file, then we only need that one file (?). For shapefiles, only download files matching the same name (ignoring file extension) as the .shp file
+    path <- dirname(lx$datasource) ## worst case, we'll grab everything in this directory
+    ## refine what we download, if possible
+    if (grepl("\\.shp$", tolower(lx$datasource)) && identical(lx$type, "shapefile")) {
+        ## for shapefiles, only download files matching the same name (ignoring file extension) as the .shp file
+        accept_download <- paste0(fs::path_ext_remove(basename(lx$datasource)), "\\.[^\\.]+$")
+        ade <- character()
+    } else if (grepl("\\.(tiff|jp2)?$", tolower(lx$datasource)) && identical(lx$type, "raster")) {
+        ## if it's a tif or jp2 file, then we only need that one .tif file
+        accept_download <- basename(lx$datasource)
+        ## note that this will also download e.g. filename.tif.aux.xml files, but that's OK
+        ade <- character()
+    } else {
+        accept_download <- bowerbird::bb_rget_default_downloads()
+        ade <- "(jp2|vrt|ovr|jpg|jgw|cpg|dbf|prj|qix|shp|shx|xml)$"
+    }
+    ## the only other type (i.e. dataset$main_file extension) is .vrt
+    ## these are virtual files that point to other files, and we can't know what they are without downloading the .vrt file
+    ## but we just assume that the required files are kept in the same directory as the .vrt file
     bb <- bb_source(name = lx$layername,
                     id = paste0("Quantarctica: ", lx$layername),
                     description = "Quantarctica data",
@@ -24,7 +40,7 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                     source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                     license = "CC-BY 4.0 International",
-                    method = list("bb_handler_rget", level = 1, no_host = TRUE, cut_dirs = 1, accept_download_extra = "(jp2|vrt|ovr|jpg|jgw|cpg|dbf|prj|qix|shp|shx|xml)$")
+                    method = list("bb_handler_rget", level = 1, no_host = TRUE, cut_dirs = 1, accept_download = accept_download, accept_download_extra = ade)
                     ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
                     ##collection_size = tryCatch(as.numeric(lx$download_size)/1024^3, error = function(e) NA_real_)
                     ##data_group = "Topography")
