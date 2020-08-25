@@ -61,6 +61,8 @@ library(raster)
 plot(res)
 ```
 
+See the [introductory vignette](https://scar-sandpit.github.io/quantarcticR/articles/intro.html) for more information.
+
 ## See also
 
 [RQGIS](https://cran.r-project.org/package=RQGIS) provides an R-QGIS interface, via Python middleware.

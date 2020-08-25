@@ -64,6 +64,8 @@ plot(res)
 
 <img src="man/figures/README-example3-1.png" width="100%" />
 
+See the [introductory vignette](https://scar-sandpit.github.io/quantarcticR/articles/intro.html) for more information.
+
 See also
 --------
 
