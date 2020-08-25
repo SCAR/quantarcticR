@@ -85,8 +85,8 @@ In the `datasets` object we can see the following:
 In order to view the details of a dataset use the `qa_dataset` function. This function gives more information about the dataset (but does not download or return the actual data). For example, with the simple basemap called "ADD Simple basemap":
 
 ```{r}
-dataset <- qa_dataset("ADD Simple basemap")
-dataset
+basemap <- qa_dataset("ADD Simple basemap")
+basemap
 ```
 
 # Fetch a dataset
@@ -96,25 +96,52 @@ To actually fetch the data, use the `qa_get` function. You can provide it with e
 Here we'll fetch a dataset called "AntGG Free-air gravity anomaly (10km)".
 
 ```{r}
-gravity_anomaly <- qa_get("AntGG Free-air gravity anomaly (10km)", verbose = TRUE)
-class(gravity_anomaly)
+ga_info <- qa_dataset("AntGG Free-air gravity anomaly (10km)") ## the dataset info
+ga_data <- qa_get(ga_info, verbose = TRUE) ## fetch the actual data
+class(ga_data)
 ```
 
 # Raster Plot
 
 The gravity anomaly data set is a raster, so we can use the raster package to plot it.
 
+```{r gravanom}
+library(raster)
+plot(ga_data)
+```
+
+The Quantarctica project maintainers have gone to quite a lot of effort to create nice visual representations of the data layers, by defining colour palettes and similar. The full range of visual information is not yet available through quantarcticR, but it is a work in progress. In this case, there is a colour palette for the gravity anomaly layer:
 
 ```{r}
-library(raster)
-plot(gravity_anomaly)
+cmap <- ga_info$palette[[1]]
+cmap
 ```
+
+We need to make some tweaks to the palette to cope with the differences in how QGIS defines them compared to how `raster` expects them (we will endeavour to automatically deal with such differences in future versions of quantarcticR):
+
+```{r}
+breaks <- c(cmap$value, cellStats(ga_data, "max"))
+breaks[1] <- cellStats(ga_data, "min")
+```
+
+Re-plot using that colour map, and with a land layer underneath:
+
+```{r gravanom_with_palette}
+basemap <- qa_get("ADD Simple basemap")
+plot(basemap)
+plot(ga_data, breaks = breaks, col = cmap$color, add = TRUE, legend = FALSE)
+```
+
+which is a little closer to the Quantarctica-rendered version of the same data layer:
+
+![](https://www.npolar.no/wp-content/uploads/data-catalog/images/phys_antgg.png)
+
 
 # Using datasets with sf
 
 Read in the simple basemap "ADD Simple basemap" data as an sf object and use the ggplot2 and sf packages to create a plot.
 
-```{r}
+```{r sfplot}
 library(sf)
 library(ggplot2)
 

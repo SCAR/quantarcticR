@@ -148,8 +148,8 @@
 <h1 class="hasAnchor">
 <a href="#dataset-details" class="anchor"></a>Dataset details</h1>
 <p>In order to view the details of a dataset use the <code>qa_dataset</code> function. This function gives more information about the dataset (but does not download or return the actual data). For example, with the simple basemap called “ADD Simple basemap”:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">dataset</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"ADD Simple basemap"</span>)
-<span class="no">dataset</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">basemap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"ADD Simple basemap"</span>)
+<span class="no">basemap</span></pre></body></html></div>
 <pre><code>## # A tibble: 1 x 11
 ##   layername datasource layer_attributes srs_attributes provider abstract extent
 ##   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;           &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;    &lt;list&gt;
@@ -162,18 +162,19 @@
 <a href="#fetch-a-dataset" class="anchor"></a>Fetch a dataset</h1>
 <p>To actually fetch the data, use the <code>qa_get</code> function. You can provide it with either the name of the dataset (i.e. <code>layername</code> as returned by <code><a href="../reference/qa_datasets.html">qa_datasets()</a></code>) or the dataset object (as returned by <code><a href="../reference/qa_dataset.html">qa_dataset()</a></code>).</p>
 <p>Here we’ll fetch a dataset called “AntGG Free-air gravity anomaly (10km)”.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">gravity_anomaly</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="st">"AntGG Free-air gravity anomaly (10km)"</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ga_info</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"AntGG Free-air gravity anomaly (10km)"</span>) <span class="co">## the dataset info</span>
+<span class="no">ga_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="no">ga_info</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co">## fetch the actual data</span></pre></body></html></div>
 <pre><code>## 
-## Tue Aug 25 06:44:36 2020
+## Tue Aug 25 07:40:02 2020
 ## Synchronizing dataset: AntGG Free-air gravity anomaly (10km)
 ## Source URL http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/
 ## --------------------------------------------------------------------------------------------
 ## 
 ##  this dataset path is: C:\data\Quantarctica3/Geophysics//ANTGG
 ##  visiting http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ ... done.
-##  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ... 
-## Tue Aug 25 06:44:37 2020 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">gravity_anomaly</span>)</pre></body></html></div>
+##  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ... 
+## Tue Aug 25 07:40:02 2020 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">ga_data</span>)</pre></body></html></div>
 <pre><code>## [1] "RasterLayer"
 ## attr(,"package")
 ## [1] "raster"</code></pre>
@@ -183,14 +184,49 @@
 <a href="#raster-plot" class="anchor"></a>Raster Plot</h1>
 <p>The gravity anomaly data set is a raster, so we can use the raster package to plot it.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">gravity_anomaly</span>)</pre></body></html></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">ga_data</span>)</pre></body></html></div>
+<p><img src="intro_files/figure-html/gravanom-1.png" width="700"></p>
+<p>The Quantarctica project maintainers have gone to quite a lot of effort to create nice visual representations of the data layers, by defining colour palettes and similar. The full range of visual information is not yet available through quantarcticR, but it is a work in progress. In this case, there is a colour palette for the gravity anomaly layer:</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">cmap</span> <span class="kw">&lt;-</span> <span class="no">ga_info</span>$<span class="no">palette</span><span class="kw">[[</span><span class="fl">1</span>]]
+<span class="no">cmap</span></pre></body></html></div>
+<pre><code>##        alpha  value      label   color
+## item     255 -75.00   -75 mGal #9a0079
+## item1    255 -67.50 -67.5 mGal #0041ff
+## item2    255 -60.00   -60 mGal #398fff
+## item3    255 -52.50 -52.5 mGal #66ccff
+## item4    255 -45.10   -45 mGal #4ab4ab
+## item5    255 -37.50 -37.5 mGal #35a16b
+## item6    255 -29.90   -30 mGal #5ab157
+## item7    255 -22.50 -22.5 mGal #89c53d
+## item8    255 -15.00   -15 mGal #add529
+## item9    255  -7.57  -7.5 mGal #d5e614
+## item10   255   0.00     0 mGal #faf500
+## item11   255   7.57   7.5 mGal #fbd900
+## item12   255  15.00    15 mGal #fcb500
+## item13   255  22.50  22.5 mGal #fd9400
+## item14   255  29.90    30 mGal #fd7a00
+## item15   255  37.50  37.5 mGal #ff4d00
+## item16   255  45.00    45 mGal #ff2800
+## item17   255  52.50  52.5 mGal #d52b00
+## item18   255  60.00    60 mGal #9d2f00
+## item19   255  67.50  67.5 mGal #663300
+## item20   255  75.00    75 mGal #663300</code></pre>
+<p>We need to make some tweaks to the palette to cope with the differences in how QGIS defines them compared to how <code>raster</code> expects them (we will endeavour to automatically deal with such differences in future versions of quantarcticR):</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">breaks</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">cmap</span>$<span class="no">value</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html">cellStats</a></span>(<span class="no">ga_data</span>, <span class="st">"max"</span>))
+<span class="no">breaks</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html">cellStats</a></span>(<span class="no">ga_data</span>, <span class="st">"min"</span>)</pre></body></html></div>
+<p>Re-plot using that colour map, and with a land layer underneath:</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">basemap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="st">"ADD Simple basemap"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">basemap</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">ga_data</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">breaks</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cmap</span>$<span class="no">color</span>, <span class="kw">add</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<p><img src="intro_files/figure-html/gravanom_with_palette-1.png" width="700"></p>
+<p>which is a little closer to the Quantarctica-rendered version of the same data layer:</p>
+<p><img src="https://www.npolar.no/wp-content/uploads/data-catalog/images/phys_antgg.png"></p>
 </div>
 <div id="using-datasets-with-sf" class="section level1">
 <h1 class="hasAnchor">
 <a href="#using-datasets-with-sf" class="anchor"></a>Using datasets with sf</h1>
 <p>Read in the simple basemap “ADD Simple basemap” data as an sf object and use the ggplot2 and sf packages to create a plot.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
 <span class="no">surface_sf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="st">"ADD Simple basemap"</span>, <span class="kw">shapefile_reader</span> <span class="kw">=</span> <span class="kw pkg">sf</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>)</pre></body></html></div>
@@ -200,10 +236,10 @@
 ## dimension:      XY
 ## bbox:           xmin: -5791904 ymin: -5791904 xmax: 5791904 ymax: 5791904
 ## projected CRS:  WGS 84 / Antarctic Polar Stereographic</code></pre>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">surface_sf</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">surface_sf</span>)</pre></body></html></div>
 <pre><code>## [1] "sf"         "data.frame"</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">surface_sf</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>()</pre></body></html></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">surface_sf</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>()</pre></body></html></div>
+<p><img src="intro_files/figure-html/sfplot-1.png" width="700"></p>
 </div>
   </div>
 
