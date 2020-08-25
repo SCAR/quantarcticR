@@ -21,7 +21,7 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
         ## for shapefiles, only download files matching the same name (ignoring file extension) as the .shp file
         accept_download <- paste0(fs::path_ext_remove(basename(lx$datasource)), "\\.[^\\.]+$")
         ade <- character()
-    } else if (grepl("\\.(tiff|jp2)?$", tolower(lx$datasource)) && identical(lx$type, "raster")) {
+    } else if (grepl("\\.(tif[f]?|jp2)$", tolower(lx$datasource)) && identical(lx$type, "raster")) {
         ## if it's a tif or jp2 file, then we only need that one .tif file
         accept_download <- basename(lx$datasource)
         ## note that this will also download e.g. filename.tif.aux.xml files, but that's OK
