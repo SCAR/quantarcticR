@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A list of Quantarctic mirror sites — qa_mirrors • quantarcticR</title>
+<title>Has a dataset been downloaded to the local cache? — qa_is_cached • quantarcticR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="A list of Quantarctic mirror sites — qa_mirrors" />
-<meta property="og:description" content="Choose the mirror closest to you for the fastest and most reliable download." />
+<meta property="og:title" content="Has a dataset been downloaded to the local cache? — qa_is_cached" />
+<meta property="og:description" content="Has a dataset been downloaded to the local cache?" />
 
 
 
@@ -118,32 +118,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A list of Quantarctic mirror sites</h1>
+    <h1>Has a dataset been downloaded to the local cache?</h1>
     
-    <div class="hidden name"><code>qa_mirrors.Rd</code></div>
+    <div class="hidden name"><code>qa_is_cached.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Choose the mirror closest to you for the fastest and most reliable download.</p>
+    <p>Has a dataset been downloaded to the local cache?</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qa_mirrors</span>()</pre>
+    <pre class="usage"><span class='fu'>qa_is_cached</span>(<span class='no'>dataset</span>, <span class='kw'>cache_directory</span> <span class='kw'>=</span> <span class='fu'><a href='qa_cache_dir.html'>qa_cache_dir</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>dataset</th>
+      <td><p>string or qa_dataset: the dataset object, or name of the dataset</p></td>
+    </tr>
+    <tr>
+      <th>cache_directory</th>
+      <td><p>string: the cache directory to check. As for the <code>path</code> parameter to the <code><a href='qa_cache_dir.html'>qa_cache_dir</a></code> function</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical: show progress messages?</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with columns <code>country</code>, <code>protocol</code>, and <code>url</code></p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>Logical</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>http://quantarctica.npolar.no/downloads/</p>
+    <div class='dont-index'><p><code><a href='qa_dataset.html'>qa_dataset</a></code>, <code><a href='qa_cache_dir.html'>qa_cache_dir</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>qa_mirrors</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
-#&gt;   country   protocol url                                           
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                         
-#&gt; </span><span style='color: #555555;'>1</span><span> Australia http     http://quantarctica.tpac.org.au/Quantarctica3/</div><div class='input'>
-</div></span></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+  <span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qa_dataset.html'>qa_dataset</a></span>(<span class='st'>"ADD Simple basemap"</span>)
+  <span class='fu'>qa_is_cached</span>(<span class='no'>ds</span>) <span class='co'>## FALSE</span>
+  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='qa_get.html'>qa_get</a></span>(<span class='no'>ds</span>)
+  <span class='fu'>qa_is_cached</span>(<span class='no'>ds</span>) <span class='co'>## TRUE</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
