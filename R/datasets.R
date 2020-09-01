@@ -57,9 +57,11 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
 print.qa_dataset <- function(x, ...) {
     ## as a placeholder, we'll just print the dataset object as a data.frame, but hide the bb_source component
     temp <- x
-    temp$bb_source <- NULL
+    message("This Quantarctica dataset is made available under a ",temp$bb_source$license," license.\n")
+    message("If the abstract provides a specific citation for this dataset, please use the citation in the abstract: \n",temp$abstract,"\n\n" )
+    message("Otherwise cite as: ", temp$bb_source$citation)
     class(temp) <- setdiff(class(temp), "qa_dataset")
-    print(temp)
+    dplyr::glimpse(temp)
 }
 
 #' Available Quantarctica data sets
