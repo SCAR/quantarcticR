@@ -16,6 +16,7 @@ Authors:
   \item Kim Fitter \email{kim@validly.co}
   \item Charlène Guillaumot
   \item David Ranzolin \email{daranzolin@gmail.com}
+  \item Marc Desgroseilliers
 }
 
 }
