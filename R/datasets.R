@@ -168,14 +168,47 @@ type_from_filename <- function(fname) {
 ## xmll is the layer XML converted to a list with xml2::as_list(layer_xml)
 get_layer_palette <- function(xmll) {
     if (length(xmll) == 1) xmll <- xmll[[1]]
-    if (is.null(xmll$pipe$rasterrenderer$rastershader$colorrampshader)) {
-        NULL
+    ptype <- attr(xmll$pipe$rasterrenderer, "type")
+    crtype <- attr(xmll$pipe$rasterrenderer$rastershader$colorrampshader, "colorRampType")
+    df_from_list_attrs <- function(ll) do.call(rbind, lapply(ll, function(z) as.data.frame(attributes(z), stringsAsFactors = FALSE)))
+    ## ptype                  crtype
+    ## hillshade             NULL
+    ## multibandcolor        NULL
+    ## paletted              NULL
+    ## singlebandgray        NULL
+    ## singlebandpseudocolor INTERPOLATED
+    ## singlebandpseudocolor EXACT
+    ## singlebandpseudocolor DISCRETE
+    if (is.null(ptype) || !ptype %in% c("hillshade", "multibandcolor", "paletted", "singlebandgray", "singlebandpseudocolor")) return(NULL)
+    pal <- NULL
+    if (ptype == "singlebandpseudocolor") {
+        if (crtype %in% c("INTERPOLATED", "EXACT", "DISCRETE")) {
+            pal <- df_from_list_attrs(xmll$pipe$rasterrenderer$rastershader$colorrampshader)
+            pal$value <- as.numeric(pal$value)
+        } else {
+            warning("don't know how to handle color ramp type '", crtype, "', ignoring")
+        }
+    } else if (ptype == "singlebandgray") {
+        if (!identical(attr(xmll$pipe$rasterrenderer, "gradient"), "BlackToWhite")) {
+            warning("unexpected gradient type for singlebandgray palette, ignoring")
+        } else {
+            ##alpha <- tryCatch(as.numeric(attr(xmll$pipe$rasterrenderer, "opacity")), error = function(e) NA_real_)
+            ##if (is.na(alpha) || alpha <= 0 || alpha > 1) alpha <- 1
+            pal <- data.frame(color = grDevices::colorRampPalette(c("black", "white"))(51))
+        }
+    } else if (ptype == "paletted") {
+        pal <- df_from_list_attrs(xmll$pipe$rasterrenderer$colorPalette)
+        pal$value <- as.numeric(pal$value)
+    } else if (ptype == "multibandcolor") {
+        ## these are RGB rasters with 3 layers (see e.g. "USGS/NASA subantarctic Landsat (15m)")
+        ## no palette, plot with e.g. raster::plotRGB
+    } else if (ptype == "hillshade") {
+        ## ignore hillshade for now
+        ## see e.g. pipe$rasterrenderer attributes "azimuth", "zfactor", "multidirection", "angle"
     } else {
-        temp <- do.call(rbind, lapply(xmll$pipe$rasterrenderer$rastershader$colorrampshader, function(z) as.data.frame(attributes(z), stringsAsFactors = FALSE)))
-        temp$value <- as.numeric(temp$value)
-        temp
-        ##plot(dsx, breaks = temp$value, col = temp$color)
+        warning("don't know how to handle palette of type '", ptype, "', ignoring")
     }
+    pal
 }
 
 
