@@ -134,7 +134,7 @@ plot(ga_data, breaks = breaks, col = cmap$color, add = TRUE, legend = FALSE)
 
 which is a little closer to the Quantarctica-rendered version of the same data layer:
 
-![](https://www.npolar.no/wp-content/uploads/data-catalog/images/phys_antgg.png)
+![](./phys_antgg.png)
 
 
 # Using datasets with sf

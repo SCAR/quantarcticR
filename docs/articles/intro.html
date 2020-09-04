@@ -150,12 +150,20 @@
 <p>In order to view the details of a dataset use the <code>qa_dataset</code> function. This function gives more information about the dataset (but does not download or return the actual data). For example, with the simple basemap called “ADD Simple basemap”:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">basemap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"ADD Simple basemap"</span>)
 <span class="no">basemap</span></pre></body></html></div>
-<pre><code>## # A tibble: 1 x 11
-##   layername datasource layer_attributes srs_attributes provider abstract extent
-##   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;           &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;    &lt;list&gt;
-## 1 ADD Simp~ Miscellan~ &lt;NULL&gt;           &lt;tibble [1 x ~ ogr      Quantar~ &lt;NULL&gt;
-## # ... with 4 more variables: palette &lt;list&gt;, type &lt;chr&gt;,
-## #   download_size &lt;fs::bytes&gt;, main_file &lt;chr&gt;</code></pre>
+<pre><code>## Rows: 1
+## Columns: 12
+## $ layername        &lt;chr&gt; "ADD Simple basemap"
+## $ datasource       &lt;chr&gt; "Miscellaneous/SimpleBasemap/ADD_DerivedLowresBase...
+## $ layer_attributes &lt;list&gt; [NULL]
+## $ srs_attributes   &lt;list&gt; [&lt;tbl_df[1 x 4]&gt;]
+## $ provider         &lt;chr&gt; "ogr"
+## $ abstract         &lt;chr&gt; "Quantarctica project team compilation of ADD low ...
+## $ extent           &lt;list&gt; [NULL]
+## $ palette          &lt;list&gt; [NULL]
+## $ type             &lt;chr&gt; "shapefile"
+## $ download_size    &lt;fs::bytes&gt; 2M
+## $ main_file        &lt;chr&gt; "c:/data/Quantarctica3/Miscellaneous/SimpleBasemap...
+## $ bb_source        &lt;tibble&gt; &lt;tbl_df[1 x 16]&gt;</code></pre>
 </div>
 <div id="fetch-a-dataset" class="section level1">
 <h1 class="hasAnchor">
@@ -165,15 +173,15 @@
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ga_info</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span>(<span class="st">"AntGG Free-air gravity anomaly (10km)"</span>) <span class="co">## the dataset info</span>
 <span class="no">ga_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span>(<span class="no">ga_info</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="co">## fetch the actual data</span></pre></body></html></div>
 <pre><code>## 
-## Fri Sep 04 03:46:26 2020
+## Fri Sep 04 04:41:32 2020
 ## Synchronizing dataset: AntGG Free-air gravity anomaly (10km)
 ## Source URL http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/
 ## --------------------------------------------------------------------------------------------
 ## 
 ##  this dataset path is: C:\data\Quantarctica3/Geophysics//ANTGG
 ##  visiting http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ ... done.
-##  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG.txt ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_Accuracy_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_BouguerAnomaly_10km.tif.aux.xml ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ... 
-## Fri Sep 04 03:46:26 2020 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
+##  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ... 
+## Fri Sep 04 04:41:33 2020 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">ga_data</span>)</pre></body></html></div>
 <pre><code>## [1] "RasterLayer"
 ## attr(,"package")
@@ -220,7 +228,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">ga_data</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">breaks</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cmap</span>$<span class="no">color</span>, <span class="kw">add</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="intro_files/figure-html/gravanom_with_palette-1.png" width="700"></p>
 <p>which is a little closer to the Quantarctica-rendered version of the same data layer:</p>
-<p><img src="https://www.npolar.no/wp-content/uploads/data-catalog/images/phys_antgg.png"></p>
+<p><img src="phys_antgg.png"></p>
 </div>
 <div id="using-datasets-with-sf" class="section level1">
 <h1 class="hasAnchor">
