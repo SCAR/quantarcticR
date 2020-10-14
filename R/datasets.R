@@ -33,6 +33,11 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
     ## the only other type (i.e. dataset$main_file extension) is .vrt
     ## these are virtual files that point to other files, and we can't know what they are without downloading the .vrt file
     ## but we just assume that the required files are kept in the same directory as the .vrt file
+
+    ## need to know how many levels there are in the directory hierarchy of the mirror so that we can set the cut_dirs appropriately
+    ## e.g. no_host = TRUE and cut_dirs = 1 will drop the hostname/Quantarctica3 part of the directory
+    ## or no_host = TRUE and cut_dirs = 2 will drop the hostname/gis/Quantarctica3 parts of the directory
+    my_cut_dirs <- length(fs::path_split(httr::parse_url(qa_mirror())$path)[[1]])
     bb <- bb_source(name = lx$layername,
                     id = paste0("Quantarctica: ", lx$layername),
                     description = "Quantarctica data",
@@ -40,8 +45,7 @@ qa_dataset <- function(name, cache_directory = qa_cache_dir(), refresh_cache = 0
                     citation = paste0("Matsuoka, K., Skoglund, A., & Roth, G. (2018). Quantarctica ", lx$layername, ". Norwegian Polar Institute. https://doi.org/10.21334/npolar.2018.8516e961"),
                     source_url = sub("[/\\]+$", "/", paste0(qa_mirror(), path, "/")), ## ensure trailing sep
                     license = "CC-BY 4.0 International",
-                    method = list("bb_handler_rget", level = 1, no_host = TRUE, cut_dirs = 1, accept_download = accept_download, accept_download_extra = ade)
-                    ## no_host = TRUE and cut_dirs = 1 so that we drop the hostname/Quantarctica3 part of the directory
+                    method = list("bb_handler_rget", level = 1, no_host = TRUE, cut_dirs = my_cut_dirs, accept_download = accept_download, accept_download_extra = ade)
                     ##collection_size = tryCatch(as.numeric(lx$download_size)/1024^3, error = function(e) NA_real_)
                     ##data_group = "Topography")
                     )
