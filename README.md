@@ -35,6 +35,8 @@ remotes::install_github("SCAR/quantarcticR")
 library(quantarcticR)
 ```
 
+`quantarcticR` will download data from whichever Quantarctica mirror has been selected. The USA mirror is chosen by default, but you can change this: see `help("qa_mirror")`.
+
 List all available datasets:
 
 ``` r

@@ -6,8 +6,9 @@
 .onLoad <- function(libname, pkgname) {
     ## populate the options slot
     temp <- qa_mirrors()
-    ## pick one at random
-    idx <- sample.int(nrow(temp), size = 1)
+    ## set the USA mirror by default
+    idx <- temp$country == "USA" & temp$protocol == "http"
+    if (length(idx) != 1) idx <- sample.int(nrow(temp), size = 1) ## pick one at random
     ## if we are re-loading the package during an existing session, we don't want to override existing options
     existing_options <- qa_opts()
     default_options <- list(
