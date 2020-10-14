@@ -21,12 +21,10 @@ qa_mirrors <- function() {
                  "India", "ftp", "ftp://ftp.ncaor.gov.in/Quantarctica3/",
                  "India", "http", "http://ftp.ncaor.gov.in/quantarctica/Quantarctica3/",
                  "Japan", "http", "https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/",
-                 "USA", "ftp", "ftp://ftp.data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/",
+                 ## "USA", "ftp", "ftp://ftp.data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/", ## appears to be unavailable
                  "USA", "http", "http://data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/")
     ## ensure all have trailing /
     m$url <- sub("/+$", "/", paste0(m$url, "/"))
-    ## TEMPORARY while developing, just use Aus http
-    m <- m[m$country == "Australia" & m$protocol == "http", ]
     m
 }
 
