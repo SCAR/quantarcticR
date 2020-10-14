@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">quantarcticR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -85,16 +85,19 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the development version of quantarcticR from GitHub with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"SCAR-sandpit/quantarcticR"</span>)</pre></div>
-<p>This is very much a work in progress!</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"SCAR/quantarcticR"</span><span class="op">)</span></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">quantarcticR</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quantarcticR</span><span class="op">)</span></pre></div>
+<p><code>quantarcticR</code> will download data from whichever Quantarctica mirror has been selected. The USA mirror is chosen by default, but you can change this: see <code><a href="reference/qa_mirror.html">help("qa_mirror")</a></code>.</p>
 <p>List all available datasets:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">ds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/qa_datasets.html">qa_datasets</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">ds</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_datasets.html">qa_datasets</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   layername                          </span>
 <span class="co">#&gt;   &lt;chr&gt;                              </span>
@@ -121,7 +124,8 @@
 <span class="co">#&gt; 5 shapefile TRUE           1.25M</span>
 <span class="co">#&gt; 6 shapefile TRUE           1.25M</span></pre></div>
 <p>Fetch one and plot it:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/qa_get.html">qa_get</a></span>(<span class="st">"ADD Simple basemap"</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Fri Sep 04 03:49:25 2020</span>
 <span class="co">#&gt; Synchronizing dataset: ADD Simple basemap</span>
@@ -133,10 +137,10 @@
 <span class="co">#&gt;  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ... </span>
 <span class="co">#&gt; Fri Sep 04 03:49:25 2020 dataset synchronization complete: ADD Simple basemap</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">res</span>)</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/README-example3-1.png" width="100%"></p>
-<p>See the <a href="https://scar-sandpit.github.io/quantarcticR/articles/intro.html">introductory vignette</a> for more information.</p>
+<p>See the <a href="https://scar.github.io/quantarcticR/articles/intro.html">introductory vignette</a> for more information.</p>
 </div>
 <div id="see-also" class="section level2">
 <h2 class="hasAnchor">
@@ -169,10 +173,10 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/SCAR-sandpit/quantarcticR"><img src="https://travis-ci.org/SCAR-sandpit/quantarcticR.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://ci.appveyor.com/project/SCAR-sandpit/quantarcticR"><img src="https://ci.appveyor.com/api/projects/status/github/SCAR-sandpit/quantarcticR?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://codecov.io/github/SCAR-sandpit/quantarcticR?branch=master"><img src="https://codecov.io/gh/SCAR-sandpit/quantarcticR/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://travis-ci.com/SCAR/quantarcticR"><img src="https://travis-ci.com/SCAR/quantarcticR.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://ci.appveyor.com/project/SCAR/quantarcticR"><img src="https://ci.appveyor.com/api/projects/status/github/SCAR/quantarcticR?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://codecov.io/github/SCAR/quantarcticR?branch=master"><img src="https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 </ul>
 </div>
 </div>
@@ -184,7 +188,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
