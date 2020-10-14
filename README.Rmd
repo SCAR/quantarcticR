@@ -18,10 +18,10 @@ library(quantarcticR)
 if (grepl("ben_ray", qa_cache_dir())) qa_cache_dir("c:/data/Quantarctica3")
 ```
 
-[![Travis build status](https://travis-ci.org/SCAR-sandpit/quantarcticR.svg?branch=master)](https://travis-ci.org/SCAR-sandpit/quantarcticR)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/SCAR-sandpit/quantarcticR?branch=master&svg=true)](https://ci.appveyor.com/project/SCAR-sandpit/quantarcticR)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Coverage status](https://codecov.io/gh/SCAR-sandpit/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/github/SCAR-sandpit/quantarcticR?branch=master)
+[![Travis build status](https://travis-ci.com/SCAR/quantarcticR.svg?branch=master)](https://travis-ci.com/SCAR/quantarcticR)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/SCAR/quantarcticR?branch=master&svg=true)](https://ci.appveyor.com/project/SCAR/quantarcticR)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Coverage status](https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/github/SCAR/quantarcticR?branch=master)
 
 # quantarcticR
 
@@ -34,10 +34,8 @@ The `quantarcticR` package provides access to Quantarctica data sets for R users
 You can install the development version of quantarcticR from GitHub with:
 
 ```{r eval = FALSE}
-remotes::install_github("SCAR-sandpit/quantarcticR")
+remotes::install_github("SCAR/quantarcticR")
 ```
-
-This is very much a work in progress!
 
 ## Example
 ```{r example}
@@ -61,7 +59,7 @@ library(raster)
 plot(res)
 ```
 
-See the [introductory vignette](https://scar-sandpit.github.io/quantarcticR/articles/intro.html) for more information.
+See the [introductory vignette](https://scar.github.io/quantarcticR/articles/intro.html) for more information.
 
 ## See also
 

@@ -2,12 +2,12 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis build
-status](https://travis-ci.org/SCAR-sandpit/quantarcticR.svg?branch=master)](https://travis-ci.org/SCAR-sandpit/quantarcticR)
+status](https://travis-ci.com/SCAR/quantarcticR.svg?branch=master)](https://travis-ci.com/SCAR/quantarcticR)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/SCAR-sandpit/quantarcticR?branch=master&svg=true)](https://ci.appveyor.com/project/SCAR-sandpit/quantarcticR)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+status](https://ci.appveyor.com/api/projects/status/github/SCAR/quantarcticR?branch=master&svg=true)](https://ci.appveyor.com/project/SCAR/quantarcticR)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Coverage
-status](https://codecov.io/gh/SCAR-sandpit/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/github/SCAR-sandpit/quantarcticR?branch=master)
+status](https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/github/SCAR/quantarcticR?branch=master)
 
 # quantarcticR
 
@@ -26,10 +26,8 @@ You can install the development version of quantarcticR from GitHub
 with:
 
 ``` r
-remotes::install_github("SCAR-sandpit/quantarcticR")
+remotes::install_github("SCAR/quantarcticR")
 ```
-
-This is very much a work in progress\!
 
 ## Example
 
@@ -91,7 +89,7 @@ plot(res)
 <img src="man/figures/README-example3-1.png" width="100%" />
 
 See the [introductory
-vignette](https://scar-sandpit.github.io/quantarcticR/articles/intro.html)
+vignette](https://scar.github.io/quantarcticR/articles/intro.html)
 for more information.
 
 ## See also
