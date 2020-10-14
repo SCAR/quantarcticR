@@ -50,13 +50,19 @@ qa_mirrors <- function() {
 #' ## set to first mirror in that list
 #' qa_mirror(qa_mirrors()$url[1])
 #'
+#' ## or equivalently
+#' qa_mirror(qa_mirrors()[1, ])
+#'
 #' @export
 qa_mirror <- function(mirror) {
     if (!missing(mirror)) {
+        ## set the mirror
+        if (is.data.frame(mirror)) {
+            if (nrow(mirror) != 1 || !"url" %in% names(mirror)) stop("mirror must be a string (the URL of the mirror) or a single-row data frame with a 'url' column (e.g. one row from the object returned by qa_mirrors() )")
+            mirror <- mirror$url
+        }
         assert_that(is.string(mirror))
         qa_set_opt(mirror = mirror)
     }
     qa_opt("mirror")
 }
-
-

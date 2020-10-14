@@ -26,6 +26,9 @@ qa_mirrors()
 ## set to first mirror in that list
 qa_mirror(qa_mirrors()$url[1])
 
+## or equivalently
+qa_mirror(qa_mirrors()[1, ])
+
 }
 \seealso{
 \code{\link{qa_mirrors}}
