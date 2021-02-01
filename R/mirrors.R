@@ -19,10 +19,10 @@ qa_mirrors <- function() {
                  "Australia", "ftp", "ftp://quantarctica.tpac.org.au/Quantarctica3/",
                  "Australia", "http", "http://quantarctica.tpac.org.au/Quantarctica3/",
                  "India", "ftp", "ftp://ftp.ncaor.gov.in/Quantarctica3/",
-                 "India", "http", "http://ftp.ncaor.gov.in/quantarctica/Quantarctica3/",
-                 "Japan", "http", "https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/",
+                 "India", "http", "http://ftp.ncaor.gov.in/quantarctica/Quantarctica3/")
+                 ##"Japan", "http", "https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/") ## appears to be unvailable
                  ## "USA", "ftp", "ftp://ftp.data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/", ## appears to be unavailable
-                 "USA", "http", "http://data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/")
+                 ##"USA", "http", "http://data.pgc.umn.edu/gis/packages/quantarctica/Quantarctica3/") ## as of Feb 2021 (or earlier), only provided as a single zip archive, which is no good to us
     ## ensure all have trailing /
     m$url <- sub("/+$", "/", paste0(m$url, "/"))
     m
