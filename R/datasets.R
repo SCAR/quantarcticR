@@ -221,7 +221,16 @@ fetch_dataset_index <- function(cache_path, refresh_cache = 0, verbose = FALSE) 
     index_file <- file.path(cache_path, qa_index_filename())
     if (file.exists(index_file) && refresh_cache < 1) return(index_file) ## don't re-fetch if not needed
     if (!dir.exists(dirname(index_file))) tryCatch(dir.create(dirname(index_file), recursive = TRUE), error = function(e) stop("Could not create cache directory: ", dirname(index_file)))
-    res <- bb_rget(url = paste0(qa_mirror(), qa_index_filename()), force_local_filename = index_file, use_url_directory = FALSE, verbose = verbose, clobber = refresh_cache)
+    ## as of quantarctica 3.2, the index file is gzipped
+    res <- bb_rget(url = paste0(qa_mirror(), sub("qgs$", "qgz", qa_index_filename())), force_local_filename = sub("qgs$", "qgz", index_file), use_url_directory = FALSE, verbose = verbose, clobber = refresh_cache)
+    ## gunzip
+    if (isTRUE(res$ok)) {
+        tryCatch({
+            utils::unzip(zipfile = res$files[[1]]$file[1], exdir = cache_path, overwrite = TRUE)
+        }, error = function(e) {
+            stop("could not unzip qgz file")
+        })
+    }
     if (file.exists(index_file)) {
         index_file
     } else {
@@ -257,4 +266,4 @@ clean_layer <- function(layer) {
 
 ## internal function that defines the index file name, just so that if in the future it changes we don't have to
 ## change a lot of hard-coded references to it
-qa_index_filename <- function() "Quantarctica3.qgs"
+qa_index_filename <- function() "Quantarctica32.qgs"
