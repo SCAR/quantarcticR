@@ -1,6 +1,6 @@
 Package: quantarcticR
 Title: Access to Quantarctica Data Sets
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person("Kim", "Fitter", email = "kim@validly.co", role = "aut"),
              person("Charl\ue8ne", "Guillaumot", role = "aut"),
              person("David", "Ranzolin", email = "daranzolin@gmail.com", role = "aut"),

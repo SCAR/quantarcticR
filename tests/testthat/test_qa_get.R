@@ -20,7 +20,7 @@ test_that("The dataset from qa_get returns a shapefile or raster, as appropriate
 test_that("A shapefile dataset downloads only the required files", {
     ds <- qa_dataset("ADD Coastlines (low)")
     res <- bowerbird::bb_get(ds$bb_source, local_file_root = tempdir(), clobber = TRUE)
-    expect_equal(nrow(res$files[[1]]), 5)
+    expect_equal(nrow(res$files[[1]]), 8)
 })
 
 test_that("A tiff/jp2 raster dataset downloads only the required files", {

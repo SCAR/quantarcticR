@@ -174,7 +174,11 @@ get_layer_palette <- function(xmll) {
     if (length(xmll) == 1) xmll <- xmll[[1]]
     ptype <- attr(xmll$pipe$rasterrenderer, "type")
     crtype <- attr(xmll$pipe$rasterrenderer$rastershader$colorrampshader, "colorRampType")
-    df_from_list_attrs <- function(ll) do.call(rbind, lapply(ll, function(z) as.data.frame(attributes(z), stringsAsFactors = FALSE)))
+    df_from_list_attrs <- function(ll, accept_names) {
+        out <- lapply(ll, function(z) as.data.frame(attributes(z), stringsAsFactors = FALSE))
+        if (!missing(accept_names) && !is.null(accept_names)) out <- out[names(out) %in% accept_names]
+        do.call(rbind, out)
+    }
     ## ptype                  crtype
     ## hillshade             NULL
     ## multibandcolor        NULL
@@ -187,7 +191,7 @@ get_layer_palette <- function(xmll) {
     pal <- NULL
     if (ptype == "singlebandpseudocolor") {
         if (crtype %in% c("INTERPOLATED", "EXACT", "DISCRETE")) {
-            pal <- df_from_list_attrs(xmll$pipe$rasterrenderer$rastershader$colorrampshader)
+            pal <- df_from_list_attrs(xmll$pipe$rasterrenderer$rastershader$colorrampshader, accept_names = "item")
             pal$value <- as.numeric(pal$value)
         } else {
             warning("don't know how to handle color ramp type '", crtype, "', ignoring")
@@ -201,6 +205,7 @@ get_layer_palette <- function(xmll) {
             pal <- data.frame(color = grDevices::colorRampPalette(c("black", "white"))(51))
         }
     } else if (ptype == "paletted") {
+        ## e.g. BEDMAP2 Lake Vostok mask
         pal <- df_from_list_attrs(xmll$pipe$rasterrenderer$colorPalette)
         pal$value <- as.numeric(pal$value)
     } else if (ptype == "multibandcolor") {
