@@ -1,13 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis build
-status](https://travis-ci.com/SCAR/quantarcticR.svg?branch=master)](https://travis-ci.com/SCAR/quantarcticR)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/SCAR/quantarcticR?branch=master&svg=true)](https://ci.appveyor.com/project/SCAR/quantarcticR)
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/SCAR/quantarcticR/workflows/R-CMD-check/badge.svg)](https://github.com/SCAR/quantarcticR/actions)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Coverage
-status](https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/github/SCAR/quantarcticR?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/gh/SCAR/quantarcticR?branch=master)
+<!-- badges: end -->
 
 # quantarcticR
 
@@ -35,7 +34,9 @@ remotes::install_github("SCAR/quantarcticR")
 library(quantarcticR)
 ```
 
-`quantarcticR` will download data from whichever Quantarctica mirror has been selected. The USA mirror is chosen by default, but you can change this: see `help("qa_mirror")`.
+`quantarcticR` will download data from whichever Quantarctica mirror has
+been selected. The USA mirror is chosen by default, but you can change
+this: see `help("qa_mirror")`.
 
 List all available datasets:
 
@@ -43,30 +44,14 @@ List all available datasets:
 ds <- qa_datasets()
 head(ds)
 #> # A tibble: 6 x 5
-#>   layername                          
-#>   <chr>                              
-#> 1 Overview place names               
-#> 2 COMNAP listed facilities           
-#> 3 Subantarctic stations              
-#> 4 SCAR Composite gazetteer           
-#> 5 IBO-IOC GEBCO Features (point)     
-#> 6 IBO-IOC GEBCO Features (multipoint)
-#>   main_file                                                                     
-#>   <chr>                                                                         
-#> 1 c:/data/Quantarctica3/Miscellaneous/OverviewPlaceNames/OverviewPlaceNames.shp 
-#> 2 c:/data/Quantarctica3/Miscellaneous/Stations/COMNAP_Antarctic_Facilities.shp  
-#> 3 c:/data/Quantarctica3/Miscellaneous/Stations/Sub-antarctic_Stations.shp       
-#> 4 c:/data/Quantarctica3/Miscellaneous/SCAR_CompositeGazetteer/SCAR_CompositeGaz~
-#> 5 c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_~
-#> 6 c:/data/Quantarctica3/Miscellaneous/IHO-IOC_GEBCO_UnderseaFeatureNames/GEBCO_~
-#>   type      cached download_size
-#>   <chr>     <lgl>    <fs::bytes>
-#> 1 shapefile TRUE          19.74K
-#> 2 shapefile TRUE         691.92K
-#> 3 shapefile TRUE         691.92K
-#> 4 shapefile TRUE         329.05M
-#> 5 shapefile TRUE           1.25M
-#> 6 shapefile TRUE           1.25M
+#>   layername          main_file                       type   cached download_size
+#>   <chr>              <chr>                           <chr>  <lgl>    <fs::bytes>
+#> 1 Overview place na… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE         19.74K
+#> 2 COMNAP listed fac… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        691.92K
+#> 3 Subantarctic stat… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        691.92K
+#> 4 SCAR Composite ga… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        329.05M
+#> 5 IBO-IOC GEBCO Fea… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE          1.25M
+#> 6 IBO-IOC GEBCO Fea… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE          1.25M
 ```
 
 Fetch one and plot it:
@@ -74,15 +59,24 @@ Fetch one and plot it:
 ``` r
 res <- qa_get("ADD Simple basemap", verbose = TRUE)
 #> 
-#> Fri Sep 04 03:49:25 2020
+#> Thu Jul  8 11:52:07 2021
 #> Synchronizing dataset: ADD Simple basemap
-#> Source URL http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/
+#> Source URL ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/
 #> --------------------------------------------------------------------------------------------
 #> 
-#>  this dataset path is: C:\data\Quantarctica3/Miscellaneous//SimpleBasemap
-#>  visiting http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ ... done.
-#>  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  file already exists, not downloading: http://quantarctica.tpac.org.au/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ... 
-#> Fri Sep 04 03:49:25 2020 dataset synchronization complete: ADD Simple basemap
+#>  this dataset path is: /tmp/Rtmpwzkv9G/quantarcticR-cache/Miscellaneous//SimpleBasemap
+#>  visiting ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ ... done.
+#>  downloading file 1 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  done.
+#>  downloading file 2 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  done.
+#>  downloading file 3 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  done.
+#>  downloading file 4 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  done.
+#>  downloading file 5 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qmd ...  done.
+#>  downloading file 6 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qml ...  done.
+#>  downloading file 7 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  done.
+#>  downloading file 8 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  done.
+#>  downloading file 9 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ...  done.
+#> 
+#> Thu Jul  8 11:52:32 2021 dataset synchronization complete: ADD Simple basemap
 
 library(raster)
 plot(res)
@@ -91,8 +85,8 @@ plot(res)
 <img src="man/figures/README-example3-1.png" width="100%" />
 
 See the [introductory
-vignette](https://scar.github.io/quantarcticR/articles/intro.html)
-for more information.
+vignette](https://scar.github.io/quantarcticR/articles/intro.html) for
+more information.
 
 ## See also
 
