@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">quantarcticR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,69 +72,72 @@
   <div class="contents col-md-9">
 
 
-<div id="quantarcticr" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#quantarcticr" class="anchor"></a>quantarcticR</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="quantarcticr">quantarcticR<a class="anchor" aria-label="anchor" href="#quantarcticr"></a>
+</h1></div>
 <p>Quantarctica is a collection of Antarctic geographical datasets which works with the free, cross-platform, open-source software QGIS. It includes community-contributed, peer-reviewed data from ten different scientific themes and a professionally-designed basemap.</p>
 <p>The <code>quantarcticR</code> package provides access to Quantarctica data sets for R users, <strong>without</strong> needing QGIS to be installed. R users can use these data sets with e.g. the <code>raster</code>, <code>sp</code>, or <code>sf</code> packages.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the development version of quantarcticR from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"SCAR/quantarcticR"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SCAR/quantarcticR"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quantarcticR</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">quantarcticR</span><span class="op">)</span></span></code></pre></div>
 <p><code>quantarcticR</code> will download data from whichever Quantarctica mirror has been selected. The USA mirror is chosen by default, but you can change this: see <code><a href="reference/qa_mirror.html">help("qa_mirror")</a></code>.</p>
 <p>List all available datasets:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_datasets.html">qa_datasets</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 5</span>
-<span class="co">#&gt;   layername          main_file                       type   cached download_size</span>
-<span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                           &lt;chr&gt;  &lt;lgl&gt;    &lt;fs::bytes&gt;</span>
-<span class="co">#&gt; 1 Overview place na… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE         19.74K</span>
-<span class="co">#&gt; 2 COMNAP listed fac… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        691.92K</span>
-<span class="co">#&gt; 3 Subantarctic stat… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        691.92K</span>
-<span class="co">#&gt; 4 SCAR Composite ga… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE        329.05M</span>
-<span class="co">#&gt; 5 IBO-IOC GEBCO Fea… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE          1.25M</span>
-<span class="co">#&gt; 6 IBO-IOC GEBCO Fea… /tmp/Rtmpwzkv9G/quantarcticR-c… shape… FALSE          1.25M</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_datasets.html">qa_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   layername                           main_file       type  cached download_size</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                               &lt;chr&gt;           &lt;chr&gt; &lt;lgl&gt;    &lt;fs::bytes&gt;</span></span>
+<span><span class="co">#&gt; 1 Overview place names                /tmp/RtmpL644S… shap… FALSE         19.74K</span></span>
+<span><span class="co">#&gt; 2 COMNAP listed facilities            /tmp/RtmpL644S… shap… FALSE        691.92K</span></span>
+<span><span class="co">#&gt; 3 Subantarctic stations               /tmp/RtmpL644S… shap… FALSE        691.92K</span></span>
+<span><span class="co">#&gt; 4 SCAR Composite gazetteer            /tmp/RtmpL644S… shap… FALSE        329.05M</span></span>
+<span><span class="co">#&gt; 5 IBO-IOC GEBCO Features (point)      /tmp/RtmpL644S… shap… FALSE          1.25M</span></span>
+<span><span class="co">#&gt; 6 IBO-IOC GEBCO Features (multipoint) /tmp/RtmpL644S… shap… FALSE          1.25M</span></span></code></pre></div>
 <p>Fetch one and plot it:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Thu Jul  8 11:52:07 2021</span>
-<span class="co">#&gt; Synchronizing dataset: ADD Simple basemap</span>
-<span class="co">#&gt; Source URL ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/</span>
-<span class="co">#&gt; --------------------------------------------------------------------------------------------</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  this dataset path is: /tmp/Rtmpwzkv9G/quantarcticR-cache/Miscellaneous//SimpleBasemap</span>
-<span class="co">#&gt;  visiting ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ ... done.</span>
-<span class="co">#&gt;  downloading file 1 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  done.</span>
-<span class="co">#&gt;  downloading file 2 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  done.</span>
-<span class="co">#&gt;  downloading file 3 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  done.</span>
-<span class="co">#&gt;  downloading file 4 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  done.</span>
-<span class="co">#&gt;  downloading file 5 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qmd ...  done.</span>
-<span class="co">#&gt;  downloading file 6 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qml ...  done.</span>
-<span class="co">#&gt;  downloading file 7 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  done.</span>
-<span class="co">#&gt;  downloading file 8 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  done.</span>
-<span class="co">#&gt;  downloading file 9 of 9: ftp://ftp.quantarctica.npolar.no/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ...  done.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Thu Jul  8 11:52:32 2021 dataset synchronization complete: ADD Simple basemap</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Fri Mar  8 13:43:49 2024</span></span>
+<span><span class="co">#&gt; Synchronizing dataset: ADD Simple basemap</span></span>
+<span><span class="co">#&gt; Source URL https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/</span></span>
+<span><span class="co">#&gt; --------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  this dataset path is: /tmp/RtmpL644SK/quantarcticR-cache/Miscellaneous//SimpleBasemap</span></span>
+<span><span class="co">#&gt;  visiting https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ ... done.</span></span>
+<span><span class="co">#&gt;  downloading file 1 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.cpg ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 2 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.dbf ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 3 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.prj ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 4 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qix ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 5 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qmd ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 6 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.qml ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 7 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 8 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shx ...  done.</span></span>
+<span><span class="co">#&gt;  downloading file 9 of 9: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.txt ...  done.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Fri Mar  8 13:43:57 2024 dataset synchronization complete: ADD Simple basemap</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example3-1.png" width="100%"></p>
-<p>See the <a href="https://scar.github.io/quantarcticR/articles/intro.html">introductory vignette</a> for more information.</p>
+<p>See the <a href="https://scar.github.io/quantarcticR/articles/intro.html" class="external-link">introductory vignette</a> for more information.</p>
 </div>
-<div id="see-also" class="section level2">
-<h2 class="hasAnchor">
-<a href="#see-also" class="anchor"></a>See also</h2>
-<p><a href="https://cran.r-project.org/package=RQGIS">RQGIS</a> provides an R-QGIS interface, via Python middleware.</p>
+<div class="section level2">
+<h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a>
+</h2>
+<ul>
+<li><p><a href="https://CRAN.R-project.org/package=qgisprocess" class="external-link">qgisprocess</a></p></li>
+<li><p><a href="https://github.com/r-spatial/RQGIS" class="external-link">RQGIS</a> ARCHIVED: provides an R-QGIS interface, via Python middleware.</p></li>
+</ul>
 </div>
 </div>
 
@@ -146,14 +145,23 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing quantarcticR</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Kim Fitter <br><small class="roles"> Author </small>  </li>
 <li>Charlène Guillaumot <br><small class="roles"> Author </small>  </li>
@@ -163,24 +171,27 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/SCAR/quantarcticR/actions"><img src="https://github.com/SCAR/quantarcticR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
-<li><a href="https://codecov.io/gh/SCAR/quantarcticR?branch=master"><img src="https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/SCAR/quantarcticR/actions" class="external-link"><img src="https://github.com/SCAR/quantarcticR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://codecov.io/gh/SCAR/quantarcticR?branch=master" class="external-link"><img src="https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Kim Fitter, Charlène Guillaumot, David Ranzolin, Marc Desgroseilliers, Ben Raymond.</p>
+  <p></p>
+<p>Developed by Kim Fitter, Charlène Guillaumot, David Ranzolin, Marc Desgroseilliers, Ben Raymond.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -188,6 +199,8 @@
 
   
 
+
+  
 
   </body>
 </html>

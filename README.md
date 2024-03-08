@@ -91,6 +91,7 @@ more information.
 
 ## See also
 
-[qgisprocess](https://CRAN.R-project.org/package=qgisprocess)
-[RQGIS](https://github.com/r-spatial/RQGIS) ARCHIVED: provides an R-QGIS
+- [qgisprocess](https://CRAN.R-project.org/package=qgisprocess)
+
+- [RQGIS](https://github.com/r-spatial/RQGIS) ARCHIVED: provides an R-QGIS
 interface, via Python middleware.

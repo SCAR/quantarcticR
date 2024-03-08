@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">quantarcticR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,7 +68,7 @@
 
       
 
-      </header><script src="intro_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to quantarticR</h1>
@@ -85,10 +81,12 @@
 
     
     
-<div id="overview" class="section level1">
-<h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
-<p>The <code>quantarcticR</code> package provides access to Quantarctica data sets for R users, <strong>without</strong> needing QGIS to be installed.</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>The <code>quantarcticR</code> package provides access to Quantarctica
+data sets for R users, <strong>without</strong> needing QGIS to be
+installed.</p>
 <p>This vignette:</p>
 <ul>
 <li>explains what Quantarctica data is</li>
@@ -96,173 +94,216 @@
 <li>provides examples of how you can work with them</li>
 </ul>
 </div>
-<div id="what-is-quantarctica" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-is-quantarctica" class="anchor"></a>What is Quantarctica?</h1>
-<p><a href="http://quantarctica.npolar.no/about.html">Quantarctica</a> is a collection of Antarctic geographical datasets which works with the free, cross-platform, open-source software QGIS. It includes community-contributed, peer-reviewed data from ten different scientific themes and a professionally-designed basemap.</p>
-<p>Quantarctica is is published and made available under <a href="https://creativecommons.org/licenses/by/4.0/">under a Creative Commons Attribution 4.0 International License</a>.</p>
+<div class="section level2">
+<h2 id="what-is-quantarctica">What is Quantarctica?<a class="anchor" aria-label="anchor" href="#what-is-quantarctica"></a>
+</h2>
+<p><a href="http://quantarctica.npolar.no/about.html" class="external-link">Quantarctica</a>
+is a collection of Antarctic geographical datasets which works with the
+free, cross-platform, open-source software QGIS. It includes
+community-contributed, peer-reviewed data from ten different scientific
+themes and a professionally-designed basemap.</p>
+<p>Quantarctica is is published and made available under <a href="https://creativecommons.org/licenses/by/4.0/" class="external-link">under a Creative
+Commons Attribution 4.0 International License</a>.</p>
 <p>If you use it, please cite it:</p>
-<p>Matsuoka K, Skoglund A, Roth G (2018) Quantarctica <code>dataset</code>. Norwegian Polar Institute. <a href="https://doi.org/10.21334/npolar.2018.8516e961" class="uri">https://doi.org/10.21334/npolar.2018.8516e961</a></p>
-<p>In addition, published works produced using Quantarctica are asked to cite each dataset that was used in the work. Please consult the abstract of each data set for the relevant citation.</p>
+<p>Matsuoka K, Skoglund A, Roth G (2018) Quantarctica
+<code>dataset</code>. Norwegian Polar Institute. <a href="https://doi.org/10.21334/npolar.2018.8516e961" class="external-link uri">https://doi.org/10.21334/npolar.2018.8516e961</a></p>
+<p>In addition, published works produced using Quantarctica are asked to
+cite each dataset that was used in the work. Please consult the abstract
+of each data set for the relevant citation.</p>
 </div>
-<div id="caching-datasets" class="section level1">
-<h1 class="hasAnchor">
-<a href="#caching-datasets" class="anchor"></a>Caching datasets</h1>
-<p>The <a href="https://github.com/SCAR-sandpit/quantarcticR">quantarcticR</a> R package provides you with flexibility to either temporarily or persistently store the data that is downloaded from Quantarctica. By default a temporary directory is used, which will only persist for the current R session. This means that data will not be re-used from session to session, and you may end up re-downloading the same data if you run the same script in different sessions.</p>
-<p>You can instead choose to save the data to a persistent directory, by issuing the command <code><a href="../reference/qa_cache_dir.html">qa_cache_dir("persistent")</a></code> after loading the <code>quantarcticR</code> package. This will use a standard user data directory (e.g. under the user’s <code>AppData</code> directory on Windows operating systems). You could also specify a particular directory to use, if you prefer:</p>
-<pre><code><a href="../reference/qa_cache_dir.html">qa_cache_dir("c:/my/data/directory/")</a></code></pre>
-<p>You can switch cache directories at any time, and you can find out the current cache directory by calling <code><a href="../reference/qa_cache_dir.html">qa_cache_dir()</a></code> with no arguments.</p>
+<div class="section level2">
+<h2 id="caching-datasets">Caching datasets<a class="anchor" aria-label="anchor" href="#caching-datasets"></a>
+</h2>
+<p>The <a href="https://github.com/SCAR-sandpit/quantarcticR" class="external-link">quantarcticR</a> R
+package provides you with flexibility to either temporarily or
+persistently store the data that is downloaded from Quantarctica. By
+default a temporary directory is used, which will only persist for the
+current R session. This means that data will not be re-used from session
+to session, and you may end up re-downloading the same data if you run
+the same script in different sessions.</p>
+<p>You can instead choose to save the data to a persistent directory, by
+issuing the command <code>qa_cache_dir("persistent")</code> after
+loading the <code>quantarcticR</code> package. This will use a standard
+user data directory (e.g. under the user’s <code>AppData</code>
+directory on Windows operating systems). You could also specify a
+particular directory to use, if you prefer:</p>
+<pre><code><span><span class="fu"><a href="../reference/qa_cache_dir.html">qa_cache_dir</a></span><span class="op">(</span><span class="st">"c:/my/data/directory/"</span><span class="op">)</span></span></code></pre>
+<p>You can switch cache directories at any time, and you can find out
+the current cache directory by calling <code><a href="../reference/qa_cache_dir.html">qa_cache_dir()</a></code> with
+no arguments.</p>
 </div>
-<div id="quantarctica-data-sets" class="section level1">
-<h1 class="hasAnchor">
-<a href="#quantarctica-data-sets" class="anchor"></a>Quantarctica Data Sets</h1>
+<div class="section level2">
+<h2 id="quantarctica-data-sets">Quantarctica Data Sets<a class="anchor" aria-label="anchor" href="#quantarctica-data-sets"></a>
+</h2>
 <p>Start by loading the package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quantarcticR</span><span class="op">)</span></code></pre></div>
-<p>In order to return a list of the datasets available, use the <code>qa_datasets</code> function.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">quantarcticR</span><span class="op">)</span></span></code></pre></div>
+<p>In order to return a list of the datasets available, use the
+<code>qa_datasets</code> function.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_datasets.html">qa_datasets</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 5
-##   layername          main_file                       type   cached download_size
-##   &lt;chr&gt;              &lt;chr&gt;                           &lt;chr&gt;  &lt;lgl&gt;    &lt;fs::bytes&gt;
-## 1 Overview place na… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE         19.74K
-## 2 COMNAP listed fac… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE        691.92K
-## 3 Subantarctic stat… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE        691.92K
-## 4 SCAR Composite ga… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE        329.05M
-## 5 IBO-IOC GEBCO Fea… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE          1.25M
-## 6 IBO-IOC GEBCO Fea… /tmp/RtmpQE0343/quantarcticR-c… shape… FALSE          1.25M</code></pre>
+<code class="sourceCode R"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_datasets.html">qa_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">##   layername                           main_file       type  cached download_size</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Overview place names                /tmp/Rtmp9dbOW… shap… FALSE         19.74K</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> COMNAP listed facilities            /tmp/Rtmp9dbOW… shap… FALSE        691.92K</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Subantarctic stations               /tmp/Rtmp9dbOW… shap… FALSE        691.92K</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> SCAR Composite gazetteer            /tmp/Rtmp9dbOW… shap… FALSE        329.05M</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> IBO-IOC GEBCO Features (point)      /tmp/Rtmp9dbOW… shap… FALSE          1.25M</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> IBO-IOC GEBCO Features (multipoint) /tmp/Rtmp9dbOW… shap… FALSE          1.25M</span></span></code></pre>
 <p>In the <code>datasets</code> object we can see the following:</p>
 <ul>
 <li>
 <code>layername</code> which is the name of the dataset</li>
 <li>
-<code>main_file</code> is the primary data file associated with each dataset</li>
+<code>main_file</code> is the primary data file associated with each
+dataset</li>
 <li>
-<code>type</code> which is the object type (currently “shapefile” or “raster”)</li>
+<code>type</code> which is the object type (currently “shapefile” or
+“raster”)</li>
 <li>
-<code>cached</code> whether it has been downloaded to the local cache or not</li>
+<code>cached</code> whether it has been downloaded to the local
+cache or not</li>
 <li>
 <code>download_size</code> which is the size of the dataset.</li>
 </ul>
 </div>
-<div id="dataset-details" class="section level1">
-<h1 class="hasAnchor">
-<a href="#dataset-details" class="anchor"></a>Dataset details</h1>
-<p>In order to view the details of a dataset use the <code>qa_dataset</code> function. This function gives more information about the dataset (but does not download or return the actual data). For example, with the simple basemap called “ADD Simple basemap”:</p>
+<div class="section level2">
+<h2 id="dataset-details">Dataset details<a class="anchor" aria-label="anchor" href="#dataset-details"></a>
+</h2>
+<p>In order to view the details of a dataset use the
+<code>qa_dataset</code> function. This function gives more information
+about the dataset (but does not download or return the actual data). For
+example, with the simple basemap called “ADD Simple basemap”:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">basemap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span><span class="op">)</span>
-<span class="va">basemap</span></code></pre></div>
-<pre><code>## Rows: 1
-## Columns: 12
-## $ layername        &lt;chr&gt; "ADD Simple basemap"
-## $ datasource       &lt;chr&gt; "Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap…
-## $ layer_attributes &lt;list&gt; &lt;NULL&gt;
-## $ srs_attributes   &lt;list&gt; [&lt;tbl_df[1 x 4]&gt;]
-## $ provider         &lt;chr&gt; "ogr"
-## $ abstract         &lt;chr&gt; NA
-## $ extent           &lt;list&gt; &lt;NULL&gt;
-## $ palette          &lt;list&gt; &lt;NULL&gt;
-## $ type             &lt;chr&gt; "shapefile"
-## $ download_size    &lt;fs::bytes&gt; 2M
-## $ main_file        &lt;chr&gt; "/tmp/RtmpQE0343/quantarcticR-cache/Miscellaneous/Sim…
-## $ bb_source        &lt;tibble[,16]&gt; &lt;tbl_df[1 x 16]&gt;</code></pre>
+<code class="sourceCode R"><span><span class="va">basemap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span><span class="op">)</span></span>
+<span><span class="va">basemap</span></span></code></pre></div>
+<pre><code><span><span class="co">## Rows: 1</span></span>
+<span><span class="co">## Columns: 12</span></span>
+<span><span class="co">## $ layername        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ADD Simple basemap"</span></span>
+<span><span class="co">## $ datasource       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap…</span></span>
+<span><span class="co">## $ layer_attributes <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;</span></span>
+<span><span class="co">## $ srs_attributes   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;tbl_df[1 x 4]&gt;]</span></span>
+<span><span class="co">## $ provider         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ogr"</span></span>
+<span><span class="co">## $ abstract         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA</span></span>
+<span><span class="co">## $ extent           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;</span></span>
+<span><span class="co">## $ palette          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;</span></span>
+<span><span class="co">## $ type             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "shapefile"</span></span>
+<span><span class="co">## $ download_size    <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span> 2M</span></span>
+<span><span class="co">## $ main_file        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "/tmp/Rtmp9dbOW6/quantarcticR-cache/Miscellaneous/Sim…</span></span>
+<span><span class="co">## $ bb_source        <span style="color: #949494; font-style: italic;">&lt;tibble[,16]&gt;</span> &lt;tbl_df[1 x 16]&gt;</span></span></code></pre>
 </div>
-<div id="fetch-a-dataset" class="section level1">
-<h1 class="hasAnchor">
-<a href="#fetch-a-dataset" class="anchor"></a>Fetch a dataset</h1>
-<p>To actually fetch the data, use the <code>qa_get</code> function. You can provide it with either the name of the dataset (i.e. <code>layername</code> as returned by <code><a href="../reference/qa_datasets.html">qa_datasets()</a></code>) or the dataset object (as returned by <code><a href="../reference/qa_dataset.html">qa_dataset()</a></code>).</p>
-<p>Here we’ll fetch a dataset called “AntGG Free-air gravity anomaly (10km)”.</p>
+<div class="section level2">
+<h2 id="fetch-a-dataset">Fetch a dataset<a class="anchor" aria-label="anchor" href="#fetch-a-dataset"></a>
+</h2>
+<p>To actually fetch the data, use the <code>qa_get</code> function. You
+can provide it with either the name of the dataset
+(i.e. <code>layername</code> as returned by <code><a href="../reference/qa_datasets.html">qa_datasets()</a></code>)
+or the dataset object (as returned by <code><a href="../reference/qa_dataset.html">qa_dataset()</a></code>).</p>
+<p>Here we’ll fetch a dataset called “AntGG Free-air gravity anomaly
+(10km)”.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ga_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span><span class="op">(</span><span class="st">"AntGG Free-air gravity anomaly (10km)"</span><span class="op">)</span> <span class="co">## the dataset info</span>
-<span class="va">ga_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="va">ga_info</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## fetch the actual data</span></code></pre></div>
-<pre><code>## 
-## Thu Jul  8 11:57:03 2021
-## Synchronizing dataset: AntGG Free-air gravity anomaly (10km)
-## Source URL https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/
-## --------------------------------------------------------------------------------------------
-## 
-##  this dataset path is: /tmp/RtmpQE0343/quantarcticR-cache/Geophysics//ANTGG
-##  visiting https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ ... done.
-##  downloading file 1 of 2: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  done.
-##  downloading file 2 of 2: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ...  done.
-## 
-## Thu Jul  8 11:57:05 2021 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</code></pre>
+<code class="sourceCode R"><span><span class="va">ga_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_dataset.html">qa_dataset</a></span><span class="op">(</span><span class="st">"AntGG Free-air gravity anomaly (10km)"</span><span class="op">)</span> <span class="co">## the dataset info</span></span>
+<span><span class="va">ga_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="va">ga_info</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## fetch the actual data</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Fri Mar  8 13:50:13 2024</span></span>
+<span><span class="co">## Synchronizing dataset: AntGG Free-air gravity anomaly (10km)</span></span>
+<span><span class="co">## Source URL https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/</span></span>
+<span><span class="co">## --------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  this dataset path is: /tmp/Rtmp9dbOW6/quantarcticR-cache/Geophysics//ANTGG</span></span>
+<span><span class="co">##  visiting https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ ... done.</span></span>
+<span><span class="co">##  downloading file 1 of 2: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif ...  done.</span></span>
+<span><span class="co">##  downloading file 2 of 2: https://ads.nipr.ac.jp/gis/quantarctica/Quantarctica3/Geophysics/ANTGG/ANTGG_FreeAirGravityAnomaly_10km.tif.aux.xml ...  done.</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fri Mar  8 13:50:16 2024 dataset synchronization complete: AntGG Free-air gravity anomaly (10km)</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">ga_data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "RasterLayer"
-## attr(,"package")
-## [1] "raster"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">ga_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "RasterLayer"</span></span>
+<span><span class="co">## attr(,"package")</span></span>
+<span><span class="co">## [1] "raster"</span></span></code></pre>
 </div>
-<div id="raster-plot" class="section level1">
-<h1 class="hasAnchor">
-<a href="#raster-plot" class="anchor"></a>Raster Plot</h1>
-<p>The gravity anomaly data set is a raster, so we can use the raster package to plot it.</p>
+<div class="section level2">
+<h2 id="raster-plot">Raster Plot<a class="anchor" aria-label="anchor" href="#raster-plot"></a>
+</h2>
+<p>The gravity anomaly data set is a raster, so we can use the raster
+package to plot it.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">ga_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ga_data</span><span class="op">)</span></span></code></pre></div>
 <p><img src="intro_files/figure-html/gravanom-1.png" width="700"></p>
-<p>The Quantarctica project maintainers have gone to quite a lot of effort to create nice visual representations of the data layers, by defining colour palettes and similar. The full range of visual information is not yet available through quantarcticR, but it is a work in progress. In this case, there is a colour palette for the gravity anomaly layer:</p>
+<p>The Quantarctica project maintainers have gone to quite a lot of
+effort to create nice visual representations of the data layers, by
+defining colour palettes and similar. The full range of visual
+information is not yet available through quantarcticR, but it is a work
+in progress. In this case, there is a colour palette for the gravity
+anomaly layer:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cmap</span> <span class="op">&lt;-</span> <span class="va">ga_info</span><span class="op">$</span><span class="va">palette</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">cmap</span></code></pre></div>
-<pre><code>##             label alpha   color  value
-## item     -75 mGal   255 #9a0079 -75.00
-## item1  -67.5 mGal   255 #0041ff -67.50
-## item2    -60 mGal   255 #398fff -60.00
-## item3  -52.5 mGal   255 #66ccff -52.50
-## item4    -45 mGal   255 #4ab4ab -45.10
-## item5  -37.5 mGal   255 #35a16b -37.50
-## item6    -30 mGal   255 #5ab157 -29.90
-## item7  -22.5 mGal   255 #89c53d -22.50
-## item8    -15 mGal   255 #add529 -15.00
-## item9   -7.5 mGal   255 #d5e614  -7.57
-## item10     0 mGal   255 #faf500   0.00
-## item11   7.5 mGal   255 #fbd900   7.57
-## item12    15 mGal   255 #fcb500  15.00
-## item13  22.5 mGal   255 #fd9400  22.50
-## item14    30 mGal   255 #fd7a00  29.90
-## item15  37.5 mGal   255 #ff4d00  37.50
-## item16    45 mGal   255 #ff2800  45.00
-## item17  52.5 mGal   255 #d52b00  52.50
-## item18    60 mGal   255 #9d2f00  60.00
-## item19  67.5 mGal   255 #663300  67.50
-## item20    75 mGal   255 #663300  75.00</code></pre>
-<p>We need to make some tweaks to the palette to cope with the differences in how QGIS defines them compared to how <code>raster</code> expects them (we will endeavour to automatically deal with such differences in future versions of quantarcticR):</p>
+<code class="sourceCode R"><span><span class="va">cmap</span> <span class="op">&lt;-</span> <span class="va">ga_info</span><span class="op">$</span><span class="va">palette</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">cmap</span></span></code></pre></div>
+<pre><code><span><span class="co">##             label alpha   color  value</span></span>
+<span><span class="co">## item     -75 mGal   255 #9a0079 -75.00</span></span>
+<span><span class="co">## item1  -67.5 mGal   255 #0041ff -67.50</span></span>
+<span><span class="co">## item2    -60 mGal   255 #398fff -60.00</span></span>
+<span><span class="co">## item3  -52.5 mGal   255 #66ccff -52.50</span></span>
+<span><span class="co">## item4    -45 mGal   255 #4ab4ab -45.10</span></span>
+<span><span class="co">## item5  -37.5 mGal   255 #35a16b -37.50</span></span>
+<span><span class="co">## item6    -30 mGal   255 #5ab157 -29.90</span></span>
+<span><span class="co">## item7  -22.5 mGal   255 #89c53d -22.50</span></span>
+<span><span class="co">## item8    -15 mGal   255 #add529 -15.00</span></span>
+<span><span class="co">## item9   -7.5 mGal   255 #d5e614  -7.57</span></span>
+<span><span class="co">## item10     0 mGal   255 #faf500   0.00</span></span>
+<span><span class="co">## item11   7.5 mGal   255 #fbd900   7.57</span></span>
+<span><span class="co">## item12    15 mGal   255 #fcb500  15.00</span></span>
+<span><span class="co">## item13  22.5 mGal   255 #fd9400  22.50</span></span>
+<span><span class="co">## item14    30 mGal   255 #fd7a00  29.90</span></span>
+<span><span class="co">## item15  37.5 mGal   255 #ff4d00  37.50</span></span>
+<span><span class="co">## item16    45 mGal   255 #ff2800  45.00</span></span>
+<span><span class="co">## item17  52.5 mGal   255 #d52b00  52.50</span></span>
+<span><span class="co">## item18    60 mGal   255 #9d2f00  60.00</span></span>
+<span><span class="co">## item19  67.5 mGal   255 #663300  67.50</span></span>
+<span><span class="co">## item20    75 mGal   255 #663300  75.00</span></span></code></pre>
+<p>We need to make some tweaks to the palette to cope with the
+differences in how QGIS defines them compared to how <code>raster</code>
+expects them (we will endeavour to automatically deal with such
+differences in future versions of quantarcticR):</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">cmap</span><span class="op">$</span><span class="va">value</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html">cellStats</a></span><span class="op">(</span><span class="va">ga_data</span>, <span class="st">"max"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">breaks</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html">cellStats</a></span><span class="op">(</span><span class="va">ga_data</span>, <span class="st">"min"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cmap</span><span class="op">$</span><span class="va">value</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html" class="external-link">cellStats</a></span><span class="op">(</span><span class="va">ga_data</span>, <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">breaks</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/cellStats.html" class="external-link">cellStats</a></span><span class="op">(</span><span class="va">ga_data</span>, <span class="st">"min"</span><span class="op">)</span></span></code></pre></div>
 <p>Re-plot using that colour map, and with a land layer underneath:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">basemap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">basemap</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">ga_data</span>, breaks <span class="op">=</span> <span class="va">breaks</span>, col <span class="op">=</span> <span class="va">cmap</span><span class="op">$</span><span class="va">color</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">basemap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">basemap</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ga_data</span>, breaks <span class="op">=</span> <span class="va">breaks</span>, col <span class="op">=</span> <span class="va">cmap</span><span class="op">$</span><span class="va">color</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="intro_files/figure-html/gravanom_with_palette-1.png" width="700"></p>
-<p>which is a little closer to the Quantarctica-rendered version of the same data layer:</p>
+<p>which is a little closer to the Quantarctica-rendered version of the
+same data layer:</p>
 <p><img src="phys_antgg.png"></p>
 </div>
-<div id="using-datasets-with-sf" class="section level1">
-<h1 class="hasAnchor">
-<a href="#using-datasets-with-sf" class="anchor"></a>Using datasets with sf</h1>
-<p>Read in the simple basemap “ADD Simple basemap” data as an sf object and use the ggplot2 and sf packages to create a plot.</p>
+<div class="section level2">
+<h2 id="using-datasets-with-sf">Using datasets with sf<a class="anchor" aria-label="anchor" href="#using-datasets-with-sf"></a>
+</h2>
+<p>Read in the simple basemap “ADD Simple basemap” data as an sf object
+and use the ggplot2 and sf packages to create a plot.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-
-<span class="va">surface_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span>, shapefile_reader <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="va"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## Reading layer `ADD_DerivedLowresBasemap' from data source 
-##   `/tmp/RtmpQE0343/quantarcticR-cache/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp' 
-##   using driver `ESRI Shapefile'
-## Simple feature collection with 1338 features and 1 field
-## Geometry type: MULTIPOLYGON
-## Dimension:     XY
-## Bounding box:  xmin: -5791904 ymin: -5791904 xmax: 5791904 ymax: 5791904
-## Projected CRS: WGS 84 / Antarctic Polar Stereographic</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">surface_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qa_get.html">qa_get</a></span><span class="op">(</span><span class="st">"ADD Simple basemap"</span>, shapefile_reader <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="va"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Reading layer `ADD_DerivedLowresBasemap' from data source </span></span>
+<span><span class="co">##   `/tmp/Rtmp9dbOW6/quantarcticR-cache/Miscellaneous/SimpleBasemap/ADD_DerivedLowresBasemap.shp' </span></span>
+<span><span class="co">##   using driver `ESRI Shapefile'</span></span>
+<span><span class="co">## Simple feature collection with 1338 features and 1 field</span></span>
+<span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">## Dimension:     XY</span></span>
+<span><span class="co">## Bounding box:  xmin: -5791904 ymin: -5791904 xmax: 5791904 ymax: 5791904</span></span>
+<span><span class="co">## Projected CRS: WGS 84 / Antarctic Polar Stereographic</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">surface_sf</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "sf"         "data.frame"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">surface_sf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "sf"         "data.frame"</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">surface_sf</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">surface_sf</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="intro_files/figure-html/sfplot-1.png" width="700"></p>
 </div>
   </div>
@@ -278,11 +319,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Kim Fitter, Charlène Guillaumot, David Ranzolin, Marc Desgroseilliers, Ben Raymond.</p>
+  <p></p>
+<p>Developed by Kim Fitter, Charlène Guillaumot, David Ranzolin, Marc Desgroseilliers, Ben Raymond.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -290,6 +333,8 @@
 
   
 
+
+  
 
   </body>
 </html>
