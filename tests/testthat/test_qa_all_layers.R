@@ -5,7 +5,7 @@ test_that("All layers can be read OK", {
     ## this test is intended to be run manually, rather than as part of the test suite
     qa_cache_dir("/data/Quantarctica3/") ## this needs to point to a complete Quantarctica download
     all_ds <- qa_datasets()
-    expect_not_working <- c(6, 46) ## know these ones don't work yet, give rgdal::readOGR "eType not chosen" errors
+    expect_not_working <- c(6, 46) ## know these ones don't work, give "invalid class “SpatialPointsDataFrame” object: number of rows in data.frame and SpatialPoints don't match" errors
     not_working <- c()
     for (li in seq_along(all_ds$layername)) {
         not_working <- c(not_working,

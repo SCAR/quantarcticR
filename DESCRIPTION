@@ -28,7 +28,6 @@ Suggests:
     knitr,
     rmarkdown,
     ggplot2,
-    rgdal,
     covr
 Remotes: ropensci/bowerbird
 VignetteBuilder: knitr
