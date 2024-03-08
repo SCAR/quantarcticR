@@ -12,10 +12,10 @@
 #'
 #' @export
 qa_mirrors <- function() {
-    ## note: these have been hand-coded from http://quantarctica.npolar.no/downloads/
+    ## note: these have been hand-coded from https://www.npolar.no/quantarctica/ - see Downloads tab
     ## note 2: these need to point to the unzipped dir, where Quantarctica3.qgs resides
     m <- tribble(~country, ~protocol, ~url,
-                 "Norway", "ftp", "ftp://ftp.quantarctica.npolar.no/Quantarctica3/",
+                 "Norway", "http", "https://media.npolar.no/download/quantarctica/Quantarctica3/",
                  "Australia", "ftp", "ftp://quantarctica.tpac.org.au/quantarctica/Quantarctica3/",
                  "Australia", "http", "http://quantarctica.tpac.org.au/quantarctica/Quantarctica3/",
                  ##"India", "ftp", "ftp://ftp.ncaor.gov.in/Quantarctica3/", ## appears to be unavailable
