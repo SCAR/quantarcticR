@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/SCAR/quantarcticR/workflows/R-CMD-check/badge.svg)](https://github.com/SCAR/quantarcticR/actions)
+[![R-CMD-check](https://github.com/SCAR/quantarcticR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SCAR/quantarcticR/actions/workflows/R-CMD-check.yaml)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Codecov test
 coverage](https://codecov.io/gh/SCAR/quantarcticR/branch/master/graph/badge.svg)](https://codecov.io/gh/SCAR/quantarcticR?branch=master)
